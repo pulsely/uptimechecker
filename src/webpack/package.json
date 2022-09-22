@@ -1,0 +1,26 @@
+{
+  "name": "webpack",
+  "version": "1.0.0",
+  "description": "npm init",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack --config config/webpack.config.dev.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.27.2",
+    "css-loader": "^3.2.0",
+    "owl.carousel": "^2.3.4",
+    "sass-loader": "^8.0.0",
+    "style-loader": "^1.0.0",
+    "sweetalert2": "^11.4.33",
+    "url-loader": "^2.2.0",
+    "vue": "^2.6.10",
+    "vue-loader": "^15.7.1",
+    "webpack": "^4.41.2",
+    "webpack-cli": "^3.3.10",
+        "moment": "^2.24.0"
+  }
+}

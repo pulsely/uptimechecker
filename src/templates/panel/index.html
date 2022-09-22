@@ -1,0 +1,214 @@
+{% extends "designs/coreui.html" %}
+
+{% block title %}
+    Uptime Checker Control Panel
+{% endblock %}
+
+{% load humanize %}
+{% block content %}
+
+
+    <!-- content -->
+
+    <div class="row" id="app">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <button class="btn btn-info boldWhite btn-sm mr-4" @click="loadObjects"><i
+                            class="fas fa-redo-alt"></i> Refresh
+                    </button>
+                    <button class="btn btn-info boldWhite btn-sm mr-4" @click="triggerAllhost"><i
+                            class="fas fa-redo-alt"></i> Check all now
+                    </button>
+                    [[objects.length]] Uptime Records
+                </div>
+
+                <div class="card-body">
+                    <table class="table">
+                        <thead>
+                        <th></th>
+                        <th>
+                            URL
+                        </th>
+                        <th>SSL Expiration</th>
+                        <th>Previous Exception</th>
+                        <th>Status 0</th>
+                        <th>Status -1</th>
+
+                        <th>Status -2</th>
+
+                        <th>Status -3</th>
+
+                        <th>Status -4</th>
+
+                        </thead>
+                        <tbody>
+                        <tr class="tableHoverRow" v-for="object in objects" :key="object.id">
+                            <td>
+                                <button class="btn btn-info boldWhite btn-sm"
+                                        @click="triggerSingleHost($event, '{{ r.target_website.uuid }}')"><i
+                                        class="fas fa-redo-alt"></i></button>
+                            </td>
+                            <td><a :href="object.target_website_url">[[object.target_website_url]]</a>
+                                {% if r.previous_exception %}
+                                {% endif %}
+                            </td>
+                            <td>[[object.ssl_expire_time]]<br/>
+                                <small class="text-muted">{{ r.target_website.ssl_expire_time|timeuntil }}</small>
+                            </td>
+                            <td>[[object.previous_exception.time]]
+
+                                <br />
+                                <span class="small text-muted">[[object.previous_exception.status]]</span>
+                            </td>
+
+                            <td v-for="uptime in object.uptimes" :key="end_time">
+                                <span>[[uptime.status]]</span>
+
+
+                            </td>
+                        </tr>
+
+                        {% comment %}
+                        {% for r in results %}
+                            <tr class="tableHoverRow">
+                                <td>
+                                    <button class="btn btn-info boldWhite btn-sm"
+                                            @click="triggerSingleHost($event, '{{ r.target_website.uuid }}')"><i
+                                            class="fas fa-redo-alt"></i></button>
+                                </td>
+                                <td><a href="{{ r.target_website }}">{{ r.target_website }}</a>
+                                    {% if r.previous_exception %}
+                                    {% endif %}
+                                </td>
+                                <td>{{ r.target_website.ssl_expire_time }}<br/>
+                                    <small class="text-muted">{{ r.target_website.ssl_expire_time|timeuntil }}</small>
+                                </td>
+                                <td>{{ r.previous_exception.end_time|timesince }}
+                                </td>
+
+                                {% for u in r.uptimes %}
+                                    <td>
+                                        <span class="badge {{ u.badge_color }}">{{ u.status }}</span><br>
+
+                                        <span class="small">{{ u.end_time|timesince }}</span>
+                                    </td>
+                                {% endfor %}
+                            </tr>
+                        {% endfor %}
+                        {% endcomment %}
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block postflight %}
+    <script language="JavaScript">
+
+        axios.defaults.xsrfCookieName = 'csrftoken';
+        axios.defaults.xsrfHeaderName = 'X-CSRFToken';
+
+        Vue.mixin({
+            delimiters: ['[[', ']]']
+        });
+
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                message: "Ready",
+                objects: [],
+                flag_loading: false,
+            },
+            methods: {
+                loadObjects() {
+                    this.flag_loading = true;
+                    const data = {};
+
+                    // trigger the "init" operations on server side
+                    axios.post("{% url 'panel:api_uptime_list' %}", data).then((res) => {
+                        console.log(res.data)
+                        if (res.data && res.data.status) {
+                            if (res.data.status == 'okay') {
+                                this.objects = res.data.results;
+                                //this.paginator = res.data.paginator;
+
+                                this.flag_loading = false;
+                            }
+                        }
+                    }).catch(error => {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: error,
+                        })
+                    })
+                },
+                triggerAllhost: function (event) {
+
+                    const posData = {
+                        mode: 'all'
+                    };
+
+                    // trigger the "init" operations on server side
+                    axios.post("{% url 'panel:api_trigger_refresh' %}", posData).then((response) => {
+                        var data = response['data'];
+
+                        if (('status' in data) && (data['status'] == 'okay')) {
+                            vm.message = data['message'];
+                        }
+                        if ('error' in data) {
+                            swal("Error", data['error'], "error");
+                        }
+
+                    }).catch(error => {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: error,
+                        })
+                    })
+                },
+
+                triggerSingleHost: function (event, host_uuid) {
+
+                    const posData = {
+                        host_uuid: host_uuid,
+                        mode: 'single'
+                    };
+
+                    // trigger the "init" operations on server side
+                    axios.post("{% url 'panel:api_trigger_refresh' %}", posData).then((response) => {
+                        var data = response['data'];
+
+                        if (('status' in data) && (data['status'] == 'okay')) {
+                            vm.message = data['message'];
+                        }
+                        if ('error' in data) {
+                            swal("Error", data['error'], "error");
+                        }
+
+                    }).catch(error => {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: error,
+                        })
+                    })
+                },
+            },
+            created() {
+                console.log("Ready: " + this.message);
+                this.loadObjects();
+
+            }
+        });
+
+
+    </script>
+
+{% endblock %}
