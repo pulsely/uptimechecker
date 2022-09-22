@@ -34,7 +34,8 @@ def new_HTTPAdapter_build_response(self, request, resp):
     return response
 HTTPAdapter.build_response = new_HTTPAdapter_build_response
 
-def check_domain( url, target_website ):
+def check_domain( target_website ):
+    url = target_website.url
     url = url.strip()
 
     if target_website.flag_cdn_random_key:
@@ -113,7 +114,7 @@ def check_domains():
         if settings.DEBUG:
             print(f"{colorama.Fore.RED}check_domains{colorama.Style.RESET_ALL} URL: {colorama.Fore.GREEN}%s{colorama.Style.RESET_ALL}" % w.url)
         t = threading.Thread(target=check_domain,
-                                           args=[w.url, w ],
+                                           args=[w, ],
                                            kwargs={})
         t.start()
 

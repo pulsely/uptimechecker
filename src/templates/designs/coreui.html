@@ -30,7 +30,7 @@
     {#          href="/lookandfeel/coreui-free-2.1.2/assets/favicon/favicon-96x96.png">#}
     {#    <link rel="icon" type="image/png" sizes="16x16"#}
     {#          href="/lookandfeel/coreui-free-2.1.2/assets/favicon/favicon-16x16.png">#}
-    <link rel="manifest" href="/lookandfeel/coreui-free-2.1.2/assets/favicon/manifest.json">
+{#    <link rel="manifest" href="/lookandfeel/coreui-free-2.1.2/assets/favicon/manifest.json">#}
     {#    <meta name="msapplication-TileColor" content="#ffffff">#}
     {#    <meta name="msapplication-TileImage" content="/lookandfeel/coreui-free-2.1.2/assets/favicon/ms-icon-144x144.png">#}
     {#    <meta name="theme-color" content="#ffffff">#}
@@ -42,6 +42,10 @@
     <style>
         .no-underline-link {
             text-decoration: none;
+        }
+
+        .breadcrumb a, .breadcrumb a:link {
+            color: #000;
         }
 
     </style>
@@ -78,11 +82,11 @@
         {% endcomment %}
         <li class="nav-title">Settings</li>
 
-        <li class="nav-item"><a class="nav-link" href="charts.html">
+        <li class="nav-item"><a class="nav-link" href="{% url 'panel:settings' %}">
             <i class="fa-solid fa-gear nav-icon"></i>
             Settings</a></li>
 
-        <li class="nav-item"><a class="nav-link" href="widgets.html">
+        <li class="nav-item"><a class="nav-link" href="{% url 'panel:users' %}">
             <i class="fa-solid fa-users nav-icon"></i>
             Users</a></li>
         <li class="nav-divider"></li>
@@ -113,7 +117,7 @@
                 {% endcomment %}
             </a>
             <ul class="header-nav d-none d-md-flex">
-                <li class="nav-item"><a class="nav-link" href="#">Dashboard</a></li>
+                <li class="nav-item">{{ title }}</li>
             </ul>
 
             <ul class="header-nav ms-auto">
@@ -173,9 +177,9 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb my-0 ms-2">
                     <li class="breadcrumb-item">
-                        <!-- if breadcrumb is single--><span>Home</span>
+                        <a href="{% url 'panel:index' %}"><i class="fa-solid fa-house"></i></a>
                     </li>
-                    <li class="breadcrumb-item active"><span>Dashboard</span></li>
+                    <li class="breadcrumb-item active"><span>{{ title }}</span></li>
                 </ol>
             </nav>
         </div>

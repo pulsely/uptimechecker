@@ -15,7 +15,9 @@
     <meta name="description" content="CoreUI - Open Source Bootstrap Admin Template">
     <meta name="author" content="Łukasz Holeczek">
     <meta name="keyword" content="Bootstrap,Admin,Template,Open,Source,jQuery,CSS,HTML,RWD,Dashboard">
-    <title>CoreUI Free Bootstrap Admin Template</title>
+    <title>{% block title %}{% endblock %}</title>
+
+{% comment %}
     <link rel="apple-touch-icon" sizes="57x57"
           href="/lookandfeel/coreui-free-2.1.2/assets/favicon/apple-icon-57x57.png">
     <link rel="apple-touch-icon" sizes="60x60"
@@ -47,12 +49,13 @@
     <meta name="msapplication-TileImage" content="assets/favicon/ms-icon-144x144.png">
     <meta name="theme-color" content="#ffffff">
     <!-- Vendors styles-->
+    {% endcomment %}
     <link rel="stylesheet" href="/lookandfeel/coreui-free-2.1.2/vendors/simplebar/css/simplebar.css">
     <link rel="stylesheet" href="/lookandfeel/coreui-free-2.1.2/css/vendors/simplebar.css">
     <!-- Main styles for this application-->
     <link href="/lookandfeel/coreui-free-2.1.2/css/style.css" rel="stylesheet">
     <!-- We use those styles to show code examples, you should remove them in your application.-->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.23.0/themes/prism.css">
+{#    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.23.0/themes/prism.css">#}
     <link href="/lookandfeel/coreui-free-2.1.2/css/examples.css" rel="stylesheet">
 </head>
 <body>
