@@ -43,12 +43,17 @@
 <body>
 <div class="sidebar sidebar-dark sidebar-fixed" id="sidebar">
     <div class="sidebar-brand d-none d-md-flex">
-        <svg class="sidebar-brand-full" width="118" height="46" alt="CoreUI Logo">
+        Uptime Checker
+        {% comment %}
+        <svg class="sidebar-brand-full" width="118" height="46" alt="Uptime Checker">
+
             <use xlink:href="/lookandfeel/coreui-free-2.1.2/assets/brand/coreui.svg#full"></use>
+
         </svg>
         <svg class="sidebar-brand-narrow" width="46" height="46" alt="CoreUI Logo">
             <use xlink:href="/lookandfeel/coreui-free-2.1.2/assets/brand/coreui.svg#signet"></use>
         </svg>
+        {% endcomment %}
     </div>
     <ul class="sidebar-nav" data-coreui="navigation" data-simplebar="">
         <li class="nav-item"><a class="nav-link" href="index.html">
@@ -154,9 +159,12 @@
                 </svg>
             </button>
             <a class="header-brand d-md-none" href="#">
+                Uptime Checker
+                {% comment %}
                 <svg width="118" height="46" alt="CoreUI Logo">
                     <use xlink:href="/lookandfeel/coreui-free-2.1.2/assets/brand/coreui.svg#full"></use>
                 </svg>
+                {% endcomment %}
             </a>
             <ul class="header-nav d-none d-md-flex">
                 <li class="nav-item"><a class="nav-link" href="#">Dashboard</a></li>
@@ -184,9 +192,14 @@
             <ul class="header-nav ms-3">
                 <li class="nav-item dropdown"><a class="nav-link py-0" data-coreui-toggle="dropdown" href="#"
                                                  role="button" aria-haspopup="true" aria-expanded="false">
-                    <div class="avatar avatar-md"><img class="avatar-img"
+                    {% comment %}
+                    <div class="avatar avatar-md me-2"><img class="avatar-img"
                                                        src="/lookandfeel/coreui-free-2.1.2/assets/img/avatars/8.jpg"
                                                        alt="user@email.com"></div>
+                    {% endcomment %}
+
+                    <i class="fa-solid fa-user fa-xl"></i>
+                    {{  user.username }}
                 </a>
                     <div class="dropdown-menu dropdown-menu-end pt-0">
                         <div class="dropdown-header bg-light py-2">
@@ -235,7 +248,7 @@
         <div class="ms-auto">Developed by&nbsp; &copy 2022&nbsp; <a href="https://www.pulsely.com/">Pulsely</a></div>
     </footer>
 </div>
-<!-- CoreUI and necessary plugins-->
+<script defer src="/lookandfeel/fontawesome-free-6.2.0/js/all.min.js"></script>
 <script src="/lookandfeel/coreui-free-2.1.2/vendors/@coreui/coreui/js/coreui.bundle.min.js"></script>
 <script src="/lookandfeel/coreui-free-2.1.2/vendors/simplebar/js/simplebar.min.js"></script>
 <script src="/lookandfeel/js/bundle-2002-09-22.js"></script>

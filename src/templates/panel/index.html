@@ -12,13 +12,20 @@
 
     <div class="row" id="app">
         <div class="col-12">
+            {% if is_secretkey_insecure %}
+                <div class="alert alert-danger">
+                    <p>Your Django SECRET_KEY is using the default insecure key. Please generate and use a custom
+                        one.</p>
+                </div>
+            {% endif %}
+
             <div class="card">
                 <div class="card-header">
-                    <button class="btn btn-info boldWhite btn-sm mr-4" @click="loadObjects"><i
-                            class="fas fa-redo-alt"></i> Refresh
+                    <button class="btn btn-success btn-sm mr-4 text-white" @click="loadObjects"><i
+                            class="fa-solid fa-rotate-right"></i> Refresh
                     </button>
-                    <button class="btn btn-info boldWhite btn-sm mr-4" @click="triggerAllhost"><i
-                            class="fas fa-redo-alt"></i> Check all now
+                    <button class="btn btn-warning text-white btn-sm mr-4" @click="triggerAllhost"><i
+                            class="fa-solid fa-robot"></i> Check all now
                     </button>
                     [[objects.length]] Uptime Records
                 </div>
@@ -28,7 +35,7 @@
                         <thead>
                         <th></th>
                         <th>
-                            URL
+                            Website
                         </th>
                         <th>SSL Expiration</th>
                         <th>Previous Exception</th>
@@ -47,9 +54,9 @@
                             <td>
                                 <button class="btn btn-info boldWhite btn-sm"
                                         @click="triggerSingleHost($event, '{{ r.target_website.uuid }}')"><i
-                                        class="fas fa-redo-alt"></i></button>
+                                        class="fa-solid fa-robot"></i></button>
                             </td>
-                            <td><a :href="object.target_website_url">[[object.target_website_url]]</a>
+                            <td><a :href="object.target_website_url" target="_blank">[[object.target_website_url]]</a>
                                 {% if r.previous_exception %}
                                 {% endif %}
                             </td>
@@ -58,7 +65,7 @@
                             </td>
                             <td>[[object.previous_exception.time]]
 
-                                <br />
+                                <br/>
                                 <span class="small text-muted">[[object.previous_exception.status]]</span>
                             </td>
 

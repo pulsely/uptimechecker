@@ -24,6 +24,7 @@ from rest_framework.authentication import SessionAuthentication
 
 import colorama
 from uptimebot import models
+from uptimecheckcore.components.helpers.configurations import is_secretkey_insecure
 
 @never_cache
 @user_passes_test(operator_privilege_check)
@@ -32,7 +33,8 @@ def index(request):
     return render( request, "panel/index.html",
                               {
                                   'SAAS_TEMPLATE_STYLE' : 'navbar-white-header',
-                                  'flag_nav_spacer': True
+                                  'flag_nav_spacer': True,
+                                  'is_secretkey_insecure' : is_secretkey_insecure,
                               })
 
 

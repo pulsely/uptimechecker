@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv("SECRET_KEY", None)
+SECRET_KEY = os.getenv("SECRET_KEY", "default-insecure-change-this-n$0gdvf=s&oqa4ap99%@tyu7m$dey4=(3#e^h$_!2qd%bk2m$)")
 if not SECRET_KEY:
     # Raise an exception, if unable to load .env
     raise Exception("Sorry, unable to read configuration.")
