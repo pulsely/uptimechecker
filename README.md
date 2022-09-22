@@ -5,7 +5,8 @@ Uptime Checker is a Django powered app, which checks your websites for any downt
 
 Any down times can be notified by:
 - E-mail
-- Slack channel notifications
+- Websocket Notifications
+- <strike>Slack channel notifications</strike> (Coming soon!)
 - <strike>Push Notifications</strike> (Coming soon!)
 - <strike>SMS Notifications</strike> (Coming soon!)
 
@@ -18,7 +19,8 @@ Copy an example .env file because the real one is git ignored:
 
 Celery is used for scheduling the periodic uptime checks.
 
-<hr />  
+---
+
 # Credits & Acknowledgements
 
 ### Python packages

@@ -21,13 +21,24 @@
 
             <div class="card">
                 <div class="card-header">
-                    <button class="btn btn-success btn-sm mr-4 text-white" @click="loadObjects"><i
-                            class="fa-solid fa-rotate-right"></i> Refresh
-                    </button>
-                    <button class="btn btn-warning text-white btn-sm mr-4" @click="triggerAllhost"><i
-                            class="fa-solid fa-robot"></i> Check all now
-                    </button>
-                    [[objects.length]] Uptime Records
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <h4 class="card-title mb-0"> [[objects.length]] Uptime Records
+                            </h4>
+                            {#                            <div class="small text-medium-emphasis">January - July 2022</div>#}
+                        </div>
+                        <div class="btn-toolbar d-none d-md-block" role="toolbar" aria-label="Toolbar with buttons">
+                            <button class="btn btn-success btn-sm mr-4 text-white" @click="loadObjects"><i
+                                    class="fa-solid fa-rotate-right"></i> Refresh
+                            </button>
+                            <button class="btn btn-warning text-white btn-sm mr-4" @click="triggerAllhost"><i
+                                    class="fa-solid fa-robot"></i> Check all now
+                            </button>
+
+                        </div>
+                    </div>
+
+
                 </div>
 
                 <div class="card-body">
@@ -53,24 +64,33 @@
                         <tr class="tableHoverRow" v-for="object in objects" :key="object.id">
                             <td>
                                 <button class="btn btn-info boldWhite btn-sm"
-                                        @click="triggerSingleHost($event, '{{ r.target_website.uuid }}')"><i
+                                        @click="triggerSingleHost($event, object.id)"><i
                                         class="fa-solid fa-robot"></i></button>
                             </td>
-                            <td><a :href="object.target_website_url" target="_blank">[[object.target_website_url]]</a>
-                                {% if r.previous_exception %}
-                                {% endif %}
+                            <td>
+                                <span v-show="object.title">
+                                    <span>[[object.title]]</span><br/>
+                                    <a :href="object.target_website_url" target="_blank"
+                                       class="no-underline-link small">[[object.target_website_url]]</a>
+                                </span>
+
+                                <span v-show="!object.title">
+                                    <a :href="object.target_website_url"
+                                       target="_blank" class="no-underline-link">[[object.target_website_url]]</a>
+                                </span>
                             </td>
-                            <td>[[object.ssl_expire_time]]<br/>
-                                <small class="text-muted">{{ r.target_website.ssl_expire_time|timeuntil }}</small>
+                            <td><span v-if="object.ssl_expire_time">[[unixtime_to_locale(object.ssl_expire_time)]]<br/>
+                                <small class="text-muted">{{ r.target_website.ssl_expire_time|timeuntil }}</small></span>
                             </td>
-                            <td>[[object.previous_exception.time]]
+                            <td><span v-if="object.previous_exception && object.previous_exception.time">[[unixtime_to_locale(object.previous_exception.time)]]
 
                                 <br/>
-                                <span class="small text-muted">[[object.previous_exception.status]]</span>
+                                <span class="small text-muted">[[object.previous_exception.status_display]]</span>
+                            </span>
                             </td>
 
                             <td v-for="uptime in object.uptimes" :key="end_time">
-                                <span>[[uptime.status]]</span>
+                                <span :class="buttonClassForStatus(uptime.status)">[[uptime.status_display]]</span>
 
 
                             </td>
@@ -132,6 +152,20 @@
                 flag_loading: false,
             },
             methods: {
+                unixtime_to_locale(str) {
+                    var dt = LuxonDateTime.fromMillis(str * 1000).toFormat('dd LLL, yyyy HH:mm:ss');
+                    return dt;
+                },
+
+                buttonClassForStatus(label) {
+                    if (label == "normal") {
+                        return 'd-block btn btn-success btn-sm text-white';
+                    } else if (label == "checking") {
+                        return 'd-block btn btn-warning btn-sm text-white';
+                    } else {
+                        return 'd-block btn btn-danger btn-sm text-white';
+                    }
+                },
                 loadObjects() {
                     this.flag_loading = true;
                     const data = {};
@@ -181,10 +215,10 @@
                     })
                 },
 
-                triggerSingleHost: function (event, host_uuid) {
+                triggerSingleHost: function (event, host_id) {
 
                     const posData = {
-                        host_uuid: host_uuid,
+                        host_id: host_id,
                         mode: 'single'
                     };
 

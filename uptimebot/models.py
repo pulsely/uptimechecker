@@ -7,6 +7,7 @@ import uuid
 class TargetWebsite(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
+    title = models.CharField( null=True, blank=True, max_length=250, help_text="Title of the website (Optional)")
     url = models.CharField( max_length=400, help_text="URL of website to check" )
 
     must_contain_keyword = models.CharField( max_length=400, null=True, blank=True, help_text="Keyword to check for successful" )
@@ -33,11 +34,11 @@ class UptimeCheck(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
     STATUS_CHOICES = (
-        ('checking', '0: Checking'),
-        ('normal', '1: Normal'),
-        ('error', '2: Error'),
-        ('exception', '3: Exception'),
-        ('missing_keyword', '4: Missing Keyword')
+        ('checking', 'Checking'),
+        ('normal', 'Normal'),
+        ('error', 'Error'),
+        ('exception', 'Exception'),
+        ('missing_keyword', 'Missing Keyword')
     )
 
     url = models.CharField(max_length=400)

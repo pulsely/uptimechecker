@@ -91,6 +91,16 @@ import Swal from 'sweetalert2'
 
 window.Swal = Swal;
 
+
+import {Settings} from 'luxon'
+
+//Settings.defaultLocale = 'fr'
+window.LuxonSettings = Settings;
+import {DateTime as LuxonDateTime} from 'luxon'
+
+window.LuxonDateTime = LuxonDateTime;
+
+
 // CommonJS
 //onst Swal = require('sweetalert2')
 

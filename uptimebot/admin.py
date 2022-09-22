@@ -7,7 +7,7 @@ class UptimeCheckAdmin(admin.ModelAdmin):
     list_filter = ('target_website',)
 
 class TargetWebsiteAdmin(admin.ModelAdmin):
-    list_display = ('url', 'must_contain_keyword', 'flag_cdn_random_key', 'flag_check_ssl_expire_time', 'ssl_expire_time', 'creation_date' )
+    list_display = ('url', 'title', 'must_contain_keyword', 'flag_cdn_random_key', 'flag_check_ssl_expire_time', 'ssl_expire_time', 'creation_date' )
     orderings = ('-creation_date',)
 
 admin.site.register(models.UptimeCheck, UptimeCheckAdmin)
