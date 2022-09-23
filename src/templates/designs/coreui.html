@@ -39,43 +39,8 @@
     <link href="/lookandfeel/coreui-free-2.1.2/css/style.css" rel="stylesheet">
     <link href="/lookandfeel/coreui-free-2.1.2/css/examples.css" rel="stylesheet">
     <link href="/lookandfeel/coreui-free-2.1.2/vendors/@coreui/chartjs/css/coreui-chartjs.css" rel="stylesheet">
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
 
-        .no-underline-link {
-            text-decoration: none;
-        }
-
-        .breadcrumb a, .breadcrumb a:link {
-            color: #000;
-        }
-
-        .logofont {
-            font-family: 'Lobster', cursive;
-            font-size: 24px;
-        }
-
-        /* Show on smaller than 1166 */
-        .dashboard-table-xs {
-            display: block;
-        }
-        @media only screen and (min-width: 1166px) {
-            .dashboard-table-xs {
-                display: none;
-            }
-        }
-
-        /* Show on larger than 1166 */
-        .dashboard-table {
-            display: none;
-        }
-        @media only screen and (min-width: 1166px) {
-            .dashboard-table {
-                display: block;
-            }
-        }
-
-    </style>
+    {% include "designs/css.html" %}
 </head>
 <body>
 <div class="sidebar sidebar-dark sidebar-fixed" id="sidebar">
