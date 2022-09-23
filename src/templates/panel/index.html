@@ -44,7 +44,58 @@
 
                 </div>
 
-                <div class="card-body">
+                {% comment %}XS size{% endcomment %}
+                <div class="card-body dashboard-table-xs">
+                    <table class="table">
+                        <thead>
+{#                        <th></th>#}
+                        <th>
+                            Website
+                        </th>
+{#                        <th>SSL Expiration</th>#}
+{#                        <th>Previous Exception</th>#}
+                        <th>Status 0</th>
+
+                        </thead>
+                        <tbody>
+                        <tr class="tableHoverRow " v-for="object in objects" :key="object.id">
+{#                            <td>#}
+{#                                <button class="btn btn-dark text-white btn-sm"#}
+{#                                        @click="triggerSingleHost($event, object.id)"><i#}
+{#                                        class="fa-solid fa-robot"></i></button>#}
+{#                            </td>#}
+                            <td>
+                                <span v-show="object.title">
+                                    <span>[[object.title]]</span><br/>
+                                    <a :href="object.target_website_url" target="_blank"
+                                       class="no-underline-link small">[[object.target_website_url]]</a>
+                                </span>
+
+                                <span v-show="!object.title">
+                                    <a :href="object.target_website_url"
+                                       target="_blank" class="no-underline-link">[[object.target_website_url]]</a>
+                                </span>
+                            </td>
+{#                            <td class="small"><span v-if="object.ssl_expire_time">[[unixtime_to_locale(object.ssl_expire_time)]]<br/>#}
+{#                                <small class="text-muted">[[humanize_seconds(object.ssl_expire_time)]]</small></span>#}
+{#                            </td>#}
+{#                            <td class="small"><span v-if="object.previous_exception && object.previous_exception.time">[[unixtime_to_locale(object.previous_exception.time)]]#}
+{#                                <br/>#}
+{#                                <span class="small text-danger">[[object.previous_exception.status_display]]</span>#}
+{#                            </span>#}
+                            </td>
+
+                            <td v-if="object.uptimes && object.uptimes.length > 0" class="text-center">
+                                <span :class="buttonClassForStatus(object.uptimes[0].status)">[[object.uptimes[0].status_display]]</span>
+
+                                <span class="small text-muted">[[humanize_seconds(object.uptimes[0].end_time)]]</span>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="card-body dashboard-table">
                     <table class="table">
                         <thead>
                         <th></th>
@@ -64,7 +115,7 @@
 
                         </thead>
                         <tbody>
-                        <tr class="tableHoverRow" v-for="object in objects" :key="object.id">
+                        <tr class="tableHoverRow " v-for="object in objects" :key="object.id">
                             <td>
                                 <button class="btn btn-dark text-white btn-sm"
                                         @click="triggerSingleHost($event, object.id)"><i
@@ -82,10 +133,10 @@
                                        target="_blank" class="no-underline-link">[[object.target_website_url]]</a>
                                 </span>
                             </td>
-                            <td><span v-if="object.ssl_expire_time">[[unixtime_to_locale(object.ssl_expire_time)]]<br/>
+                            <td class="small"><span v-if="object.ssl_expire_time">[[unixtime_to_locale(object.ssl_expire_time)]]<br/>
                                 <small class="text-muted">[[humanize_seconds(object.ssl_expire_time)]]</small></span>
                             </td>
-                            <td><span v-if="object.previous_exception && object.previous_exception.time">[[unixtime_to_locale(object.previous_exception.time)]]
+                            <td class="small"><span v-if="object.previous_exception && object.previous_exception.time">[[unixtime_to_locale(object.previous_exception.time)]]
                                 <br/>
                                 <span class="small text-danger">[[object.previous_exception.status_display]]</span>
                             </span>
@@ -97,35 +148,6 @@
                                 <span class="small text-muted">[[humanize_seconds(uptime.end_time)]]</span>
                             </td>
                         </tr>
-
-                        {% comment %}
-                        {% for r in results %}
-                            <tr class="tableHoverRow">
-                                <td>
-                                    <button class="btn btn-info boldWhite btn-sm"
-                                            @click="triggerSingleHost($event, '{{ r.target_website.uuid }}')"><i
-                                            class="fas fa-redo-alt"></i></button>
-                                </td>
-                                <td><a href="{{ r.target_website }}">{{ r.target_website }}</a>
-                                    {% if r.previous_exception %}
-                                    {% endif %}
-                                </td>
-                                <td>{{ r.target_website.ssl_expire_time }}<br/>
-                                    <small class="text-muted">{{ r.target_website.ssl_expire_time|timeuntil }}</small>
-                                </td>
-                                <td>{{ r.previous_exception.end_time|timesince }}
-                                </td>
-
-                                {% for u in r.uptimes %}
-                                    <td>
-                                        <span class="badge {{ u.badge_color }}">{{ u.status }}</span><br>
-
-                                        <span class="small">{{ u.end_time|timesince }}</span>
-                                    </td>
-                                {% endfor %}
-                            </tr>
-                        {% endfor %}
-                        {% endcomment %}
                         </tbody>
                     </table>
 

@@ -52,7 +52,27 @@
 
         .logofont {
             font-family: 'Lobster', cursive;
-            font-size: 28px;
+            font-size: 24px;
+        }
+
+        /* Show on smaller than 1166 */
+        .dashboard-table-xs {
+            display: block;
+        }
+        @media only screen and (min-width: 1166px) {
+            .dashboard-table-xs {
+                display: none;
+            }
+        }
+
+        /* Show on larger than 1166 */
+        .dashboard-table {
+            display: none;
+        }
+        @media only screen and (min-width: 1166px) {
+            .dashboard-table {
+                display: block;
+            }
         }
 
     </style>
@@ -61,7 +81,7 @@
 <div class="sidebar sidebar-dark sidebar-fixed" id="sidebar">
     <div class="sidebar-brand d-none d-md-flex logofont">
 
-        <i class="fa-solid fa-clock me-2"></i> Uptime Checker
+        <i class=" fa-solid fa-bomb me-2"></i> Uptime Checker
         {% comment %}
         <svg class="sidebar-brand-full" width="118" height="46" alt="Uptime Checker">
 
