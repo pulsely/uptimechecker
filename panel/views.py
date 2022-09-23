@@ -2,6 +2,7 @@ from django.shortcuts import render, HttpResponseRedirect
 from django.http import HttpResponse, JsonResponse
 
 from django.contrib.auth.decorators import user_passes_test
+from django.contrib.auth import logout
 
 from django.urls import reverse
 
@@ -34,7 +35,7 @@ def index(request):
 
     return render( request, "panel/index.html",
                               {
-                                  'title' : 'Uptime Checker Dashboard',
+                                  'title' : 'Dashboard',
                                   'is_secretkey_insecure' : is_secretkey_insecure,
                               })
 
@@ -156,3 +157,10 @@ def api_trigger_refresh(request):
         'error': "Invalid trigger request",
         'status': 'error'
     })
+
+@never_cache
+@user_passes_test(operator_privilege_check)
+def crm_logout(request):
+    logout(request)
+
+    return HttpResponseRedirect("/") # reverse("landing:index")

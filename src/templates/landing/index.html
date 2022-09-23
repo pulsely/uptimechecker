@@ -1,48 +1,72 @@
 {% extends "designs/default.html" %}
 
+
+{% block head %}
+    <style>
+        .logo-frontpage {
+            max-height: 120px;
+            width: 100%;
+        }
+
+        .signin-button {
+            padding-top: 30px;
+            background-color: rgba(58, 80, 99, 0.6);
+            max-width: 500px;
+            padding-bottom: 20px;
+            color: #fff;
+            width: 100% !important;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 23px !important;
+        }
+
+        p {
+            align: center;
+            font-weight: bold;
+        }
+
+        a, a:link {
+            text-decoration: none;
+        }
+
+        .signin-link {
+            width: 100%;
+            margin-right: 30px;
+            margin-left: 30px;
+        }
+
+        @media only screen and (max-width: 320px) {
+            .signin-button {
+                font-size: 14px !important;
+            }
+
+        }
+
+    </style>
+
+{% endblock %}
+
 {% block content %}
-<nav class="navbar navbar-dark bg-primary navbar-expand-lg">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="{% url "landing:index" %}">Uptime Checker</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Link</a>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Dropdown
-          </a>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Action</a></li>
-            <li><a class="dropdown-item" href="#">Another action</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#">Something else here</a></li>
-          </ul>
-        </li>
-      </ul>
-    </div>
-  </div>
-</nav>
 
 
-
-    <div class="container">
+    <div class="container mt-5 ">
 
         <div class="row">
             <div class="col-12">
-                <h1>
-                    Uptime Checker by Pulsely
-                </h1>
-                <p>Welcome. Click to <a href="{% url "panel:index" %}">sign-in</a></p>
+                <img src="/lookandfeel/images/logo-white-background.svg" class="logo-frontpage ps-4 pr-4" alt=""/>
+                <div class=" d-flex justify-content-center mt-5 ">
+
+                    <a href="{% url "panel:index" %}" class="signin-link mt-5">
+                        <div class="signin-button">
+                            <p>Click to sign-in</p>
+                        </div>
+                    </a>
+
+                </div>
 
             </div>
+
+
         </div>
 
     </div>

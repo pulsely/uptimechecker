@@ -13,5 +13,6 @@ urlpatterns = [
     path('api/uptime-list/', views.api_uptime_list, name="api_uptime_list"),
 
     path('api/trigger-refresh/', views.api_trigger_refresh, name="api_trigger_refresh"),
+    path('logout/', views.logout, name="logout"),
 
 ]

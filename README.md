@@ -63,6 +63,12 @@ https://github.com/celery/celery
 ### Graphics
 
 Admin panel template is provided by CoreUI  
+Copyright 2022 creativeLabs Łukasz Holeczek. Code released under the MIT License   
 https://github.com/coreui/coreui
 
 
+---
+
+# Copyright and license
+
+Copyright 2022 Pulsely
