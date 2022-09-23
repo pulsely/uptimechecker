@@ -51,13 +51,17 @@ Celery is used for scheduling the periodic uptime checks.
 
 ### Python packages
 
-Django  
+__Django__  
+Copyright (c) Django Software Foundation and individual contributors.   
+All rights reserved.   
 https://www.djangoproject.com/
 
-Django Rest Framework  
+__Django Rest Framework__  
+Copyright © 2011-present, Encode OSS Ltd. All rights reserved.  
 https://www.django-rest-framework.org/
 
-Celery  
+__Celery__  
+BSD 3-Clause "New" or "Revised" License   
 https://github.com/celery/celery
 
 ### Graphics
