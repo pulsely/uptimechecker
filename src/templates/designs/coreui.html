@@ -30,7 +30,7 @@
     {#          href="/lookandfeel/coreui-free-2.1.2/assets/favicon/favicon-96x96.png">#}
     {#    <link rel="icon" type="image/png" sizes="16x16"#}
     {#          href="/lookandfeel/coreui-free-2.1.2/assets/favicon/favicon-16x16.png">#}
-{#    <link rel="manifest" href="/lookandfeel/coreui-free-2.1.2/assets/favicon/manifest.json">#}
+    {#    <link rel="manifest" href="/lookandfeel/coreui-free-2.1.2/assets/favicon/manifest.json">#}
     {#    <meta name="msapplication-TileColor" content="#ffffff">#}
     {#    <meta name="msapplication-TileImage" content="/lookandfeel/coreui-free-2.1.2/assets/favicon/ms-icon-144x144.png">#}
     {#    <meta name="theme-color" content="#ffffff">#}
@@ -40,6 +40,8 @@
     <link href="/lookandfeel/coreui-free-2.1.2/css/examples.css" rel="stylesheet">
     <link href="/lookandfeel/coreui-free-2.1.2/vendors/@coreui/chartjs/css/coreui-chartjs.css" rel="stylesheet">
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
+
         .no-underline-link {
             text-decoration: none;
         }
@@ -48,12 +50,18 @@
             color: #000;
         }
 
+        .logofont {
+            font-family: 'Lobster', cursive;
+            font-size: 28px;
+        }
+
     </style>
 </head>
 <body>
 <div class="sidebar sidebar-dark sidebar-fixed" id="sidebar">
-    <div class="sidebar-brand d-none d-md-flex">
-        Uptime Checker
+    <div class="sidebar-brand d-none d-md-flex logofont">
+
+        <i class="fa-solid fa-clock me-2"></i> Uptime Checker
         {% comment %}
         <svg class="sidebar-brand-full" width="118" height="46" alt="Uptime Checker">
 
@@ -108,7 +116,7 @@
                     <use xlink:href="/lookandfeel/coreui-free-2.1.2/vendors/@coreui/icons/svg/free.svg#cil-menu"></use>
                 </svg>
             </button>
-            <a class="header-brand d-md-none" href="#">
+            <a class="header-brand d-md-none logofont" href="#">
                 Uptime Checker
                 {% comment %}
                 <svg width="118" height="46" alt="CoreUI Logo">
@@ -194,7 +202,8 @@
     <footer class="footer">
         <div><a href="https://www.pulsely.com/products/uptime-checker/" class="no-underline-link">Uptime Checker</a>
         </div>
-        <div class="ms-auto">Developed by&nbsp; &copy 2022&nbsp; <a href="https://www.pulsely.com/" class="no-underline-link">Pulsely</a></div>
+        <div class="ms-auto">Developed by&nbsp; &copy 2022&nbsp; <a href="https://www.pulsely.com/"
+                                                                    class="no-underline-link">Pulsely</a></div>
     </footer>
 </div>
 <script defer src="/lookandfeel/fontawesome-free-6.2.0/js/all.min.js"></script>

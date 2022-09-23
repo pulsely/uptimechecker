@@ -7,7 +7,7 @@ app_name = 'panel'
 
 urlpatterns = [
     path('', views.index, name="index" ),
-    path('settings/', views.settings, name="settings"),
+    path('settings/', views.settings_, name="settings"),
     path('users/', views.users, name="users"),
 
     path('api/uptime-list/', views.api_uptime_list, name="api_uptime_list"),

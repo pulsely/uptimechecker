@@ -53,7 +53,8 @@ def check_domain( target_website ):
     u.save()
 
     try:
-        sleep(randint(1, 50))        # add random
+        if settings.DEFAULT_ADD_RANDOMNESS:
+            sleep(randint(1, 50))        # add random
         r = requests.get( url, headers={ 'User-Agent' : settings.DEFAULT_USER_AGENT }, timeout=15 )
         if r.status_code == 200:
             u.status = 'normal'
@@ -71,7 +72,6 @@ def check_domain( target_website ):
                     print(f"{colorama.Fore.RED}r.peercert:{colorama.Style.RESET_ALL} {r.peercert}")
                 ssl_date_fmt = r'%b %d %H:%M:%S %Y %Z'
                 expire_time_naive = datetime.datetime.strptime( r.peercert['notAfter'], ssl_date_fmt)
-
                 expire_time_datetime = pytz.timezone('UTC').localize(expire_time_naive)
 
                 if target_website.ssl_expire_time != expire_time_datetime:
@@ -100,7 +100,8 @@ def check_domain( target_website ):
             'exception' : f'{e}'
         }
         u.end_time = timezone.now()
-        u.exception = f'{e}'
+        u.error_description = f'{e}'
+        #u.exception = f'{e}'
         u.save()
 
         if settings.DEBUG:
@@ -108,6 +109,8 @@ def check_domain( target_website ):
         post_notification( 'Server down', f'{target_website.url} has status {u.status}' )
 
 def check_domains():
+    if settings.DEBUG:
+        print(f"{colorama.Fore.GREEN}check_domains:{colorama.Style.RESET_ALL} - %s" % timezone.now())
     #urls = ['https://fleur.hk/', 'https://www.pulsely.com/', 'https://consultingerp.pulsely.com/']
 
     for w in models.TargetWebsite.objects.all():

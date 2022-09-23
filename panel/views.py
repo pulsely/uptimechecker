@@ -40,7 +40,7 @@ def index(request):
 
 @never_cache
 @user_passes_test(operator_privilege_check)
-def settings(request):
+def settings_(request):
     return render( request, "panel/settings.html",
                               {
                                   'title': 'Settings',
@@ -74,19 +74,23 @@ def api_uptime_list(request):
 
             previous_exception = {
                 'time' : previous_exception_.end_time.timestamp(),
-                'status' : previous_exception_.status
+                'status' : previous_exception_.status,
+                'status_display' : previous_exception_.get_status_display()
             }
         except:
             previous_exception = None
+            previous_exception_display = None
 
         # models.UptimeCheck.objects.
         uptimes = []
         for u in models.UptimeCheck.objects.filter(target_website=s).order_by( '-start_time', )[:5]:
             uptimes.append( {
+                'id' : u.id,
                 'status' : u.status,
                 'status_code' : u.status_code,
                 'status_display' : u.get_status_display(),
-                'end_time' : f'{u.end_time}'
+                'end_time_display' : f'{u.end_time}',
+                'end_time' : u.end_time.timestamp()
             } )
         timestamp = None
         if s.ssl_expire_time:
@@ -99,7 +103,6 @@ def api_uptime_list(request):
             'ssl_expire_time' : timestamp,
             'uptimes': uptimes,
             'previous_exception' : previous_exception,
-
         })
 
     return JsonResponse({

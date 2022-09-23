@@ -83,19 +83,18 @@
                                 </span>
                             </td>
                             <td><span v-if="object.ssl_expire_time">[[unixtime_to_locale(object.ssl_expire_time)]]<br/>
-                                <small class="text-muted">{{ r.target_website.ssl_expire_time|timeuntil }}</small></span>
+                                <small class="text-muted">[[humanize_seconds(object.ssl_expire_time)]]</small></span>
                             </td>
                             <td><span v-if="object.previous_exception && object.previous_exception.time">[[unixtime_to_locale(object.previous_exception.time)]]
-
                                 <br/>
-                                <span class="small text-muted">[[object.previous_exception.status_display]]</span>
+                                <span class="small text-danger">[[object.previous_exception.status_display]]</span>
                             </span>
                             </td>
 
-                            <td v-for="uptime in object.uptimes" :key="end_time">
+                            <td v-for="uptime in object.uptimes" :key="end_time" class="text-center">
                                 <span :class="buttonClassForStatus(uptime.status)">[[uptime.status_display]]</span>
 
-
+                                <span class="small text-muted">[[humanize_seconds(uptime.end_time)]]</span>
                             </td>
                         </tr>
 
@@ -158,6 +157,9 @@
                 unixtime_to_locale(str) {
                     var dt = LuxonDateTime.fromMillis(str * 1000).toFormat('dd LLL, yyyy HH:mm:ss');
                     return dt;
+                },
+                humanize_seconds(str) {
+                    return moment.duration( str - Math.floor(Date.now() / 1000) , "seconds").humanize(true);
                 },
 
                 buttonClassForStatus(label) {

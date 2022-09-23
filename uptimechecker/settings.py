@@ -146,6 +146,11 @@ LOGIN_REDIRECT_URL='/accounts/'
 URL_POST_SIGNIN = "panel:index"
 
 
+# Uptime Checker Defaults
+#DEFAULT_USER_AGENT = os.getenv("DEFAULT_USER_AGENT", "Mozilla/5.0 (Macintosh; Intel Mac OS X 12_4) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.4 Safari/605.1.15")
+DEFAULT_PERIODIC_MINUTES = os.getenv("DEFAULT_PERIODIC_TIME", 15)
+DEFAULT_ADD_RANDOMNESS = False
+
 #
 # # Celery settings
 
@@ -155,9 +160,5 @@ CELERY_RESULT_BACKEND = REDIS_URL
 
 CELERY_TIMEZONE = TIME_ZONE
 CELERY_TASK_TRACK_STARTED = True
-CELERY_TASK_TIME_LIMIT = 30 * 60
+CELERY_TASK_TIME_LIMIT = 5 * 60
 
-
-# Uptime Checker Defaults
-DEFAULT_USER_AGENT = os.getenv("DEFAULT_USER_AGENT", "Mozilla/5.0 (Macintosh; Intel Mac OS X 12_4) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.4 Safari/605.1.15")
-DEFAULT_PERIODIC_MINUTES = os.getenv("DEFAULT_PERIODIC_TIME", 15)
