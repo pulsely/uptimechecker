@@ -40,9 +40,16 @@ class UptimeCheck(models.Model):
         ('exception', 'Exception'),
         ('missing_keyword', 'Missing Keyword')
     )
+    HTTP_TYPE_CHOICES = (
+        ('GET', 'GET'),
+        ('POST', 'POST'),
+        ('HEAD', 'HEAD'),
+    )
 
     url = models.CharField(max_length=400)
     target_website = models.ForeignKey( TargetWebsite, on_delete=models.CASCADE )
+
+    http_type = models.CharField( choices=HTTP_TYPE_CHOICES, default="GET", max_length=20 )
 
     start_time = models.DateTimeField(default=timezone.now)
     end_time = models.DateTimeField(null=True, blank=True)

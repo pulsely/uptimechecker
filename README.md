@@ -7,7 +7,7 @@ Uptime Checker is a Django powered app developed by [Pulsely](https://www.pulsel
 Uptime Checker monitors your websites for any downtime, as well as SSL expiration dates.
 
 Any down times can be notified by:
-- E-mail
+- E-mails
 - Websocket Notifications
 - <strike>Slack channel notifications</strike> (Coming soon!)
 - <strike>Push Notifications</strike> (Coming soon!)
