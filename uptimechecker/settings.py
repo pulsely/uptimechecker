@@ -147,7 +147,7 @@ URL_POST_SIGNIN = "panel:index"
 
 
 # Uptime Checker Defaults
-#DEFAULT_USER_AGENT = os.getenv("DEFAULT_USER_AGENT", "Mozilla/5.0 (Macintosh; Intel Mac OS X 12_4) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.4 Safari/605.1.15")
+DEFAULT_USER_AGENT = os.getenv("DEFAULT_USER_AGENT", "Mozilla/5.0 (Macintosh; Intel Mac OS X 12_4) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.4 Safari/605.1.15")
 DEFAULT_PERIODIC_MINUTES = os.getenv("DEFAULT_PERIODIC_TIME", 15)
 DEFAULT_ADD_RANDOMNESS = False
 
