@@ -22,6 +22,8 @@ import os
 urlpatterns = [
     path('', include('landing.urls')),
     path('panel/', include('panel.urls')),
+    path('help/', include('help.urls')),
+
     path('admin/', admin.site.urls),
 
     path('login/', auth_views.LoginView.as_view(template_name='panel/login.html', extra_context={

@@ -36,11 +36,7 @@ You can run Uptime Checker directly with a Python virtual environment, or with D
 
 Docker instructions pending.
 
----
-
-###
-
-# Celery
+###  Celery
 
 Celery is used for scheduling the periodic uptime checks.
 

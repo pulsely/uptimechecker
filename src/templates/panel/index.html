@@ -40,30 +40,28 @@
 
                         </div>
                     </div>
-
-
                 </div>
 
                 {% comment %}XS size{% endcomment %}
                 <div class="card-body dashboard-table-xs">
                     <table class="table">
                         <thead>
-{#                        <th></th>#}
+                        {#                        <th></th>#}
                         <th>
                             Website
                         </th>
-{#                        <th>SSL Expiration</th>#}
-{#                        <th>Previous Exception</th>#}
+                        {#                        <th>SSL Expiration</th>#}
+                        {#                        <th>Previous Exception</th>#}
                         <th>Status 0</th>
 
                         </thead>
                         <tbody>
                         <tr class="tableHoverRow " v-for="object in objects" :key="object.id">
-{#                            <td>#}
-{#                                <button class="btn btn-dark text-white btn-sm"#}
-{#                                        @click="triggerSingleHost($event, object.id)"><i#}
-{#                                        class="fa-solid fa-robot"></i></button>#}
-{#                            </td>#}
+                            {#                            <td>#}
+                            {#                                <button class="btn btn-dark text-white btn-sm"#}
+                            {#                                        @click="triggerSingleHost($event, object.id)"><i#}
+                            {#                                        class="fa-solid fa-robot"></i></button>#}
+                            {#                            </td>#}
                             <td>
                                 <span v-show="object.title">
                                     <span>[[object.title]]</span><br/>
@@ -76,13 +74,13 @@
                                        target="_blank" class="no-underline-link">[[object.target_website_url]]</a>
                                 </span>
                             </td>
-{#                            <td class="small"><span v-if="object.ssl_expire_time">[[unixtime_to_locale(object.ssl_expire_time)]]<br/>#}
-{#                                <small class="text-muted">[[humanize_seconds(object.ssl_expire_time)]]</small></span>#}
-{#                            </td>#}
-{#                            <td class="small"><span v-if="object.previous_exception && object.previous_exception.time">[[unixtime_to_locale(object.previous_exception.time)]]#}
-{#                                <br/>#}
-{#                                <span class="small text-danger">[[object.previous_exception.status_display]]</span>#}
-{#                            </span>#}
+                            {#                            <td class="small"><span v-if="object.ssl_expire_time">[[unixtime_to_locale(object.ssl_expire_time)]]<br/>#}
+                            {#                                <small class="text-muted">[[humanize_seconds(object.ssl_expire_time)]]</small></span>#}
+                            {#                            </td>#}
+                            {#                            <td class="small"><span v-if="object.previous_exception && object.previous_exception.time">[[unixtime_to_locale(object.previous_exception.time)]]#}
+                            {#                                <br/>#}
+                            {#                                <span class="small text-danger">[[object.previous_exception.status_display]]</span>#}
+                            {#                            </span>#}
                             </td>
 
                             <td v-if="object.uptimes && object.uptimes.length > 0" class="text-center">
@@ -145,7 +143,7 @@
                             <td v-for="uptime in object.uptimes" :key="end_time" class="text-center">
                                 <span :class="buttonClassForStatus(uptime.status)">[[uptime.status_display]]</span>
 
-                                <span class="small text-muted">[[humanize_seconds(uptime.end_time)]]</span>
+                                <span class="small text-muted" v-show="uptime.end_time">[[humanize_seconds(uptime.end_time)]]</span>
                             </td>
                         </tr>
                         </tbody>
@@ -181,7 +179,7 @@
                     return dt;
                 },
                 humanize_seconds(str) {
-                    return moment.duration( str - Math.floor(Date.now() / 1000) , "seconds").humanize(true);
+                    return moment.duration(str - Math.floor(Date.now() / 1000), "seconds").humanize(true);
                 },
 
                 buttonClassForStatus(label) {
@@ -206,6 +204,7 @@
                                 //this.paginator = res.data.paginator;
 
                                 this.flag_loading = false;
+
                             }
                         }
                     }).catch(error => {
@@ -226,12 +225,20 @@
                     axios.post("{% url 'panel:api_trigger_refresh' %}", posData).then((res) => {
 
                         if (('status' in res.data) && (res.data.status == 'okay')) {
+                            /*
                             Swal.fire({
                                 icon: 'success',
                                 title: 'Oops...',
                                 text: res.data.message, timer: 3000
-                            })
+                            })*/
                             this.loadObjects();
+
+                            setTimeout(() => {
+                                this.loadObjects();
+                            }, 10000);
+                            setTimeout(() => {
+                                this.loadObjects();
+                            }, 20000);
 
                         }
                         if ('error' in res.data) {
@@ -270,6 +277,13 @@
 
                             this.loadObjects();
 
+                            setTimeout(() => {
+                                this.loadObjects();
+                            }, 10000);
+                            setTimeout(() => {
+                                this.loadObjects();
+                            }, 20000);
+
                         }
                         if ('error' in res.data) {
                             Swal.fire({
@@ -292,6 +306,12 @@
             created() {
                 console.log("Ready: " + this.message);
                 this.loadObjects();
+
+                setInterval(() => {
+
+                    this.loadObjects();
+
+                }, 1000 * 60);
 
             }
         });

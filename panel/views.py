@@ -110,7 +110,7 @@ def api_uptime_list(request):
                 'status_code': u.status_code,
                 'status_display': u.get_status_display(),
                 'end_time_display': f'{u.end_time}',
-                'end_time': u.end_time.timestamp()
+                'end_time': u.end_time.timestamp() if u.end_time else None,
             })
         timestamp = None
         if s.ssl_expire_time:
