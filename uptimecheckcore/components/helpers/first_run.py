@@ -2,7 +2,7 @@ import os
 
 
 def create_default_file():
-    f = open(".env", "rw")
+    f = open(".env", "a")
 
     f.write("PYTHONDONTWRITEBYTECODE=true")
     f.write("DEBUG=true")
