@@ -45,7 +45,8 @@
 <body>
 <div class="sidebar sidebar-dark sidebar-fixed" id="sidebar">
     <div class="sidebar-brand d-none d-md-flex">
-        <img src="/lookandfeel/images/logo-dark-background.svg" class="mx-4 img-fluid" />
+
+        <img src="/lookandfeel/images/logo-dark-background.svg" class="mx-4 img-fluid" onclick="window.open('{% url 'panel:index' %}');" style="cursor: pointer;" />
         {% comment %}
         <svg class="sidebar-brand-full" width="118" height="46" alt="Uptime Checker">
 
@@ -72,6 +73,8 @@
             </svg>
             Colors</a></li>
         {% endcomment %}
+
+        {% if request.user.role_is_staff %}
         <li class="nav-title">Settings</li>
 
         <li class="nav-item"><a class="nav-link" href="{% url 'panel:configurations' %}">
@@ -81,6 +84,7 @@
         <li class="nav-item"><a class="nav-link" href="{% url 'panel:users' %}">
             <i class="fa-solid fa-users nav-icon"></i>
             Users</a></li>
+        {% endif %}
         <li class="nav-divider"></li>
         <li class="nav-item mt-auto"><a class="nav-link" href="{% url 'help:index' %}"
                                         target="_blank">

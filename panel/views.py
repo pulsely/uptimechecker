@@ -10,7 +10,8 @@ from django.conf import settings
 from django.views.decorators.cache import never_cache
 from django.core.exceptions import ObjectDoesNotExist
 
-from uptimecheckcore.components.credentials.privileges import operator_privilege_check, IsOperatorAuthenticated, IsStaffAuthenticated
+from uptimecheckcore.components.credentials.privileges import operator_privilege_check, staff_privilege_check,\
+    IsOperatorAuthenticated, IsStaffAuthenticated
 # from rest_framework_simplejwt.authentication import JWTAuthentication
 
 # from rest_framework.permissions import IsAuthenticated
@@ -41,7 +42,7 @@ def index(request):
 
 
 @never_cache
-@user_passes_test(operator_privilege_check)
+@user_passes_test(staff_privilege_check)
 def configurations(request):
     return render(request, "panel/configurations.html",
                   {
@@ -64,12 +65,13 @@ def configurations(request):
 
                       'DEFAULT_PERIODIC_MINUTES_': settings.DEFAULT_PERIODIC_MINUTES,
                       'DEFAULT_ADD_RANDOMNESS' : settings.DEFAULT_ADD_RANDOMNESS,
+                      'DEFAULT_PERIODIC_MINUTES' : settings.DEFAULT_PERIODIC_MINUTES,
 
                   })
 
 
 @never_cache
-@user_passes_test(operator_privilege_check)
+@user_passes_test(staff_privilege_check)
 def users(request):
     return render(request, "panel/users.html",
                   {
@@ -176,6 +178,35 @@ def api_trigger_refresh(request):
         'status': 'error'
     })
 
+@api_view(['GET', 'POST', ])
+# @authentication_classes((JWTAuthentication, SessionAuthentication))
+@authentication_classes((SessionAuthentication,))
+@permission_classes((IsStaffAuthenticated,))
+def api_users_list(request):
+
+    return JsonResponse({
+        'status' : 'okay',
+    })
+
+
+@api_view(['GET', 'POST', ])
+# @authentication_classes((JWTAuthentication, SessionAuthentication))
+@authentication_classes((SessionAuthentication,))
+@permission_classes((IsStaffAuthenticated,))
+def api_users_create(request):
+    return JsonResponse({
+        'status': 'okay',
+    })
+
+
+@api_view(['GET', 'POST', ])
+# @authentication_classes((JWTAuthentication, SessionAuthentication))
+@authentication_classes((SessionAuthentication,))
+@permission_classes((IsStaffAuthenticated,))
+def api_users_delete(request):
+    return JsonResponse({
+        'status': 'okay',
+    })
 
 @never_cache
 @user_passes_test(operator_privilege_check)

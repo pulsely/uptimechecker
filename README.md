@@ -41,7 +41,6 @@ Docker instructions pending.
 Celery is used for scheduling the periodic uptime checks.
 
 
-
 ---
 
 # Credits & Acknowledgements
@@ -64,6 +63,10 @@ https://github.com/celery/celery
 __Font Awesome__  
 CC BY 4.0 License
 https://github.com/FortAwesome/Font-Awesome
+
+__python-decouple__
+MIT license
+https://github.com/HBNetwork/python-decouple
 
 ### Graphics
 

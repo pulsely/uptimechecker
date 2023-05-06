@@ -27,6 +27,6 @@ app.conf.beat_schedule = {
  "add-every-monday-morning": {
      "task": "uptimebot.tasks.test",
      "schedule": crontab(minute=f'*/{settings.DEFAULT_PERIODIC_MINUTES}'),
-     "args": (16,),
+     "args": (settings.DEFAULT_PERIODIC_MINUTES,),
  },
 }

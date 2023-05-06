@@ -13,25 +13,24 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 from pathlib import Path
 from distutils.util import strtobool
 import os
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv("SECRET_KEY", "default-insecure-change-this-n$0gdvf=s&oqa4ap99%@tyu7m$dey4=(3#e^h$_!2qd%bk2m$)")
+SECRET_KEY = config('SECRET_KEY') #os.getenv("SECRET_KEY", "default-insecure-change-this-n$0gdvf=s&oqa4ap99%@tyu7m$dey4=(3#e^h$_!2qd%bk2m$)")
 if not SECRET_KEY:
     # Raise an exception, if unable to load .env
     raise Exception("Sorry, unable to read configuration.")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = bool(strtobool(os.getenv("DEBUG", "false")))
+DEBUG = bool(strtobool(config('DEBUG')))
 
-_allowed_hosts = os.getenv("ALLOWED_HOSTS", ".localhost,127.0.0.1,[::1]")
+_allowed_hosts = config("ALLOWED_HOSTS") #os.getenv("ALLOWED_HOSTS", ".localhost,127.0.0.1,[::1]")
 ALLOWED_HOSTS = list(map(str.strip, _allowed_hosts.split(",")))
 
 # Application definition
@@ -147,8 +146,8 @@ URL_POST_SIGNIN = "panel:index"
 
 
 # Uptime Checker Defaults
-DEFAULT_USER_AGENT = os.getenv("DEFAULT_USER_AGENT", "Mozilla/5.0 (Macintosh; Intel Mac OS X 12_4) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.4 Safari/605.1.15")
-DEFAULT_PERIODIC_MINUTES = os.getenv("DEFAULT_PERIODIC_TIME", 15)
+DEFAULT_USER_AGENT = config("DEFAULT_USER_AGENT") #os.getenv("DEFAULT_USER_AGENT", "Mozilla/5.0 (Macintosh; Intel Mac OS X 12_4) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.4 Safari/605.1.15")
+DEFAULT_PERIODIC_MINUTES = int(config("DEFAULT_PERIODIC_MINUTES")) #os.getenv("DEFAULT_PERIODIC_TIME", 15)
 DEFAULT_ADD_RANDOMNESS = False
 
 #

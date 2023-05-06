@@ -14,3 +14,7 @@ class User(AbstractUser):
         ('firebase', 'Firebase'),
     )
     auth_type = models.CharField(max_length=20, choices=AUTH_TYPE, default='system')
+
+
+    def role_is_staff(self):
+        return self.is_staff or self.role == 'admin'
