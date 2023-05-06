@@ -37,6 +37,6 @@ def create_first_user():
     print(f"{colorama.Fore.RED}You do not have any user in the system yet.{colorama.Style.RESET_ALL}")
     print("Now, set the username and password of your superuser:")
     username = input("Username: ")
-    password = getpass.getuser()
+    password = getpass.getpass("Password: ")
 
     print(f"Creating with your username {username} and password {password}")
