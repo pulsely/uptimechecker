@@ -109,6 +109,33 @@ def users_edit(request, user_id):
                       'the_user' : the_user,
                   })
 
+
+@never_cache
+@user_passes_test(staff_privilege_check)
+def websites_create(request, user_id):
+
+    return render(request, "panel/users/edit.html",
+                  {
+                      'title': 'Create new target website',
+                      'is_secretkey_insecure': is_secretkey_insecure,
+                      'operation': "create",
+                  })
+
+@never_cache
+@user_passes_test(staff_privilege_check)
+def websites_edit(request, website_id):
+
+    the_website = get_object_or_404( models.TargetWebsite, id=website_id )
+
+    return render(request, "panel/users/edit.html",
+                  {
+                      'title': 'Website edit',
+                      'is_secretkey_insecure': is_secretkey_insecure,
+                      'operation': "edit",
+                      'the_website' : the_website,
+                  })
+
+
 @api_view(['GET', 'POST', ])
 @authentication_classes((SessionAuthentication,))
 @permission_classes((IsOperatorAuthenticated,))
@@ -295,7 +322,6 @@ def api_users_edit(request):
         if the_user.role == "admin":
             the_user.is_staff = True
         the_user.save()
-
 
         return JsonResponse({
             'status': 'okay',

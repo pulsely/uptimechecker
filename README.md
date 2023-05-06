@@ -16,7 +16,7 @@ For more information, please refer to the [Uptime Checker](https://www.pulsely.c
 
 ---
 
-## Running the Uptimer
+## Running the Uptime Checker
 
 You can run Uptime Checker directly with a Python virtual environment, or with Docker
 
@@ -39,6 +39,25 @@ Docker instructions pending.
 ###  Celery
 
 Celery is used for scheduling the periodic uptime checks.
+
+---
+
+## Django Management Commands
+
+
+
+Type ```python manage.py``` to check these Django commands are available for testing and house cleaning.
+```
+    checksites
+    remove_expired_uptimes
+    test_ses_email
+```
+
+```python manage.py checksites``` will trigger website checks. You can run a cronjob to trigger the checks with Crontab, instead of running the Celery.
+
+```python manage.py remove_expired_uptimes``` will remove expired check results.
+
+```python manage.py test_ses_email``` can be used for sending test e-mail(s) to check your notification configurations.
 
 
 ---

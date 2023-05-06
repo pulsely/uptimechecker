@@ -129,7 +129,7 @@ def remove_expired_uptimes():
 
     matching_checks = models.UptimeCheck.objects.filter( status="normal", start_time__lte=datetime.datetime( previous_cutoff.year, previous_cutoff.month, previous_cutoff.day, 0, 0, 0, 0 ) )
     if settings.DEBUG:
-        print(f"{colorama.Fore.RED}remove_expired_uptimes:{colorama.Style.RESET_ALL} Going to delete %d matching time" % len(matching_checks))
+        print(f"{colorama.Fore.RED}remove_expired_uptimes:{colorama.Style.RESET_ALL} Delete %d matching time" % len(matching_checks))
     matching_checks.delete()
 
 
