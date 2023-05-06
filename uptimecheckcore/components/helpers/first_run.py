@@ -1,12 +1,17 @@
 import os
-
+from django.core.management.utils import get_random_secret_key
 
 def create_default_file():
+    SECRET_KEY = get_random_secret_key()
+
     f = open(".env", "a")
 
     f.write("PYTHONDONTWRITEBYTECODE=true")
     f.write("\n")
     f.write("DEBUG=true")
+    f.write("\n")
+
+    f.write(f'SECRET_KEY="{SECRET_KEY}"')
     f.write("\n")
     f.write('ALLOWED_HOSTS="*"')
     f.write("\n")
