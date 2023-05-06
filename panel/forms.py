@@ -9,6 +9,7 @@ from django.conf import settings
 from uptimecheckcore import models
 from django.contrib.auth.password_validation import validate_password
 
+# Users
 class EditUserForm(forms.Form):
     id = forms.CharField(required=False)
     operation = forms.CharField() # either "create" or "edit"
@@ -27,3 +28,23 @@ class DeleteUserForm(forms.Form):
 
 class ReadUserForm(forms.Form):
     user_id = forms.IntegerField()
+
+# Websites
+
+class EditWebsiteForm(forms.Form):
+    id = forms.CharField(required=False)
+    title = forms.CharField()  # either "create" or "edit"
+    url = forms.URLField()
+    must_contain_keyword = forms.CharField(required=False)
+    flag_cdn_random_key = forms.BooleanField(required=False)
+    flag_check_ssl_expire_time = forms.BooleanField(required=False)
+    flag_notify_downtime = forms.BooleanField(required=False)
+
+    operation = forms.CharField()
+
+
+class DeleteWebsiteForm(forms.Form):
+    website_id = forms.CharField()
+
+class ReadWebsiteForm(forms.Form):
+    website_id = forms.UUIDField()

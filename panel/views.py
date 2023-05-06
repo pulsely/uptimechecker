@@ -39,7 +39,7 @@ User = get_user_model()
 def index(request):
     return render(request, "panel/index.html",
                   {
-                      'title': 'Dashboard',
+                      'title': 'Uptime Checker Dashboard',
                       'is_secretkey_insecure': is_secretkey_insecure,
                   })
 
@@ -127,7 +127,7 @@ def websites_edit(request, website_id):
 
     the_website = get_object_or_404( models.TargetWebsite, id=website_id )
 
-    return render(request, "panel/users/edit.html",
+    return render(request, "panel/websites/edit.html",
                   {
                       'title': 'Website edit',
                       'is_secretkey_insecure': is_secretkey_insecure,
@@ -363,6 +363,114 @@ def api_users_delete(request):
         return JsonResponse({
             'status': 'error',
             'error' : 'Invalid User ID'
+        })
+
+
+
+@api_view(['GET', 'POST', ])
+# @authentication_classes((JWTAuthentication, SessionAuthentication))
+@authentication_classes((SessionAuthentication,))
+@permission_classes((IsStaffAuthenticated,))
+def api_websites_read(request):
+    print(request.data)
+    f = forms.ReadWebsiteForm(request.data)
+    if f.is_valid():
+        the_website = models.TargetWebsite.objects.get(id=f.cleaned_data['website_id'])
+
+        d = {
+        }
+        for field in ['title', 'url', 'must_contain_keyword', 'flag_cdn_random_key', 'flag_check_ssl_expire_time', 'flag_notify_downtime', 'id']:
+            d[field] = getattr(the_website, field)
+        if settings.DEBUG:
+            print(d)
+        return JsonResponse({
+            'status': 'okay',
+            'object': d
+        })
+    else:
+        return JsonResponse({
+            'status': 'error',
+            'error': 'Invalid website ID'
+        })
+@api_view(['GET', 'POST', ])
+# @authentication_classes((JWTAuthentication, SessionAuthentication))
+@authentication_classes((SessionAuthentication,))
+@permission_classes((IsStaffAuthenticated,))
+def api_websites_edit(request):
+    if settings.DEBUG:
+        print(f'{colorama.Fore.RED}request.data(){colorama.Style.RESET_ALL} {request.data}')
+
+    # if request.data["operation"] == "edit":
+    #     f = forms.EditWebsiteForm(request.data)
+    # else:
+    #     f = forms.AddWebsiteForm(request.data)
+    f = forms.EditWebsiteForm(request.data)
+
+    if f.is_valid():
+        if settings.DEBUG:
+            print(f'{colorama.Fore.RED}f.is_valid(){colorama.Style.RESET_ALL} {request.data}')
+
+        if f.cleaned_data["operation"] not in ["edit", "create"]:
+            return JsonResponse({
+                'status': 'error',
+                'error': 'Invalid operation'
+            })
+
+        # if operation is "create"
+        if f.cleaned_data["operation"] == "edit":
+            try:
+                the_website = models.TargetWebsite.objects.get(id=f.cleaned_data["id"])
+            except:
+                return JsonResponse({
+                    'status': 'error',
+                    'error': "Website does not exist"
+                })
+        else:
+            the_website = models.TargetWebsite()
+        for field in f.fields:
+            setattr(the_website, field, f.cleaned_data[field])
+        the_website.save()
+
+        return JsonResponse({
+            'status': 'okay',
+            # 'objects' : objects,
+        })
+
+    else:
+        form_errors = {}
+        for e in f.errors.items():
+            print(e)
+            form_errors[e[0]] = e[1][0]
+
+        if settings.DEBUG:
+            print(f'{colorama.Fore.RED}not f.is_valid(){colorama.Style.RESET_ALL}')
+            print(form_errors)
+
+        return JsonResponse({
+            'status': 'error',
+            'form_errors': form_errors,
+            'error': "Form not valid",
+        })
+
+@api_view(['GET', 'POST', ])
+# @authentication_classes((JWTAuthentication, SessionAuthentication))
+@authentication_classes((SessionAuthentication,))
+@permission_classes((IsStaffAuthenticated,))
+def api_websites_delete(request):
+    if settings.DEBUG:
+        print(request.data)
+    f = forms.DeleteWebsiteForm( request.data )
+    if f.is_valid():
+        the_website = models.TargetWebsite.objects.get(id=f.cleaned_data["website_id"])
+        the_website.delete()
+
+        return JsonResponse({
+            'status' : 'okay',
+        })
+    else:
+        return JsonResponse({
+            'status': 'error',
+            'error' : 'Invalid Website ID'
         })
 
 @never_cache

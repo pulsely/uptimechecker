@@ -32,7 +32,7 @@
             <div class="card" v-if="!flag_loading">
                 <div class="card-header">
                     {% if operation == "edit" %}
-                        Edit user
+                        Edit user: <span class="text-secondary">[[user.username]]</span>
                     {% else %}
                         Create new user
                     {% endif %}
@@ -150,7 +150,7 @@
                             if (res.data.status == 'okay') {
 
                                 this.flag_loading = false;
-                                var r = Date.now()
+                                var r = Date.now();
                                 window.location.replace(`{% url 'panel:users' %}?r=${r}`);
 
                             } else if (res.data.status == 'error') {

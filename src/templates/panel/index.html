@@ -56,7 +56,7 @@
 
                         </thead>
                         <tbody>
-                        <tr class="tableHoverRow " v-for="object in objects" :key="object.id">
+                        <tr class="tableHoverRow " v-for="object in objects" :key="object.id" @click="websiteDetail(object)">
                             {#                            <td>#}
                             {#                                <button class="btn btn-dark text-white btn-sm"#}
                             {#                                        @click="triggerSingleHost($event, object.id)"><i#}
@@ -114,10 +114,10 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr class="tableHoverRow " v-for="object in objects" :key="object.id">
+                        <tr class="tableHoverRow " v-for="object in objects" :key="object.id" @click="websiteDetail(object)">
                             <td>
                                 <button class="btn btn-dark text-white btn-sm"
-                                        @click="triggerSingleHost($event, object.id)"><i
+                                        @click.stop="triggerSingleHost($event, object.id)"><i
                                         class="fa-solid fa-robot"></i></button>
                             </td>
                             <td>
@@ -141,7 +141,7 @@
                             </span>
                             </td>
 
-                            <td v-for="uptime in object.uptimes" :key="end_time" class="text-center">
+                            <td v-for="uptime in object.uptimes" :key="uptime.id" class="text-center">
                                 <span :class="buttonClassForStatus(uptime.status)">[[uptime.status_display]]</span>
 
                                 <span class="small text-muted" v-show="uptime.end_time">[[humanize_seconds(uptime.end_time)]]</span>
@@ -302,21 +302,17 @@
                         })
                     })
                 },
+                websiteDetail(website) {
+                    window.location.replace( `/panel/website/edit/${website.id}/`);
+                }
             },
             created() {
-                console.log("Ready: " + this.message);
                 this.loadObjects();
 
                 setInterval(() => {
-
                     this.loadObjects();
-
                 }, 1000 * 60);
-
             }
         });
-
-
     </script>
-
 {% endblock %}

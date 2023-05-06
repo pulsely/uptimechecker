@@ -13,7 +13,7 @@ urlpatterns = [
     path('users/edit/<int:user_id>/', views.users_edit, name="users_edit"),
 
     path('website/create/', views.websites_create, name="websites_create"),
-    path('website/edit/<int:user_id>/', views.websites_edit, name="websites_edit"),
+    path('website/edit/<uuid:website_id>/', views.websites_edit, name="websites_edit"),
 
     # APIs for listing uptimes
     path('api/uptime-list/', views.api_uptime_list, name="api_uptime_list"),
@@ -25,6 +25,12 @@ urlpatterns = [
 
     path('api/users/edit/', views.api_users_edit, name="api_users_edit"),
     path('api/users/delete/', views.api_users_delete, name="api_users_delete"),
+
+    path('api/websites/read/', views.api_websites_read, name="api_websites_read"),
+    path('api/websites/edit/', views.api_websites_edit, name="api_websites_edit"),
+    path('api/websites/delete/', views.api_websites_delete, name="api_websites_delete"),
+
+
 
     # Logout
     path('logout/', views.logout, name="logout"),
