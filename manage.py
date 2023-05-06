@@ -35,7 +35,9 @@ def migrate_thread():
         f"{colorama.Fore.RED}Done! {colorama.Fore.GREEN}Database should be ready to go!{colorama.Style.RESET_ALL}")
 
     print(
-        f"If the database file is not created, just run: {colorama.Fore.RED}python manage.py migrate{colorama.Style.RESET_ALL}")
+        f"If the database file is not created, just run: {colorama.Fore.RED}python manage.py migrate{colorama.Style.RESET_ALL}\n")
+
+    first_run.create_first_user()
 
 
 if __name__ == '__main__':
