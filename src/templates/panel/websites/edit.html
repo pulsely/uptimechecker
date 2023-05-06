@@ -56,16 +56,16 @@
                     <div class="mb-3">
                         <label for="formInput1" class="form-label">Title</label>
                         <input type="text" class="form-control form-control-sm" id="formInput1"
-                               v-model="website.title" :class="{'is-invalid': form_errors.title }"/>
+                               v-model="website.title" :class="{'is-invalid': form_errors.title }"  placeholder="e.g. Your Website Title"/>
 
 
                         <span class="text-danger" v-if="form_errors.title">[[form_errors.title]]</span>
 
                     </div>
                     <div class="mb-3">
-                        <label for="formInput6" class="form-label">url</label>
+                        <label for="formInput6" class="form-label">Website URL</label>
                         <input type="text" class="form-control form-control-sm" id="formInput6"
-                               v-model="website.url" :class="{'is-invalid': form_errors.url }"/>
+                               v-model="website.url" :class="{'is-invalid': form_errors.url }" placeholder="e.g. https://www.your-website.com/"/>
 
                         <span class="text-danger" v-if="form_errors.url">[[form_errors.url]]</span>
                     </div>
@@ -143,9 +143,9 @@
                     title: null,
                     url: null,
                     must_contain_keyword: null,
-                    flag_cdn_random_key: false,
-                    flag_check_ssl_expire_time: false,
-                    flag_notify_downtime: null,
+                    flag_cdn_random_key: true,
+                    flag_check_ssl_expire_time: true,
+                    flag_notify_downtime: true,
                     id: null
                 },
                 form_errors: {}

@@ -88,7 +88,7 @@
                     <div class="mb-1">
                         <label for="formInput5" class="form-label">Password</label>
                         {% if operation == "edit" %}
-                            <br/><a href="{% url 'panel:users_reset_password' the_user.id %}">Change password for [[user.username]]</a>
+                            <br/><a href="{% url 'panel:users_reset_password' the_user.id %}" class="small text-primary" style="text-decoration: none;">Change password for [[user.username]]</a>
                         {% else %}
                             <input type="password" class="form-control form-control-sm" id="formInput5"
                                    v-model="user.password" :class="{'is-invalid': form_errors.password }"/>

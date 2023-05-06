@@ -35,10 +35,11 @@ Changed to the directory of the Uptime Checker:
 cd uptimechecker
 ```
 
-Create a new python virtual environment with:
+Create a new python virtual environment and install the packages from requirements.txt:
 ```
 python -m venv venv
 source ./venv/bin/activate
+pip install -r requirements.txt
 ```
 
 Then run the uptime checker:
