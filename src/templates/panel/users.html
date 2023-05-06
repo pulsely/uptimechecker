@@ -1,0 +1,54 @@
+{% extends "designs/coreui.html" %}
+
+{% block title %}
+    User
+{% endblock %}
+
+{% load humanize %}
+{% block content %}
+
+
+
+    <div class="row" id="app">
+        <div class="col-12">
+            {% if is_secretkey_insecure %}
+                <div class="alert alert-danger">
+                    <p>Your Django SECRET_KEY is using the default insecure key. Please generate and use a custom
+                        one.</p>
+                </div>
+            {% endif %}
+
+
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block postflight %}
+    <script language="JavaScript">
+
+        axios.defaults.xsrfCookieName = 'csrftoken';
+        axios.defaults.xsrfHeaderName = 'X-CSRFToken';
+
+        Vue.mixin({
+            delimiters: ['[[', ']]']
+        });
+
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                message: "Ready",
+                flag_loading: false,
+            },
+            methods: {
+
+            },
+            created() {
+
+            }
+        });
+
+
+    </script>
+
+{% endblock %}

@@ -1,0 +1,160 @@
+{% extends "designs/coreui.html" %}
+
+{% block title %}
+    Settings
+{% endblock %}
+
+{% load humanize %}
+{% block content %}
+
+
+
+    <div class="row" id="app">
+        <div class="col-12">
+            {% if is_secretkey_insecure %}
+                <div class="alert alert-danger">
+                    <p>Your Django SECRET_KEY is using the default insecure key. Please generate and use a custom
+                        one.</p>
+                </div>
+            {% else %}
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <i class="fa-solid fa-circle-check text-success"></i> Django SECRET_KEY
+                    </div>
+                    <div class="card-body">
+                        <p>Your Django SECRET_KEY seems to be generated with custom key. Good job!</p>
+
+                    </div>
+                </div>
+            {% endif %}
+
+
+            <div class="card mb-4">
+                <div class="card-header">
+                    {% if DEBUG_ %}
+                        <i class="fa-solid fa-radiation text-danger"></i>
+                        DEBUG mode enabled{% else %}
+                        <i class="fa-solid fa-circle-check text-success"></i>    DEBUG mode off
+
+                    {% endif %}
+                </div>
+                <div class="card-body">
+                    {% if DEBUG_ %}
+
+                        You are using DEBUG mode in Django. Please do not enable this mode on deployment.
+
+                    {% else %}
+                        You are not using DEBUG mode in Django. Great!
+
+                    {% endif %}
+
+                </div>
+            </div>
+
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="fa-solid fa-circle-check text-success"></i> ALLOWED_HOSTS
+
+                </div>
+                <div class="card-body">
+                    {% for host in ALLOWED_HOSTS_ %}
+                        {{ host }}{% if not forloop.last %}<br/>{% endif %}
+                    {% endfor %}
+
+                </div>
+            </div>
+
+
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="fa-solid fa-circle-check text-success"></i> Default
+                    Database: {{ DATABASES.default.ENGINE }}
+                </div>
+                <div class="card-body">
+                    {% for k,v in DATABASES.default.items %}
+                        {% if v %}
+                            <div class="row small">
+                                <div class="col-md-4 col-12 font-weight-bold text-sm-end font-weight-bold text-black">
+                                    {{ k }}
+                                </div>
+                                <div class="col-md-8 col-12 text-dark">
+                                    {{ v }}
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="fa-solid fa-circle-check text-success"></i> Redis configurations
+                </div>
+                <div class="card-body">
+                    {{ REDIS_URL_ }}
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <i class="fa-solid fa-circle-check text-success"></i> Celery configurations
+                </div>
+                <div class="card-body">
+                    <div class="row small">
+                        <div class="col-md-4 col-12 font-weight-bold text-sm-end font-weight-bold text-black">
+                            CELERY_TIMEZONE
+                        </div>
+                        <div class="col-md-8 col-12 text-dark">
+                            {{ CELERY_TIMEZONE_ }}
+                        </div>
+
+                        <div class="col-md-4 col-12 font-weight-bold text-sm-end font-weight-bold text-black">
+                            CELERY_TASK_TRACK_STARTED
+                        </div>
+                        <div class="col-md-8 col-12 text-dark">
+                            {{ CELERY_TASK_TRACK_STARTED_ }}
+                        </div>
+                        <div class="col-md-4 col-12 font-weight-bold text-sm-end font-weight-bold text-black">
+                            CELERY_TASK_TIME_LIMIT
+                        </div>
+                        <div class="col-md-8 col-12 text-dark">
+                            {{ CELERY_TASK_TIME_LIMIT_ }}
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block postflight %}
+    <script language="JavaScript">
+
+        axios.defaults.xsrfCookieName = 'csrftoken';
+        axios.defaults.xsrfHeaderName = 'X-CSRFToken';
+
+        Vue.mixin({
+            delimiters: ['[[', ']]']
+        });
+
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                message: "Ready",
+                flag_loading: false,
+            },
+            methods: {},
+            created() {
+
+            }
+        });
+
+
+    </script>
+
+{% endblock %}

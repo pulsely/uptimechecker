@@ -1,0 +1,186 @@
+{% extends "designs/coreui.html" %}
+
+{% block title %}
+    {{ title }}
+{% endblock %}
+
+{% load humanize %}
+{% block content %}
+
+
+    <!-- content -->
+
+    <div class="row" id="app">
+        <div class="col-12">
+            {% if is_secretkey_insecure %}
+                <div class="alert alert-danger">
+                    <p>Your Django SECRET_KEY is using the default insecure key. Please generate and use a custom
+                        one.</p>
+                </div>
+            {% endif %}
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="d-flex justify-content-between">
+                        <button class="btn btn-success btn-sm mr-4 text-white" @click="loadObjects"><i
+                                class="fa-solid fa-rotate-right"></i> Refresh
+                        </button>
+
+                        <div>
+
+                            <h4 class="card-title mb-0"> [[objects.length]] Uptime Records
+                            </h4>
+                            {#                            <div class="small text-medium-emphasis">January - July 2022</div>#}
+                        </div>
+
+                        <div class="btn-toolbar d-none d-md-block" role="toolbar" aria-label="Toolbar with buttons">
+                            <button class="btn btn-outline-dark  btn-sm mr-4" @click="triggerAllhost"><i
+                                    class="fa-solid fa-robot"></i> Check all websites
+                            </button>
+
+                        </div>
+                    </div>
+                </div>
+
+                {% comment %}XS size{% endcomment %}
+                <div class="card-body dashboard-table-xs">
+                    <table class="table">
+                        <thead>
+                        {#                        <th></th>#}
+                        <th>
+                            Website
+                        </th>
+                        {#                        <th>SSL Expiration</th>#}
+                        {#                        <th>Previous Exception</th>#}
+                        <th>Status 0</th>
+
+                        </thead>
+                        <tbody>
+                        <tr class="tableHoverRow " v-for="object in objects" :key="object.id">
+                            {#                            <td>#}
+                            {#                                <button class="btn btn-dark text-white btn-sm"#}
+                            {#                                        @click="triggerSingleHost($event, object.id)"><i#}
+                            {#                                        class="fa-solid fa-robot"></i></button>#}
+                            {#                            </td>#}
+                            <td>
+                                <span v-show="object.title">
+                                    <span>[[object.title]]</span><br/>
+                                    <a :href="object.target_website_url" target="_blank"
+                                       class="no-underline-link small">[[object.target_website_url]]</a>
+                                </span>
+
+                                <span v-show="!object.title">
+                                    <a :href="object.target_website_url"
+                                       target="_blank" class="no-underline-link">[[object.target_website_url]]</a>
+                                </span>
+                            </td>
+                            {#                            <td class="small"><span v-if="object.ssl_expire_time">[[unixtime_to_locale(object.ssl_expire_time)]]<br/>#}
+                            {#                                <small class="text-muted">[[humanize_seconds(object.ssl_expire_time)]]</small></span>#}
+                            {#                            </td>#}
+                            {#                            <td class="small"><span v-if="object.previous_exception && object.previous_exception.time">[[unixtime_to_locale(object.previous_exception.time)]]#}
+                            {#                                <br/>#}
+                            {#                                <span class="small text-danger">[[object.previous_exception.status_display]]</span>#}
+                            {#                            </span>#}
+                            </td>
+
+                            <td v-if="object.uptimes && object.uptimes.length > 0" class="text-center">
+                                <span :class="buttonClassForStatus(object.uptimes[0].status)">[[object.uptimes[0].status_display]]</span>
+
+                                <span class="small text-muted">[[humanize_seconds(object.uptimes[0].end_time)]]</span>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="card-body dashboard-table">
+                    <table class="table">
+                        <thead>
+                        <th></th>
+                        <th>
+                            Website
+                        </th>
+                        <th>SSL Expiration</th>
+                        <th>Previous Exception</th>
+                        <th>Status 0</th>
+                        <th>Status -1</th>
+
+                        <th>Status -2</th>
+
+                        <th>Status -3</th>
+
+                        <th>Status -4</th>
+
+                        </thead>
+                        <tbody>
+                        <tr class="tableHoverRow " v-for="object in objects" :key="object.id">
+                            <td>
+                                <button class="btn btn-dark text-white btn-sm"
+                                        @click="triggerSingleHost($event, object.id)"><i
+                                        class="fa-solid fa-robot"></i></button>
+                            </td>
+                            <td>
+                                <span v-show="object.title">
+                                    <span>[[object.title]]</span><br/>
+                                    <a :href="object.target_website_url" target="_blank"
+                                       class="no-underline-link small">[[object.target_website_url]]</a>
+                                </span>
+
+                                <span v-show="!object.title">
+                                    <a :href="object.target_website_url"
+                                       target="_blank" class="no-underline-link">[[object.target_website_url]]</a>
+                                </span>
+                            </td>
+                            <td class="small"><span v-if="object.ssl_expire_time">[[unixtime_to_locale(object.ssl_expire_time)]]<br/>
+                                <small class="text-muted">[[humanize_seconds(object.ssl_expire_time)]]</small></span>
+                            </td>
+                            <td class="small"><span v-if="object.previous_exception && object.previous_exception.time">[[unixtime_to_locale(object.previous_exception.time)]]
+                                <br/>
+                                <span class="small text-danger">[[object.previous_exception.status_display]]</span>
+                            </span>
+                            </td>
+
+                            <td v-for="uptime in object.uptimes" :key="end_time" class="text-center">
+                                <span :class="buttonClassForStatus(uptime.status)">[[uptime.status_display]]</span>
+
+                                <span class="small text-muted" v-show="uptime.end_time">[[humanize_seconds(uptime.end_time)]]</span>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block postflight %}
+    <script language="JavaScript">
+
+        axios.defaults.xsrfCookieName = 'csrftoken';
+        axios.defaults.xsrfHeaderName = 'X-CSRFToken';
+
+        Vue.mixin({
+            delimiters: ['[[', ']]']
+        });
+
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                message: "Ready",
+            },
+            methods: {
+
+            },
+            created() {
+
+
+            }
+        });
+
+
+    </script>
+
+{% endblock %}
