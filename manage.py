@@ -2,7 +2,8 @@
 """Django's command-line utility for administrative tasks."""
 import os
 import sys
-
+import colorama
+from uptimecheckcore.components.helpers import first_run
 
 def main():
     """Run administrative tasks."""
@@ -17,6 +18,11 @@ def main():
         ) from exc
     execute_from_command_line(sys.argv)
 
-
 if __name__ == '__main__':
-    main()
+    # Check if there is a .env file? If not create the settings
+    if os.path.exists( ".env"):
+
+        main()
+    else:
+        print(f"{colorama.Fore.RED}Your system has not initialized.{colorama.Style.RESET_ALL}")
+        first_run.create_default_file()
