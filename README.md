@@ -41,13 +41,19 @@ python -m venv venv
 source ./venv/bin/activate
 pip install -r requirements.txt
 ```
+(Your Python 3 runtime could be named differently, such as 'python3', so change to ```python3 -m venv venv``` if this is the case.)
 
 Then run the uptime checker:
 ```
 python manage.py runserver
 ```
+The manage.py will check if a .env file is create and create one for you automatically if missing. The db.sqlite3 file will also be created for you 4 seconds after the installation is fired up the first time.
 
-You can also run your Uptime Checker installation with the shell script ```./run_django_dev.sh```
+You can run your Uptime Checker installation with the shell script ```./run_django_dev.sh``` from now on, or activate the venv virtual environment created previously with these commands:
+```
+source ./venv/bin/activate
+python manage.py runserver
+```
 
 
 ### Running with Docker
@@ -84,6 +90,11 @@ test_ses_email
 
 ```python manage.py test_ses_email``` can be used for sending test e-mail(s) to check your notification configurations.
 
+---
+
+## Running databases other than SQLite?
+
+You can use any databases supported by Django. Create the database settings at the uptimechecker/settings.py file following the Django documentations, and you should be good to go.
 
 ---
 

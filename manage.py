@@ -20,13 +20,13 @@ def main():
     execute_from_command_line(sys.argv)
 
 def migrate_thread():
-    print(f"{colorama.Fore.GREEN}Create SQLite database in {colorama.Fore.RED}4{colorama.Fore.GREEN} seconds{colorama.Style.RESET_ALL}")
+    print(f"{colorama.Fore.GREEN}Creating SQLite database in {colorama.Fore.RED}4{colorama.Fore.GREEN} seconds{colorama.Style.RESET_ALL}")
     time.sleep(4)
-    print(f"{colorama.Fore.GREEN}Create SQLite database in {colorama.Fore.RED}3{colorama.Fore.GREEN} seconds{colorama.Style.RESET_ALL}")
+    print(f"{colorama.Fore.GREEN}Creating SQLite database in {colorama.Fore.RED}3{colorama.Fore.GREEN} seconds{colorama.Style.RESET_ALL}")
     time.sleep(3)
-    print(f"{colorama.Fore.GREEN}Create SQLite database in {colorama.Fore.RED}2{colorama.Fore.GREEN} seconds{colorama.Style.RESET_ALL}")
+    print(f"{colorama.Fore.GREEN}Creating SQLite database in {colorama.Fore.RED}2{colorama.Fore.GREEN} seconds{colorama.Style.RESET_ALL}")
     time.sleep(2)
-    print(f"{colorama.Fore.GREEN}Create SQLite database in {colorama.Fore.RED}1{colorama.Fore.GREEN} seconds{colorama.Style.RESET_ALL}")
+    print(f"{colorama.Fore.GREEN}Creating SQLite database in {colorama.Fore.RED}1{colorama.Fore.GREEN} seconds{colorama.Style.RESET_ALL}")
     time.sleep(1)
     print(f"{colorama.Fore.GREEN}Creating...{colorama.Style.RESET_ALL}")
 
