@@ -41,9 +41,8 @@ def migrate_thread():
 
 
 if __name__ == '__main__':
-    # Check if there is a .env file? If not create the settings
+    # Check if there is a .env file? If not create the .env settings
     if os.path.exists( ".env"):
-
         main()
     else:
         print(f"{colorama.Fore.RED}Your system has not initialized.{colorama.Style.RESET_ALL}")
@@ -53,10 +52,7 @@ if __name__ == '__main__':
         first_run.create_default_file()
 
         # Schedule migrate thread in 3 seconds
-        thread_ = threading.Thread(target=migrate_thread,
-                                             args=[],
-                                             kwargs={})
-        # sessiontag_thread.setDaemon(True)
+        thread_ = threading.Thread(target=migrate_thread, args=[], kwargs={})
         thread_.start()
 
         # Run migrate
