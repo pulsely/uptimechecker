@@ -5,8 +5,6 @@ import getpass
 from django.core.management.utils import get_random_secret_key
 from django.contrib.auth import get_user_model
 
-User = get_user_model()
-
 def create_default_file():
     '''
     # The file should be in the following format:
@@ -37,7 +35,7 @@ def create_default_file():
     f.close()
 
 def create_first_user():
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'uptimechecker.settings')
+    User = get_user_model()
 
     print(f"{colorama.Fore.RED}You do not have any user in the system yet.{colorama.Style.RESET_ALL}")
     print("Now, set the username and password of your superuser:")
