@@ -3,6 +3,9 @@ import os
 import colorama
 import getpass
 from django.core.management.utils import get_random_secret_key
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 def create_default_file():
     '''
@@ -39,4 +42,9 @@ def create_first_user():
     username = input("Username: ")
     password = getpass.getpass("Password: ")
 
-    print(f"Creating with your username {username} and password {password}")
+    print(f"Creating with your username {colorama.Fore.GREEN}{username}{colorama.Style.RESET_ALL} and {colorama.Fore.GREEN}********{colorama.Style.RESET_ALL}")
+
+    the_user = User.objects.create_user( username, '', password)
+    the_user.save()
+    print("User created. You can now sign in.")
+
