@@ -22,23 +22,47 @@ You can run Uptime Checker directly with a Python virtual environment, or with D
 
 ### Running with Python Virtual Environment
 
-1. Open the file.
-2. Find the following code block on line 21:
+The best way would be to create a new Python virtual environment. Any Python with version 3.8 should work.
+The only dependency would be an active Redis 4.0+ installation.
 
-        <html>
-          <head>
-            <title>Test</title>
-          </head>
+Pull the source code of Uptime Checker:
+```
+git clone https://github.com/pulsely/uptimechecker
+```
 
-3. Update the title to match the name of your website.
+Changed to the directory of the Uptime Checker:
+```
+cd uptimechecker
+```
+
+Create a new python virtual environment with:
+```
+python -m venv venv
+source ./venv/bin/activate
+```
+
+Then run the uptime checker:
+```
+python manage.py runserver
+```
+
+You can also run your Uptime Checker installation with the shell script ```./run_django_dev.sh```
+
 
 ### Running with Docker
 
-Docker instructions pending.
+The Uptime Checker has a default DockerFile which will run with Docker or Podman.
+
+The setup will run the Uptime Checker with Django, Redis and Celery automatically.
+
+---
 
 ###  Celery
 
 Celery is used for scheduling the periodic uptime checks.
+
+A sample shell script will trigger the celery for recurring checks with minutes specified in DEFAULT_PERIODIC_MINUTES at the .env configuration:  
+```./run_celery_dev.sh``` 
 
 ---
 
@@ -48,9 +72,9 @@ Celery is used for scheduling the periodic uptime checks.
 
 Type ```python manage.py``` to check these Django commands are available for testing and house cleaning.
 ```
-    checksites
-    remove_expired_uptimes
-    test_ses_email
+checksites
+remove_expired_uptimes
+test_ses_email
 ```
 
 ```python manage.py checksites``` will trigger website checks. You can run a cronjob to trigger the checks with Crontab, instead of running the Celery.
@@ -97,5 +121,7 @@ https://github.com/coreui/coreui
 ---
 
 # Copyright and license
+
+The Uptime Checker is written by Pulsely https://www.pulsely.com/
 
 Copyright 2023 Pulsely
