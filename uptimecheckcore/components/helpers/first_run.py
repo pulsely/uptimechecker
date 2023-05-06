@@ -37,6 +37,8 @@ def create_default_file():
     f.close()
 
 def create_first_user():
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'uptimechecker.settings')
+
     print(f"{colorama.Fore.RED}You do not have any user in the system yet.{colorama.Style.RESET_ALL}")
     print("Now, set the username and password of your superuser:")
     username = input("Username: ")
@@ -45,6 +47,9 @@ def create_first_user():
     print(f"Creating with your username {colorama.Fore.GREEN}{username}{colorama.Style.RESET_ALL} and {colorama.Fore.GREEN}********{colorama.Style.RESET_ALL}")
 
     the_user = User.objects.create_user( username, '', password)
+    the_user.is_staff = True
+    the_user.is_superuser = True
+    the_user.is_super
     the_user.save()
     print("User created. You can now sign in.")
 
