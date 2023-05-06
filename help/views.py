@@ -11,8 +11,7 @@ from uptimecheckcore.components.credentials.privileges import operator_privilege
 @never_cache
 @user_passes_test(operator_privilege_check)
 def index(request):
-    return render(request, "panel/index.html",
+    return render(request, "help/index.html",
                   {
-                      'title': 'Dashboard',
-                      'is_secretkey_insecure': is_secretkey_insecure,
+                      'title': 'Help',
                   })

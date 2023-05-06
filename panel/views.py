@@ -10,7 +10,7 @@ from django.conf import settings
 from django.views.decorators.cache import never_cache
 from django.core.exceptions import ObjectDoesNotExist
 
-from uptimecheckcore.components.credentials.privileges import operator_privilege_check, IsOperatorAuthenticated
+from uptimecheckcore.components.credentials.privileges import operator_privilege_check, IsOperatorAuthenticated, IsStaffAuthenticated
 # from rest_framework_simplejwt.authentication import JWTAuthentication
 
 # from rest_framework.permissions import IsAuthenticated
@@ -42,10 +42,10 @@ def index(request):
 
 @never_cache
 @user_passes_test(operator_privilege_check)
-def settings_(request):
-    return render(request, "panel/settings.html",
+def configurations(request):
+    return render(request, "panel/configurations.html",
                   {
-                      'title': 'Settings',
+                      'title': 'Configurations',
 
                       'is_secretkey_insecure': is_secretkey_insecure,
 

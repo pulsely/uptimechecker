@@ -7,7 +7,7 @@ __Uptime Checker Server__ is a Django powered app developed by [Pulsely](https:/
 
 Any down times can be notified by:
 - E-mails
-- Websocket Notifications
+- <strike>Websocket Notifications</strike> (Coming soon!)
 - <strike>Slack channel notifications</strike> (Coming soon!)
 - <strike>Push Notifications</strike> (Coming soon!)
 - <strike>SMS Notifications</strike> (Coming soon!)
@@ -60,6 +60,10 @@ https://www.django-rest-framework.org/
 __Celery__  
 BSD 3-Clause "New" or "Revised" License   
 https://github.com/celery/celery
+
+__Font Awesome__  
+CC BY 4.0 License
+https://github.com/FortAwesome/Font-Awesome
 
 ### Graphics
 
