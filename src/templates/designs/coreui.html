@@ -183,6 +183,11 @@
                     <li class="breadcrumb-item active"><span>{{ title }}</span></li>
                 </ol>
             </nav>
+
+            {% if flag_show_create_website_button %}
+            <a href="{% url 'panel:websites_create' %}" class="btn btn-success text-white"><i
+                                    class="fa-solid fa-plus"></i> Add new website</a>
+            {% endif %}
         </div>
     </header>
     <div class="body flex-grow-1 px-3">

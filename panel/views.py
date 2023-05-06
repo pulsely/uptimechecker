@@ -41,6 +41,7 @@ def index(request):
                   {
                       'title': 'Uptime Checker Dashboard',
                       'is_secretkey_insecure': is_secretkey_insecure,
+                      'flag_show_create_website_button' : True,
                   })
 
 
@@ -112,9 +113,9 @@ def users_edit(request, user_id):
 
 @never_cache
 @user_passes_test(staff_privilege_check)
-def websites_create(request, user_id):
+def websites_create(request):
 
-    return render(request, "panel/users/edit.html",
+    return render(request, "panel/websites/edit.html",
                   {
                       'title': 'Create new target website',
                       'is_secretkey_insecure': is_secretkey_insecure,
@@ -428,7 +429,8 @@ def api_websites_edit(request):
         else:
             the_website = models.TargetWebsite()
         for field in f.fields:
-            setattr(the_website, field, f.cleaned_data[field])
+            if field not in ["operation", "id"]:
+                setattr(the_website, field, f.cleaned_data[field])
         the_website.save()
 
         return JsonResponse({

@@ -42,8 +42,11 @@
                     </div>
                 </div>
 
+                <div class="card-body" v-show="objects.length == 0">
+                    <p>You do not have any website yet. <a href="{% url 'panel:websites_create' %}" class="text-success">Add one now</a>?</p>
+                </div>
                 {% comment %}XS size{% endcomment %}
-                <div class="card-body dashboard-table-xs">
+                <div class="card-body dashboard-table-xs" v-show="objects.length > 0">
                     <table class="table">
                         <thead>
                         {#                        <th></th>#}
@@ -93,7 +96,7 @@
                     </table>
                 </div>
 
-                <div class="card-body dashboard-table">
+                <div class="card-body dashboard-table" v-show="objects.length > 0">
                     <table class="table">
                         <thead>
                         <tr>

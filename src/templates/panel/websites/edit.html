@@ -1,0 +1,268 @@
+{% extends "designs/coreui.html" %}
+
+{% block title %}
+    {% if operation == "edit" %}
+        Edit user
+    {% else %}
+        Create new user
+    {% endif %}
+{% endblock %}
+
+{% load humanize %}
+
+{% block breadcrumb %}
+
+
+{% endblock %}
+
+{% block content %}
+
+
+
+    <div class="row" id="app">
+        <div class="col-12">
+            {% if is_secretkey_insecure %}
+                <div class="alert alert-danger">
+                    <p>Your Django SECRET_KEY is using the default insecure key. Please generate and use a custom
+                        one.</p>
+                </div>
+            {% endif %}
+
+            <div class="card" v-if="!flag_loading">
+                <div class="card-header">
+
+                    <div class="d-flex justify-content-between">
+
+                        <div>
+                            {% if operation == "edit" %}
+                                Edit website: <span class="text-secondary">[[website.url]]</span>
+                            {% else %}
+                                Create new website
+                            {% endif %}
+                        </div>
+                        <div class="btn-toolbar d-none d-md-block" role="toolbar" aria-label="Toolbar with buttons">
+                            {% if request.user.role_is_staff and operation == "edit" %}
+                                <button @click="deleteWebsite" class="float-right btn btn-outline-danger btn-sm"><i
+                                        class="fa-solid fa-trash text-danger"></i> Delete
+                                    website
+                                </button>
+                            {% endif %}
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label for="formInput1" class="form-label">Title</label>
+                        <input type="text" class="form-control form-control-sm" id="formInput1"
+                               v-model="website.title" :class="{'is-invalid': form_errors.title }"/>
+
+
+                        <span class="text-danger" v-if="form_errors.title">[[form_errors.title]]</span>
+
+                    </div>
+                    <div class="mb-3">
+                        <label for="formInput6" class="form-label">url</label>
+                        <input type="text" class="form-control form-control-sm" id="formInput6"
+                               v-model="website.url" :class="{'is-invalid': form_errors.url }"/>
+
+                        <span class="text-danger" v-if="form_errors.url">[[form_errors.url]]</span>
+                    </div>
+
+                    <div class="mb-3">
+                        <div class="row">
+                            <div class="col-3">
+                                <label for="formInput2" class="form-label">Must contain keyword</label>
+                                <input type="text" class="form-control form-control-sm" id="formInput2"
+                                       v-model="website.must_contain_keyword"
+                                       :class="{'is-invalid': form_errors.must_contain_keyword }"/>
+                                <span class="text-danger"
+                                      v-if="form_errors.must_contain_keyword">[[form_errors.must_contain_keyword]]</span>
+
+                            </div>
+                            <div class="col-3">
+                                <label for="formInput3" class="form-label">Send random key to get around CDN
+                                    caching?</label><br/>
+                                <input type="checkbox" id="formInput3"
+                                       v-model="website.flag_cdn_random_key"
+                                       :class="{'is-invalid': form_errors.flag_cdn_random_key }"/>
+                                <span class="text-danger" v-if="form_errors.flag_cdn_random_key">[[form_errors.flag_cdn_random_key]]</span>
+
+                            </div>
+                            <div class="col-3">
+                                <label for="formInput3" class="form-label">Check SSL expiration time?</label><br/>
+                                <input type="checkbox" id="formInput3"
+                                       v-model="website.flag_check_ssl_expire_time"
+                                       :class="{'is-invalid': form_errors.flag_check_ssl_expire_time }"/>
+                                <span class="text-danger" v-if="form_errors.flag_check_ssl_expire_time">[[form_errors.flag_check_ssl_expire_time]]</span>
+
+                            </div>
+                            <div class="col-3">
+                                <label for="formInput3" class="form-label">Notify downtime?</label><br/>
+                                <input type="checkbox" id="formInput3"
+                                       v-model="website.flag_notify_downtime"
+                                       :class="{'is-invalid': form_errors.flag_notify_downtime }"/>
+                                <span class="text-danger" v-if="form_errors.flag_notify_downtime">[[form_errors.flag_notify_downtime]]</span>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="card-footer">
+                    <div class="d-grid">
+                        <button @click="saveWebsite" class="btn btn-success btn-block" style="color: #fff;">Save website
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block postflight %}
+    <script language="JavaScript">
+
+        axios.defaults.xsrfCookieName = 'csrftoken';
+        axios.defaults.xsrfHeaderName = 'X-CSRFToken';
+
+        Vue.mixin({
+            delimiters: ['[[', ']]']
+        });
+
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                message: "Ready",
+                flag_loading: true,
+                website: {
+                    title: null,
+                    url: null,
+                    must_contain_keyword: null,
+                    flag_cdn_random_key: false,
+                    flag_check_ssl_expire_time: false,
+                    flag_notify_downtime: null,
+                    id: null
+                },
+                form_errors: {}
+            },
+            methods: {
+                saveWebsite() {
+                    // trigger the "init" operations on server side
+                    var data = this.website;
+                    data.operation = "{{ operation }}";
+
+                    axios.post("{% url 'panel:api_websites_edit' %}", data).then((res) => {
+
+                        if (res.data && res.data.status) {
+                            if (res.data.status == 'okay') {
+
+                                this.flag_loading = false;
+                                var r = Date.now()
+                                window.location.replace(`{% url 'panel:index' %}?r=${r}`);
+
+                            } else if (res.data.status == 'error') {
+                                if (res.data.form_errors) {
+                                    this.form_errors = res.data.form_errors;
+                                }
+
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Oops...',
+                                    text: res.data.error, timer: 3000
+                                })
+                            }
+                        }
+                    }).catch(error => {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: error, timer: 3000
+                        })
+                    })
+                },
+                readWebsite() {
+                    axios.post("{% url 'panel:api_websites_read' %}", {'website_id': '{{ the_website.id }}'}).then((res) => {
+                        if (res.data && res.data.status) {
+                            if (res.data.status == 'okay') {
+
+                                this.flag_loading = false;
+                                this.website = res.data.object;
+
+
+                            } else if (res.data.status == 'error') {
+
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Oops...',
+                                    text: res.data.error, timer: 3000
+                                })
+                            }
+                        }
+                    }).catch(error => {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: error, timer: 3000
+                        })
+                    })
+
+                },
+                deleteWebsite() {
+
+                    Swal.fire({
+                        title: `Are you sure?`,
+                        text: `Are you sure you want to delete website ${this.website.url}?`,
+                        showDenyButton: true,
+
+                        confirmButtonText: 'Do not delete',
+                        denyButtonText: `Delete this website now`,
+                    }).then((result) => {
+
+                        axios.post("{% url 'panel:api_websites_delete' %}", {'website_id': '{{ the_website.id }}'}).then((res) => {
+                            if (res.data && res.data.status) {
+                                if (res.data.status == 'okay') {
+
+                                    this.flag_loading = false;
+                                    var r = Date.now();
+                                    window.location.replace(`{% url 'panel:index' %}?r=${r}`);
+
+                                } else if (res.data.status == 'error') {
+
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Oops...',
+                                        text: res.data.error, timer: 3000
+                                    })
+                                }
+                            }
+                        }).catch(error => {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: error, timer: 3000
+                            });
+                        });
+                    });
+
+
+                }
+            },
+            created() {
+
+                {% if operation == 'create' %}
+                    this.flag_loading = false;
+                {% else %}
+                    this.readWebsite();
+                {% endif %}
+            }
+        });
+
+
+    </script>
+
+{% endblock %}
