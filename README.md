@@ -77,7 +77,21 @@ A sample shell script will trigger the celery for recurring checks with minutes 
 
 
 
-Type ```python manage.py``` to check these Django commands are available for testing and house cleaning.
+Type ```python manage.py``` to check for the default Django management commands available:
+
+```
+migrate
+createsuperuser
+changepassword
+```
+
+```python manage.py migrate``` will create database schema on your database settings. It should automatically run by manage.py the first time though.
+
+```python manage.py createsuperuser``` allows you to create superuser at the command line.
+
+```python manage.py changepassword``` let you change password for any user in the system.
+
+These Uptime Checker commands are available for testing and house cleaning.
 ```
 checksites
 remove_expired_uptimes
