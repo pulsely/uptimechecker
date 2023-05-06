@@ -46,7 +46,8 @@
 <div class="sidebar sidebar-dark sidebar-fixed" id="sidebar">
     <div class="sidebar-brand d-none d-md-flex">
 
-        <img src="/lookandfeel/images/logo-dark-background.svg" class="mx-4 img-fluid" onclick="window.open('{% url 'panel:index' %}');" style="cursor: pointer;" />
+        <img src="/lookandfeel/images/logo-dark-background.svg" class="mx-4 img-fluid"
+             onclick="window.open('{% url 'panel:index' %}');" style="cursor: pointer;"/>
         {% comment %}
         <svg class="sidebar-brand-full" width="118" height="46" alt="Uptime Checker">
 
@@ -75,15 +76,15 @@
         {% endcomment %}
 
         {% if request.user.role_is_staff %}
-        <li class="nav-title">Settings</li>
+            <li class="nav-title">Settings</li>
 
-        <li class="nav-item"><a class="nav-link" href="{% url 'panel:configurations' %}">
-            <i class="fa-solid fa-gear nav-icon"></i>
-            Configurations</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'panel:configurations' %}">
+                <i class="fa-solid fa-gear nav-icon"></i>
+                Configurations</a></li>
 
-        <li class="nav-item"><a class="nav-link" href="{% url 'panel:users' %}">
-            <i class="fa-solid fa-users nav-icon"></i>
-            Users</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'panel:users' %}">
+                <i class="fa-solid fa-users nav-icon"></i>
+                Users</a></li>
         {% endif %}
         <li class="nav-divider"></li>
         <li class="nav-item mt-auto"><a class="nav-link" href="{% url 'help:index' %}"
@@ -114,6 +115,7 @@
                 {% endcomment %}
             </a>
             <ul class="header-nav d-none d-md-flex">
+
                 <li class="nav-item">{{ title }}</li>
             </ul>
 
@@ -176,6 +178,8 @@
                     <li class="breadcrumb-item">
                         <a href="{% url 'panel:index' %}"><i class="fa-solid fa-house"></i></a>
                     </li>
+                                                {% block breadcrumb %}{% endblock %}
+
                     <li class="breadcrumb-item active"><span>{{ title }}</span></li>
                 </ol>
             </nav>
@@ -192,7 +196,7 @@
         <div><a href="https://www.pulsely.com/products/uptime-checker/" class="no-underline-link">Uptime Checker</a>
         </div>
         <div class="ms-auto">&copy 2023 <a href="https://www.pulsely.com/"
-                                                                    class="no-underline-link">Pulsely</a></div>
+                                           class="no-underline-link">Pulsely</a></div>
     </footer>
 </div>
 <script defer src="/lookandfeel/fontawesome-free-6.2.0/js/all.min.js"></script>

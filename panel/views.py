@@ -1,4 +1,4 @@
-from django.shortcuts import render, HttpResponseRedirect
+from django.shortcuts import render, HttpResponseRedirect, get_object_or_404
 from django.http import HttpResponse, JsonResponse
 from django.contrib.auth import get_user_model
 
@@ -76,13 +76,38 @@ def configurations(request):
 @never_cache
 @user_passes_test(staff_privilege_check)
 def users(request):
-    return render(request, "panel/users.html",
+    return render(request, "panel/users/index.html",
                   {
                       'title': 'Users',
 
                       'is_secretkey_insecure': is_secretkey_insecure,
                   })
 
+@never_cache
+@user_passes_test(staff_privilege_check)
+def users_create(request):
+    return render(request, "panel/users/edit.html",
+                  {
+                      'title': 'Create new user',
+
+                      'is_secretkey_insecure': is_secretkey_insecure,
+
+                      'operation' : "create",
+                  })
+
+@never_cache
+@user_passes_test(staff_privilege_check)
+def users_edit(request, user_id):
+
+    the_user = get_object_or_404( User, id=user_id )
+
+    return render(request, "panel/users/edit.html",
+                  {
+                      'title': 'User edit',
+                      'is_secretkey_insecure': is_secretkey_insecure,
+                      'operation': "edit",
+                      'the_user' : the_user,
+                  })
 
 @api_view(['GET', 'POST', ])
 @authentication_classes((SessionAuthentication,))
@@ -205,19 +230,94 @@ def api_users_list(request):
         'objects' : objects,
     })
 
+@api_view(['GET', 'POST', ])
+# @authentication_classes((JWTAuthentication, SessionAuthentication))
+@authentication_classes((SessionAuthentication,))
+@permission_classes((IsStaffAuthenticated,))
+def api_users_read(request):
+    f = forms.ReadUserForm(request.data)
+    if f.is_valid():
+        the_user = User.objects.get(id=f.cleaned_data['user_id'])
+
+        d = {
+        }
+        for field in ['username', 'first_name', 'last_name', 'role', 'email', 'id']:
+            d[field] = getattr( the_user, field )
+        if settings.DEBUG:
+            print(d)
+        return JsonResponse({
+            'status' : 'okay',
+            'object' : d
+        })
+    else:
+        return JsonResponse({
+            'status' : 'error',
+            'error' : 'Invalid user ID'
+        })
 
 @api_view(['GET', 'POST', ])
 # @authentication_classes((JWTAuthentication, SessionAuthentication))
 @authentication_classes((SessionAuthentication,))
 @permission_classes((IsStaffAuthenticated,))
-def api_users_create(request):
+def api_users_edit(request):
+    if settings.DEBUG:
+        print(f'{colorama.Fore.RED}request.data(){colorama.Style.RESET_ALL} {request.data}')
+
+    if request.data["operation"] == "edit":
+        f = forms.EditUserForm(request.data)
+    else:
+        f = forms.AddUserForm(request.data)
+
+    if f.is_valid():
+        if settings.DEBUG:
+            print(f'{colorama.Fore.RED}f.is_valid(){colorama.Style.RESET_ALL} {request.data}')
+
+        if f.cleaned_data["operation"] not in ["edit", "create"]:
+            return JsonResponse({
+                'status' : 'error',
+                'error' : 'Invalid operation'
+            })
+
+        # if operation is "create"
+        if f.cleaned_data["operation"] == "edit":
+            try:
+                the_user = User.objects.get(id=f.cleaned_data["id"])
+            except:
+                return JsonResponse({
+                    'status' : 'error',
+                    'error' : "User does not exist"
+                })
+        else:
+            the_user = User.objects.create_user( f.cleaned_data['username'], f.cleaned_data["email"], f.cleaned_data["password"])
+        the_user.first_name = f.cleaned_data["first_name"]
+        the_user.last_name = f.cleaned_data["last_name"]
+        the_user.role = f.cleaned_data["role"]
+        if the_user.role == "admin":
+            the_user.is_staff = True
+        the_user.save()
 
 
+        return JsonResponse({
+            'status': 'okay',
+            #'objects' : objects,
+        })
 
-    return JsonResponse({
-        'status': 'okay',
-        #'objects' : objects,
-    })
+    else:
+        form_errors = {}
+        for e in f.errors.items():
+            print(e)
+            form_errors[ e[0] ] = e[1][0]
+
+        if settings.DEBUG:
+            print(f'{colorama.Fore.RED}not f.is_valid(){colorama.Style.RESET_ALL}')
+            print( form_errors )
+
+
+        return JsonResponse({
+            'status': 'error',
+            'form_errors': form_errors,
+            'error': "Form not valid",
+        })
 
 
 @api_view(['GET', 'POST', ])

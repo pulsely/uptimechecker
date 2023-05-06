@@ -64,7 +64,7 @@
                             {#                            </td>#}
                             <td>
                                 <span v-show="object.title">
-                                    <span>[[object.title]]</span><br/>
+                                    <span class="text-primary">[[object.title]]</span><br/>
                                     <a :href="object.target_website_url" target="_blank"
                                        class="no-underline-link small">[[object.target_website_url]]</a>
                                 </span>
@@ -81,7 +81,7 @@
                             {#                                <br/>#}
                             {#                                <span class="small text-danger">[[object.previous_exception.status_display]]</span>#}
                             {#                            </span>#}
-{#                            </td>#}
+                            {#                            </td>#}
 
                             <td v-if="object.uptimes && object.uptimes.length > 0" class="text-center">
                                 <span :class="buttonClassForStatus(object.uptimes[0].status)">[[object.uptimes[0].status_display]]</span>
@@ -96,21 +96,22 @@
                 <div class="card-body dashboard-table">
                     <table class="table">
                         <thead>
-                        <th></th>
-                        <th>
-                            Website
-                        </th>
-                        <th>SSL Expiration</th>
-                        <th>Previous Exception</th>
-                        <th>Status 0</th>
-                        <th>Status -1</th>
+                        <tr>
+                            <th></th>
+                            <th>
+                                Website
+                            </th>
+                            <th>SSL Expiration</th>
+                            <th>Previous Exception</th>
+                            <th>Status 0</th>
+                            <th>Status -1</th>
 
-                        <th>Status -2</th>
+                            <th>Status -2</th>
 
-                        <th>Status -3</th>
+                            <th>Status -3</th>
 
-                        <th>Status -4</th>
-
+                            <th>Status -4</th>
+                        </tr>
                         </thead>
                         <tbody>
                         <tr class="tableHoverRow " v-for="object in objects" :key="object.id">
@@ -121,7 +122,7 @@
                             </td>
                             <td>
                                 <span v-show="object.title">
-                                    <span>[[object.title]]</span><br/>
+                                    <span class="text-primary">[[object.title]]</span><br/>
                                     <a :href="object.target_website_url" target="_blank"
                                        class="no-underline-link small">[[object.target_website_url]]</a>
                                 </span>
@@ -197,7 +198,6 @@
 
                     // trigger the "init" operations on server side
                     axios.post("{% url 'panel:api_uptime_list' %}", data).then((res) => {
-                        console.log(res.data)
                         if (res.data && res.data.status) {
                             if (res.data.status == 'okay') {
                                 this.objects = res.data.objects;
