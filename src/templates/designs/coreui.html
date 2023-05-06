@@ -47,7 +47,7 @@
     <div class="sidebar-brand d-none d-md-flex">
 
         <img src="/lookandfeel/images/logo-dark-background.svg" class="mx-4 img-fluid"
-             onclick="window.open('{% url 'panel:index' %}');" style="cursor: pointer;"/>
+             onclick="window.open('{% url 'panel:index' %}');" style="cursor: pointer; min-width: 200px;"/>
         {% comment %}
         <svg class="sidebar-brand-full" width="118" height="46" alt="Uptime Checker">
 
@@ -156,11 +156,19 @@
                         </div>
 
 
+                        {% if request.user.is_staff %}
                         <a class="dropdown-item" href="#">
                             <svg class="icon me-2">
                                 <use xlink:href="/lookandfeel/coreui-free-2.1.2/vendors/@coreui/icons/svg/free.svg#cil-settings"></use>
                             </svg>
                             Settings</a>
+                        {% endif %}
+                         <a class="dropdown-item" href="{% url 'panel:change_password' %}">
+                            <span class=" me-2">
+                                <i class="fas fa-unlock"></i>
+                            </span>
+                            Change password</a>
+
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="{% url 'panel:logout' %}">
                             <svg class="icon me-2">
@@ -185,7 +193,7 @@
             </nav>
 
             {% if flag_show_create_website_button %}
-            <a href="{% url 'panel:websites_create' %}" class="btn btn-success text-white"><i
+            <a href="{% url 'panel:websites_create' %}" class="btn btn-success text-white btn-sm"><i
                                     class="fa-solid fa-plus"></i> Add new website</a>
             {% endif %}
         </div>

@@ -59,7 +59,7 @@
 
                         </thead>
                         <tbody>
-                        <tr class="tableHoverRow " v-for="object in objects" :key="object.id" @click="websiteDetail(object)">
+                        <tr class="tableHoverRow " v-for="object in objects" :key="object.id" {% if request.user.is_staff %}@click="websiteDetail(object)"{% endif %}>
                             {#                            <td>#}
                             {#                                <button class="btn btn-dark text-white btn-sm"#}
                             {#                                        @click="triggerSingleHost($event, object.id)"><i#}
@@ -68,7 +68,7 @@
                             <td>
                                 <span v-show="object.title">
                                     <span class="text-primary">[[object.title]]</span><br/>
-                                    <a :href="object.target_website_url" target="_blank"
+                                    <span @click.stop="gotoWebsite(object)"
                                        class="no-underline-link small">[[object.target_website_url]]</a>
                                 </span>
 
@@ -117,7 +117,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr class="tableHoverRow " v-for="object in objects" :key="object.id" @click="websiteDetail(object)">
+                        <tr class="tableHoverRow " v-for="object in objects" :key="object.id"  {% if request.user.is_staff %}@click="websiteDetail(object)"{% endif %}>
                             <td>
                                 <button class="btn btn-dark text-white btn-sm"
                                         @click.stop="triggerSingleHost($event, object.id)"><i
@@ -125,8 +125,8 @@
                             </td>
                             <td>
                                 <span v-show="object.title">
-                                    <span class="text-primary">[[object.title]]</span><br/>
-                                    <a :href="object.target_website_url" target="_blank"
+                                    <span class="text-primary" @click.stop.prevent="gotoWebsite(object)">[[object.title]]</span><br/>
+                                    <span @click.stop.prevent="gotoWebsite(object)"
                                        class="no-underline-link small">[[object.target_website_url]]</a>
                                 </span>
 
@@ -304,6 +304,9 @@
 
                         })
                     })
+                },
+                gotoWebsite(website) {
+                    window.open(website.target_website_url);
                 },
                 websiteDetail(website) {
                     window.location.replace( `/panel/website/edit/${website.id}/`);

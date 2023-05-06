@@ -110,6 +110,32 @@ def users_edit(request, user_id):
                       'the_user' : the_user,
                   })
 
+@never_cache
+@user_passes_test(staff_privilege_check)
+def users_reset_password(request, user_id):
+    the_user = get_object_or_404( User, id=user_id )
+
+    return render(request, "panel/users/reset_password.html",
+                  {
+                      'title': f'Reset password for {the_user.username}',
+                      'is_secretkey_insecure': is_secretkey_insecure,
+                      'operation': "edit",
+                      'the_user' : the_user,
+                  })
+
+@never_cache
+@user_passes_test(operator_privilege_check)
+def change_password(request):
+    the_user = request.user
+
+    return render(request, "panel/users/change_password.html",
+                  {
+                      'title': f'Change password for {the_user.username}',
+                      'is_secretkey_insecure': is_secretkey_insecure,
+                      'operation': "edit",
+                      'the_user' : the_user,
+                  })
+
 
 @never_cache
 @user_passes_test(staff_privilege_check)
@@ -288,18 +314,12 @@ def api_users_read(request):
 @authentication_classes((SessionAuthentication,))
 @permission_classes((IsStaffAuthenticated,))
 def api_users_edit(request):
-    if settings.DEBUG:
-        print(f'{colorama.Fore.RED}request.data(){colorama.Style.RESET_ALL} {request.data}')
-
     if request.data["operation"] == "edit":
         f = forms.EditUserForm(request.data)
     else:
         f = forms.AddUserForm(request.data)
 
     if f.is_valid():
-        if settings.DEBUG:
-            print(f'{colorama.Fore.RED}f.is_valid(){colorama.Style.RESET_ALL} {request.data}')
-
         if f.cleaned_data["operation"] not in ["edit", "create"]:
             return JsonResponse({
                 'status' : 'error',
@@ -366,6 +386,64 @@ def api_users_delete(request):
             'error' : 'Invalid User ID'
         })
 
+@api_view(['GET', 'POST', ])
+# @authentication_classes((JWTAuthentication, SessionAuthentication))
+@authentication_classes((SessionAuthentication,))
+@permission_classes((IsStaffAuthenticated,))
+def api_users_reset_password(request):
+    f = forms.ResetPasswordForm(request.data)
+    if f.is_valid():
+        the_user = User.objects.get(id=f.cleaned_data["user_id"])
+        the_user.set_password(f.cleaned_data["new_password"])
+        the_user.save()
+
+        return JsonResponse({
+            'status': 'okay',
+        })
+    else:
+        form_errors = {}
+        for e in f.errors.items():
+            print(e)
+            form_errors[e[0]] = e[1][0]
+
+        if settings.DEBUG:
+            print(f'{colorama.Fore.RED}not f.is_valid(){colorama.Style.RESET_ALL}')
+            print(form_errors)
+
+        return JsonResponse({
+            'status': 'error',
+            'form_errors': form_errors,
+            'error': "Form not valid",
+        })
+
+@api_view(['GET', 'POST', ])
+# @authentication_classes((JWTAuthentication, SessionAuthentication))
+@authentication_classes((SessionAuthentication,))
+@permission_classes((IsOperatorAuthenticated,))
+def api_users_change_password(request):
+    if settings.DEBUG:
+        print(request.data)
+
+    f = forms.ChangePasswordForm(request.data)
+    if f.is_valid():
+        the_user = request.user
+        the_user.set_password(f.cleaned_data["new_password"])
+        the_user.save()
+    else:
+        form_errors = {}
+        for e in f.errors.items():
+            print(e)
+            form_errors[e[0]] = e[1][0]
+
+        if settings.DEBUG:
+            print(f'{colorama.Fore.RED}not f.is_valid(){colorama.Style.RESET_ALL}')
+            print(form_errors)
+
+        return JsonResponse({
+            'status': 'error',
+            'form_errors': form_errors,
+            'error': "Unable to change password",
+        })
 
 
 @api_view(['GET', 'POST', ])
@@ -373,7 +451,6 @@ def api_users_delete(request):
 @authentication_classes((SessionAuthentication,))
 @permission_classes((IsStaffAuthenticated,))
 def api_websites_read(request):
-    print(request.data)
     f = forms.ReadWebsiteForm(request.data)
     if f.is_valid():
         the_website = models.TargetWebsite.objects.get(id=f.cleaned_data['website_id'])
@@ -398,19 +475,9 @@ def api_websites_read(request):
 @authentication_classes((SessionAuthentication,))
 @permission_classes((IsStaffAuthenticated,))
 def api_websites_edit(request):
-    if settings.DEBUG:
-        print(f'{colorama.Fore.RED}request.data(){colorama.Style.RESET_ALL} {request.data}')
-
-    # if request.data["operation"] == "edit":
-    #     f = forms.EditWebsiteForm(request.data)
-    # else:
-    #     f = forms.AddWebsiteForm(request.data)
     f = forms.EditWebsiteForm(request.data)
 
     if f.is_valid():
-        if settings.DEBUG:
-            print(f'{colorama.Fore.RED}f.is_valid(){colorama.Style.RESET_ALL} {request.data}')
-
         if f.cleaned_data["operation"] not in ["edit", "create"]:
             return JsonResponse({
                 'status': 'error',
@@ -459,8 +526,6 @@ def api_websites_edit(request):
 @authentication_classes((SessionAuthentication,))
 @permission_classes((IsStaffAuthenticated,))
 def api_websites_delete(request):
-    if settings.DEBUG:
-        print(request.data)
     f = forms.DeleteWebsiteForm( request.data )
     if f.is_valid():
         the_website = models.TargetWebsite.objects.get(id=f.cleaned_data["website_id"])
@@ -477,7 +542,7 @@ def api_websites_delete(request):
 
 @never_cache
 @user_passes_test(operator_privilege_check)
-def crm_logout(request):
+def logout_(request):
     logout(request)
 
     return HttpResponseRedirect("/")  # reverse("landing:index")

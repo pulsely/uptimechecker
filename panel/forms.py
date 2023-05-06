@@ -29,6 +29,14 @@ class DeleteUserForm(forms.Form):
 class ReadUserForm(forms.Form):
     user_id = forms.IntegerField()
 
+class ResetPasswordForm(forms.Form):
+    user_id = forms.IntegerField()
+    new_password = forms.CharField(widget=widgets.PasswordInput(attrs={'class': 'form-control'}),validators=[validate_password])
+
+class ChangePasswordForm(forms.Form):
+    current_password = forms.CharField(widget=widgets.PasswordInput(attrs={'class': 'form-control'}),validators=[validate_password])
+    new_password = forms.CharField(widget=widgets.PasswordInput(attrs={'class': 'form-control'}),validators=[validate_password])
+
 # Websites
 
 class EditWebsiteForm(forms.Form):

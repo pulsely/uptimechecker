@@ -11,6 +11,9 @@ urlpatterns = [
     path('users/', views.users, name="users"),
     path('users/create/', views.users_create, name="users_create"),
     path('users/edit/<int:user_id>/', views.users_edit, name="users_edit"),
+    path('users/reset-password/<int:user_id>/', views.users_reset_password, name="users_reset_password"),
+    path('users/change-password/', views.change_password, name="change_password"),
+
 
     path('website/create/', views.websites_create, name="websites_create"),
     path('website/edit/<uuid:website_id>/', views.websites_edit, name="websites_edit"),
@@ -26,6 +29,9 @@ urlpatterns = [
     path('api/users/edit/', views.api_users_edit, name="api_users_edit"),
     path('api/users/delete/', views.api_users_delete, name="api_users_delete"),
 
+    path('api/users/reset-password/', views.api_users_reset_password, name="api_users_reset_password"),
+    path('api/users/change-password/', views.api_users_change_password, name="api_users_change_password"),
+
     path('api/websites/read/', views.api_websites_read, name="api_websites_read"),
     path('api/websites/edit/', views.api_websites_edit, name="api_websites_edit"),
     path('api/websites/delete/', views.api_websites_delete, name="api_websites_delete"),
@@ -33,6 +39,6 @@ urlpatterns = [
 
 
     # Logout
-    path('logout/', views.logout, name="logout"),
+    path('logout/', views.logout_, name="logout"),
 
 ]
