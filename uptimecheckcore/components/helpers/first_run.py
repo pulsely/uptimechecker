@@ -47,7 +47,6 @@ def create_first_user():
     the_user = User.objects.create_user( username, '', password)
     the_user.is_staff = True
     the_user.is_superuser = True
-    the_user.is_super
     the_user.save()
     print("User created. You can now sign in.")
 
