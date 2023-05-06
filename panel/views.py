@@ -30,6 +30,7 @@ import colorama, threading
 from uptimebot import models
 from uptimecheckcore.components.helpers.configurations import is_secretkey_insecure
 from uptimebot.handler import check_domains, check_domain
+from . import forms
 
 User = get_user_model()
 
@@ -224,9 +225,19 @@ def api_users_create(request):
 @authentication_classes((SessionAuthentication,))
 @permission_classes((IsStaffAuthenticated,))
 def api_users_delete(request):
-    return JsonResponse({
-        'status': 'okay',
-    })
+    f = forms.DeleteUserForm( request.data )
+    if f.is_valid():
+        the_user = User.objects.get(id=f.cleaned_data["user_id"])
+        the_user.delete()
+
+        return JsonResponse({
+            'status' : 'okay',
+        })
+    else:
+        return JsonResponse({
+            'status': 'error',
+            'error' : 'Invalid User ID'
+        })
 
 @never_cache
 @user_passes_test(operator_privilege_check)

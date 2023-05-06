@@ -35,7 +35,8 @@
                         </th>
                         <th>First Name</th>
                         <th>Last Name</th>
-                        <th>Role</th>
+                        <th>Role
+                        <th style="width: 40px;"></th>
 
                         </thead>
                         <tbody>
@@ -44,13 +45,19 @@
                                 [[object.username]]
                             </td>
                             <td>
+                                <span v-show="!object.first_name">-</span>
                                 [[object.first_name]]
                             </td>
-                            <td>
+                            <td><span v-show="!object.last_name">-</span>
+
                                 [[object.last_name]]
                             </td>
                             <td>
                                 [[object.role_display]]
+                            </td>
+                            <td>
+                                <button @click="deleteUser(object)" class="btn btn-sm btn-danger"><i
+                                        class="fa-solid fa-trash" style="color: #fff;"></i></button>
                             </td>
                         </tr>
                         </tbody>
@@ -106,6 +113,47 @@
                         })
                     })
                 },
+                deleteUser(user) {
+                    Swal.fire({
+                        title: `Are you sure you want to delete user with username ${user.username}?`,
+                          showDenyButton: true,
+
+                        confirmButtonText: 'Do not delete',
+                        denyButtonText: `Delete this user now`,
+                    }).then((result) => {
+                        /* Read more about isConfirmed, isDenied below */
+                        if (result.isDenied) {
+                            // trigger the "init" operations on server side
+                            var data = {
+                                "user_id": user.id,
+                            };
+                            axios.post("{% url 'panel:api_users_delete' %}", data).then((res) => {
+                                console.log(res.data)
+                                if (res.data && res.data.status) {
+                                    if (res.data.status == 'okay') {
+                                        this.objects = res.data.objects;
+                                        //this.paginator = res.data.paginator;
+
+                                        this.flag_loading = false;
+
+                                        this.loadObjects();
+
+                                    }
+                                }
+                            }).catch(error => {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Oops...',
+                                    text: error, timer: 3000
+                                })
+                            })
+                        } else if (result.isDenied) {
+                            Swal.fire('Changes are not saved', '', 'info')
+                        }
+                    })
+
+
+                }
             },
             created() {
                 this.loadObjects();
