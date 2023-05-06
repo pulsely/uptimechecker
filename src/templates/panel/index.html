@@ -81,7 +81,7 @@
                             {#                                <br/>#}
                             {#                                <span class="small text-danger">[[object.previous_exception.status_display]]</span>#}
                             {#                            </span>#}
-                            </td>
+{#                            </td>#}
 
                             <td v-if="object.uptimes && object.uptimes.length > 0" class="text-center">
                                 <span :class="buttonClassForStatus(object.uptimes[0].status)">[[object.uptimes[0].status_display]]</span>
@@ -200,7 +200,7 @@
                         console.log(res.data)
                         if (res.data && res.data.status) {
                             if (res.data.status == 'okay') {
-                                this.objects = res.data.results;
+                                this.objects = res.data.objects;
                                 //this.paginator = res.data.paginator;
 
                                 this.flag_loading = false;

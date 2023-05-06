@@ -1,7 +1,7 @@
 {% extends "designs/coreui.html" %}
 
 {% block title %}
-    User
+    Users
 {% endblock %}
 
 {% load humanize %}
@@ -18,6 +18,46 @@
                 </div>
             {% endif %}
 
+            <div class="card">
+                <div class="card-header">
+
+
+                    [[objects.length]] Users
+
+                </div>
+
+                {% comment %}XS size{% endcomment %}
+                <div class="card-body ">
+                    <table class="table">
+                        <thead>
+                        <th>
+                            Username
+                        </th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Role</th>
+
+                        </thead>
+                        <tbody>
+                        <tr class="tableHoverRow " v-for="object in objects" :key="object.id">
+                            <td class="font-weight-bold">
+                                [[object.username]]
+                            </td>
+                            <td>
+                                [[object.first_name]]
+                            </td>
+                            <td>
+                                [[object.last_name]]
+                            </td>
+                            <td>
+                                [[object.role_display]]
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
 
         </div>
     </div>
@@ -39,11 +79,36 @@
             data: {
                 message: "Ready",
                 flag_loading: false,
+                objects: []
             },
             methods: {
+                loadObjects() {
+                    this.flag_loading = true;
+                    const data = {};
 
+                    // trigger the "init" operations on server side
+                    axios.post("{% url 'panel:api_users_list' %}", data).then((res) => {
+                        console.log(res.data)
+                        if (res.data && res.data.status) {
+                            if (res.data.status == 'okay') {
+                                this.objects = res.data.objects;
+                                //this.paginator = res.data.paginator;
+
+                                this.flag_loading = false;
+
+                            }
+                        }
+                    }).catch(error => {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: error, timer: 3000
+                        })
+                    })
+                },
             },
             created() {
+                this.loadObjects();
 
             }
         });

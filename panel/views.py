@@ -1,5 +1,6 @@
 from django.shortcuts import render, HttpResponseRedirect
 from django.http import HttpResponse, JsonResponse
+from django.contrib.auth import get_user_model
 
 from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth import logout
@@ -30,6 +31,7 @@ from uptimebot import models
 from uptimecheckcore.components.helpers.configurations import is_secretkey_insecure
 from uptimebot.handler import check_domains, check_domain
 
+User = get_user_model()
 
 @never_cache
 @user_passes_test(operator_privilege_check)
@@ -128,7 +130,7 @@ def api_uptime_list(request):
         })
 
     return JsonResponse({
-        'results': results,
+        'objects': results,
         'status': 'okay'
     })
 
@@ -183,9 +185,23 @@ def api_trigger_refresh(request):
 @authentication_classes((SessionAuthentication,))
 @permission_classes((IsStaffAuthenticated,))
 def api_users_list(request):
+    objects = []
+    for user in User.objects.all():
+        objects.append({
+            'id' : user.id,
+            'username' : user.username,
+            'first_name' : user.first_name,
+            'last_name' : user.last_name,
+            'role' : user.role,
+
+            'role_display' : user.get_role_display(),
+            'is_staff': user.is_staff,
+            'date_joined' : user.date_joined.timestamp() if user.date_joined else None,
+        })
 
     return JsonResponse({
         'status' : 'okay',
+        'objects' : objects,
     })
 
 
@@ -194,8 +210,12 @@ def api_users_list(request):
 @authentication_classes((SessionAuthentication,))
 @permission_classes((IsStaffAuthenticated,))
 def api_users_create(request):
+
+
+
     return JsonResponse({
         'status': 'okay',
+        #'objects' : objects,
     })
 
 
