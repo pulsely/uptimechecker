@@ -178,15 +178,17 @@ def post_email_notification( target_website, status, title, body ):
     for user in User.objects.all():
         if user.email:
             emails.append(user.email)
-
-    send_mail(
-        title,
-        body,
-        settings.SERVER_EMAIL,
-        emails,
-        fail_silently=False,
-    )
-
+    try:
+        send_mail(
+            title,
+            body,
+            settings.SERVER_EMAIL,
+            emails,
+            fail_silently=False,
+        )
+    except Exception as e:
+        if settings.DEBUG:
+            print(f"{colorama.Fore.RED}Error sending e-mail: %s" % e)
 
 def remove_expired_uptimes():
     previous_cutoff = timezone.now() - datetime.timedelta(days=3)
