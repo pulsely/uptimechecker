@@ -49,11 +49,11 @@ def index(request):
 @never_cache
 @user_passes_test(staff_privilege_check)
 def configurations(request):
+
     return render(request, "panel/configurations.html",
                   {
                       'title': 'Configurations',
 
-                      'is_secretkey_insecure': is_secretkey_insecure,
 
                       'DATABASES': settings.DATABASES,
 
@@ -71,6 +71,11 @@ def configurations(request):
                       'DEFAULT_PERIODIC_MINUTES_': settings.DEFAULT_PERIODIC_MINUTES,
                       'DEFAULT_ADD_RANDOMNESS' : settings.DEFAULT_ADD_RANDOMNESS,
                       'DEFAULT_PERIODIC_MINUTES' : settings.DEFAULT_PERIODIC_MINUTES,
+
+                      'EMAIL_BACKEND' : settings.EMAIL_BACKEND,
+                      'AWS_SES_REGION_NAME' : settings.AWS_SES_REGION_NAME,
+                      'AWS_SES_REGION_ENDPOINT' : settings.AWS_SES_REGION_ENDPOINT,
+                      'SERVER_EMAIL' : settings.SERVER_EMAIL,
 
                   })
 

@@ -11,23 +11,7 @@
 
     <div class="row" id="app">
         <div class="col-12">
-            {% if is_secretkey_insecure %}
-                <div class="alert alert-danger">
-                    <p>Your Django SECRET_KEY is using the default insecure key. Please generate and use a custom
-                        one.</p>
-                </div>
-            {% else %}
-                <div class="card mb-4">
-                    <div class="card-header">
-                        <i class="fa-solid fa-circle-check text-success"></i> Django SECRET_KEY
-                    </div>
-                    <div class="card-body">
-                        <p>Your Django SECRET_KEY seems to be generated with custom key. Good job!</p>
-
-                    </div>
-                </div>
-            {% endif %}
-
+            <p>Configuration details are available at the <a href="https://github.com/pulsely/uptimechecker/">Uptime Checker Github page</a>.</p>
 
             <div class="card mb-4">
                 <div class="card-header">
@@ -40,13 +24,15 @@
 
                     {% endif %}
                 </div>
+
+
                 <div class="card-body">
                     {% if DEBUG_ %}
 
                         <p>You are using DEBUG mode in Django. Please do not enable this mode on deployment.</p>
 
-                        <p>Try setting the DEBUG mode in .env file to false:<br />
-                        <span class="text-primary">DEBUG=false</span></p>
+                        <p>Try setting the DEBUG mode in .env file to false:<br/>
+                            <span class="text-primary">DEBUG=false</span></p>
 
                     {% else %}
                         You are not using DEBUG mode in Django. Great!
@@ -55,7 +41,79 @@
 
                 </div>
             </div>
+            <div class="card mb-3">
+                <div class="card-header">
+                    <i class="fa-solid fa-circle-check text-success"></i> Defaults
+                </div>
+                <div class="card-body">
+                    <div class="row small">
+                        <div class="col-md-4 col-12 font-weight-bold text-sm-end font-weight-bold text-black mb-1">
+                            DEFAULT_USER_AGENT
+                        </div>
+                        <div class="col-md-8 col-12 text-dark mb-1">
+                            {{ DEFAULT_USER_AGENT }}
+                        </div>
 
+                        <div class="col-md-4 col-12 font-weight-bold text-sm-end font-weight-bold text-black mb-1">
+                            DEFAULT_PERIODIC_MINUTES
+                        </div>
+                        <div class="col-md-8 col-12 text-dark mb-1">
+                            {{ DEFAULT_PERIODIC_MINUTES }}
+                        </div>
+                        <div class="col-md-4 col-12 font-weight-bold text-sm-end font-weight-bold text-black mb-1">
+                            DEFAULT_ADD_RANDOMNESS
+                        </div>
+                        <div class="col-md-8 col-12 text-dark mb-1">
+                            {{ DEFAULT_ADD_RANDOMNESS }}
+                        </div>
+
+                        <div class="col-md-4 col-12 font-weight-bold text-sm-end font-weight-bold text-black">
+                            DEFAULT_PERIODIC_MINUTES
+                        </div>
+                        <div class="col-md-8 col-12 text-dark">
+                            {{ DEFAULT_PERIODIC_MINUTES }}
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+            </div>
+            <div class="card mb-3">
+                <div class="card-header">
+                    <i class="fa-solid fa-circle-check text-success"></i> E-mail Settings
+                </div>
+                <div class="card-body">
+                    <div class="row small">
+                        <div class="col-md-4 col-12 font-weight-bold text-sm-end font-weight-bold text-black mb-1">
+                            EMAIL_BACKEND
+                        </div>
+                        <div class="col-md-8 col-12 text-dark">
+                            {{ EMAIL_BACKEND }}
+                        </div>
+                        <div class="col-md-4 col-12 font-weight-bold text-sm-end font-weight-bold text-black mb-1">
+                            AWS_SES_REGION_NAME
+                        </div>
+                        <div class="col-md-8 col-12 text-dark">
+                            {{ AWS_SES_REGION_NAME }}
+                        </div>
+
+                        <div class="col-md-4 col-12 font-weight-bold text-sm-end font-weight-bold text-black mb-1">
+                            AWS_SES_REGION_ENDPOINT
+                        </div>
+                        <div class="col-md-8 col-12 text-dark mb-1">
+                            {{ AWS_SES_REGION_ENDPOINT }}
+                        </div>
+                        <div class="col-md-4 col-12 font-weight-bold text-sm-end font-weight-bold text-black">
+                            SERVER_EMAIL
+                        </div>
+                        <div class="col-md-8 col-12 text-dark">
+                            {{ SERVER_EMAIL }}
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="card mb-4">
                 <div class="card-header">
                     <i class="fa-solid fa-circle-check text-success"></i> ALLOWED_HOSTS
@@ -79,10 +137,10 @@
                     {% for k,v in DATABASES.default.items %}
                         {% if v %}
                             <div class="row small">
-                                <div class="col-md-4 col-12 font-weight-bold text-sm-end font-weight-bold text-black">
+                                <div class="col-md-4 col-12 font-weight-bold text-sm-end font-weight-bold text-black mb-1">
                                     {{ k }}
                                 </div>
-                                <div class="col-md-8 col-12 text-dark">
+                                <div class="col-md-8 col-12 text-dark mb-1">
                                     {{ v }}
                                 </div>
                             </div>
@@ -106,33 +164,32 @@
                 </div>
                 <div class="card-body">
                     <div class="row small">
-                        <div class="col-md-4 col-12 font-weight-bold text-sm-end font-weight-bold text-black">
+                        <div class="col-md-4 col-12 font-weight-bold text-sm-end font-weight-bold text-black mb-1">
                             CELERY_TIMEZONE
                         </div>
                         <div class="col-md-8 col-12 text-dark">
                             {{ CELERY_TIMEZONE_ }}
                         </div>
 
-                        <div class="col-md-4 col-12 font-weight-bold text-sm-end font-weight-bold text-black">
+                        <div class="col-md-4 col-12 font-weight-bold text-sm-end font-weight-bold text-black mb-1">
                             CELERY_TASK_TRACK_STARTED
                         </div>
                         <div class="col-md-8 col-12 text-dark">
                             {{ CELERY_TASK_TRACK_STARTED_ }}
                         </div>
-                        <div class="col-md-4 col-12 font-weight-bold text-sm-end font-weight-bold text-black">
+                        <div class="col-md-4 col-12 font-weight-bold text-sm-end font-weight-bold text-black mb-1">
                             CELERY_TASK_TIME_LIMIT
                         </div>
                         <div class="col-md-8 col-12 text-dark">
                             {{ CELERY_TASK_TIME_LIMIT_ }}
                         </div>
 
-                                                <div class="col-md-4 col-12 font-weight-bold text-sm-end font-weight-bold text-black">
+                        <div class="col-md-4 col-12 font-weight-bold text-sm-end font-weight-bold text-black mb-1">
                             DEFAULT_PERIODIC_MINUTES
                         </div>
                         <div class="col-md-8 col-12 text-dark">
                             {{ DEFAULT_PERIODIC_MINUTES }}
                         </div>
-
 
 
                     </div>
