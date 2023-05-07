@@ -112,8 +112,7 @@ def check_and_create_env():
         thread_ = threading.Thread(target=migrate_thread, args=[], kwargs={})
         thread_.start()
 
-        # Run migrate
-
+# Run migrate
 def migrate_thread():
     print(f"The database of the Uptime Checker is not ready yet. One moment...")
 
