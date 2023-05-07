@@ -3,6 +3,14 @@ import os
 import colorama
 from celery import Celery
 from celery.schedules import crontab
+from uptimecheckcore.components.helpers.first_run import is_docker
+import time
+
+
+# Add 6 seconds before firing up
+if not os.path.exists("db.sqlite3") and is_docker():
+    print(">> Going to fire up Celery")
+    time.sleep(6)
 
 # Set the default Django settings module for the 'celery' program.
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'uptimechecker.settings')
@@ -19,6 +27,7 @@ app.config_from_object('django.conf:settings', namespace='CELERY')
 app.autodiscover_tasks()
 
 from django.conf import settings
+
 
 # if settings.DEBUG:
 #     print(f"{colorama.Fore.GREEN}Setting DEFAULT_PERIODIC_MINUTES for cronjob: {colorama.Fore.RED}{settings.DEFAULT_PERIODIC_MINUTES}{colorama.Style.RESET_ALL}")
