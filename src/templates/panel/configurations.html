@@ -90,26 +90,43 @@
                             EMAIL_BACKEND
                         </div>
                         <div class="col-md-8 col-12 text-dark">
-                            {{ EMAIL_BACKEND }}
+                            {% if EMAIL_BACKEND %}
+                                {{ EMAIL_BACKEND }}
+                            {% else %}
+                                <span class="text-muted small">None. Please change the EMAIL_BACKEND settings in .env file.</span>
+                            {% endif %}
                         </div>
                         <div class="col-md-4 col-12 font-weight-bold text-sm-end font-weight-bold text-black mb-1">
                             AWS_SES_REGION_NAME
                         </div>
                         <div class="col-md-8 col-12 text-dark">
-                            {{ AWS_SES_REGION_NAME }}
+                            {% if AWS_SES_REGION_NAME %}
+                                {{ AWS_SES_REGION_NAME }}
+                            {% else %}
+                                <span class="text-muted small">None. Please change the AWS_SES_REGION_NAME settings in .env file.</span>
+                            {% endif %}
                         </div>
 
                         <div class="col-md-4 col-12 font-weight-bold text-sm-end font-weight-bold text-black mb-1">
                             AWS_SES_REGION_ENDPOINT
                         </div>
                         <div class="col-md-8 col-12 text-dark mb-1">
-                            {{ AWS_SES_REGION_ENDPOINT }}
+                            {% if AWS_SES_REGION_ENDPOINT %}
+                                {{ AWS_SES_REGION_ENDPOINT }}
+                            {% else %}
+                                <span class="text-muted small">None. Please change the AWS_SES_REGION_ENDPOINT settings in .env file.</span>
+                            {% endif %}
                         </div>
                         <div class="col-md-4 col-12 font-weight-bold text-sm-end font-weight-bold text-black">
                             SERVER_EMAIL
+
                         </div>
                         <div class="col-md-8 col-12 text-dark">
-                            {{ SERVER_EMAIL }}
+                            {% if SERVER_EMAIL %}
+                                {{ SERVER_EMAIL }}
+                            {% else %}
+                                <span class="text-muted small">None. Please change the SERVER_EMAIL settings in .env file.</span>
+                            {% endif %}
                         </div>
                     </div>
                 </div>

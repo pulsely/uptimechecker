@@ -78,7 +78,7 @@ docker-compose up -d
 
 Celery is used for scheduling the periodic uptime checks.
 
-A sample shell script will trigger the celery for recurring checks with minutes specified in DEFAULT_PERIODIC_MINUTES at the .env configuration:  
+A sample shell script will trigger the celery for recurring checks with minutes specified in ``DEFAULT_PERIODIC_MINUTES`` with the .env configuration:  
 ```./run_celery_dev.sh``` 
 
 ---
@@ -150,6 +150,13 @@ You can use any databases supported by Django. Create the database settings at t
 
 ### Python packages
 
+__Celery__  
+Copyright (c) 2015-2016 Ask Solem & contributors.  All rights reserved.
+Copyright (c) 2012-2014 GoPivotal, Inc.  All rights reserved.
+Copyright (c) 2009, 2010, 2011, 2012 Ask Solem, and individual contributors.  All rights reserved.
+BSD 3-Clause "New" or "Revised" License
+https://github.com/celery/celery
+
 __Django__  
 Copyright (c) Django Software Foundation and individual contributors.   
 All rights reserved.   
@@ -159,15 +166,17 @@ __Django Rest Framework__
 Copyright © 2011-present, Encode OSS Ltd. All rights reserved.  
 https://www.django-rest-framework.org/
 
-__Celery__  
-BSD 3-Clause "New" or "Revised" License   
-https://github.com/celery/celery
+__Django SES__
+Copyright (c) 2011 Harry Marr
+MIT license
+https://github.com/django-ses/django-ses
 
 __Font Awesome__  
 CC BY 4.0 License
 https://github.com/FortAwesome/Font-Awesome
 
 __python-decouple__
+Copyright (c) 2013 Henrique Bastos
 MIT license
 https://github.com/HBNetwork/python-decouple
 
