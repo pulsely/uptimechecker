@@ -25,7 +25,7 @@
                         [[objects.length]] Users
                         <div class="btn-toolbar d-none d-md-block" role="toolbar" aria-label="Toolbar with buttons">
                             <a href="{% url 'panel:users_create' %}" class="btn btn-outline-dark btn-sm btn-sm mr-4"><i
-                                    class="fa-solid fa-plus"></i>  New user
+                                    class="fa-solid fa-plus"></i> New user
                             </a>
 
                         </div>
@@ -143,6 +143,12 @@
 
                                         this.loadObjects();
 
+                                    } else if (res.data.status == 'error') {
+                                        Swal.fire({
+                                            icon: 'error',
+                                            title: 'Oops...',
+                                            text: res.data.error, timer: 3000
+                                        })
                                     }
                                 }
                             }).catch(error => {
@@ -160,7 +166,7 @@
 
                 },
                 editUser(user) {
-                    window.location.replace( `/panel/users/edit/${user.id}/` );
+                    window.location.replace(`/panel/users/edit/${user.id}/`);
                 }
             },
             created() {
