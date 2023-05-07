@@ -50,27 +50,27 @@
                         <div class="col-md-4 col-12 font-weight-bold text-sm-end font-weight-bold text-black mb-1">
                             DEFAULT_USER_AGENT
                         </div>
-                        <div class="col-md-8 col-12 text-dark mb-1">
+                        <div class="col-md-8 col-12 text-primary mb-1">
                             {{ DEFAULT_USER_AGENT }}
                         </div>
 
                         <div class="col-md-4 col-12 font-weight-bold text-sm-end font-weight-bold text-black mb-1">
                             DEFAULT_PERIODIC_MINUTES
                         </div>
-                        <div class="col-md-8 col-12 text-dark mb-1">
+                        <div class="col-md-8 col-12 text-primary mb-1">
                             {{ DEFAULT_PERIODIC_MINUTES }}
                         </div>
                         <div class="col-md-4 col-12 font-weight-bold text-sm-end font-weight-bold text-black mb-1">
                             DEFAULT_ADD_RANDOMNESS
                         </div>
-                        <div class="col-md-8 col-12 text-dark mb-1">
+                        <div class="col-md-8 col-12 text-primary mb-1">
                             {{ DEFAULT_ADD_RANDOMNESS }}
                         </div>
 
                         <div class="col-md-4 col-12 font-weight-bold text-sm-end font-weight-bold text-black">
                             DEFAULT_PERIODIC_MINUTES
                         </div>
-                        <div class="col-md-8 col-12 text-dark">
+                        <div class="col-md-8 col-12 text-primary">
                             {{ DEFAULT_PERIODIC_MINUTES }}
                         </div>
 
@@ -89,7 +89,7 @@
                         <div class="col-md-4 col-12 font-weight-bold text-sm-end font-weight-bold text-black mb-1">
                             EMAIL_BACKEND
                         </div>
-                        <div class="col-md-8 col-12 text-dark">
+                        <div class="col-md-8 col-12 text-primary">
                             {% if EMAIL_BACKEND %}
                                 {{ EMAIL_BACKEND }}
                             {% else %}
@@ -99,7 +99,7 @@
                         <div class="col-md-4 col-12 font-weight-bold text-sm-end font-weight-bold text-black mb-1">
                             AWS_SES_REGION_NAME
                         </div>
-                        <div class="col-md-8 col-12 text-dark">
+                        <div class="col-md-8 col-12 text-primary">
                             {% if AWS_SES_REGION_NAME %}
                                 {{ AWS_SES_REGION_NAME }}
                             {% else %}
@@ -110,7 +110,7 @@
                         <div class="col-md-4 col-12 font-weight-bold text-sm-end font-weight-bold text-black mb-1">
                             AWS_SES_REGION_ENDPOINT
                         </div>
-                        <div class="col-md-8 col-12 text-dark mb-1">
+                        <div class="col-md-8 col-12 text-primary mb-1">
                             {% if AWS_SES_REGION_ENDPOINT %}
                                 {{ AWS_SES_REGION_ENDPOINT }}
                             {% else %}
@@ -121,7 +121,7 @@
                             SERVER_EMAIL
 
                         </div>
-                        <div class="col-md-8 col-12 text-dark">
+                        <div class="col-md-8 col-12 text-primary">
                             {% if SERVER_EMAIL %}
                                 {{ SERVER_EMAIL }}
                             {% else %}
@@ -131,6 +131,49 @@
                     </div>
                 </div>
             </div>
+                    <div class="card mb-3">
+                <div class="card-header">
+                    <i class="fa-solid fa-circle-check text-success"></i> Slack
+                </div>
+                <div class="card-body">
+                    <div class="row small">
+                        <div class="col-md-4 col-12 font-weight-bold text-sm-end font-weight-bold text-black mb-1">
+                            SLACK_TOKEN
+                        </div>
+                        <div class="col-md-8 col-12 text-primary">
+                            {% if SLACK_TOKEN %}
+                                {{ SLACK_TOKEN }}
+                            {% else %}
+                                <span class="text-muted small">None. Please change the SLACK_TOKEN settings in .env file.</span>
+                            {% endif %}
+                        </div>
+                        <div class="col-md-4 col-12 font-weight-bold text-sm-end font-weight-bold text-black mb-1">
+                            SLACK_ROOM
+                        </div>
+                        <div class="col-md-8 col-12 text-primary">
+                            {% if SLACK_ROOM %}
+                                {{ SLACK_ROOM }}
+                            {% else %}
+                                <span class="text-muted small">None. Please change the SLACK_ROOM settings in .env file.</span>
+                            {% endif %}
+
+                        </div>
+                        {% if SLACK_ROOM and SLACK_TOKEN %}
+                        <div class="col-md-4 col-12 font-weight-bold text-sm-end font-weight-bold text-black mb-1">
+                            Send a test mesesage?
+                        </div>
+                        <div class="col-md-8 col-12 text-primary">
+                            <textarea class="form-control" v-model="slack_message"></textarea>
+
+                            <div class="d-flex mt-3">
+                            <button @click="testSlack" class="btn btn-success" :disabled="slack_message.length == 0">Send Test Message</button>
+                            </div>
+                        </div>
+                    {% endif %}
+                    </div>
+                </div>
+            </div>
+
             <div class="card mb-4">
                 <div class="card-header">
                     <i class="fa-solid fa-circle-check text-success"></i> ALLOWED_HOSTS
@@ -157,7 +200,7 @@
                                 <div class="col-md-4 col-12 font-weight-bold text-sm-end font-weight-bold text-black mb-1">
                                     {{ k }}
                                 </div>
-                                <div class="col-md-8 col-12 text-dark mb-1">
+                                <div class="col-md-8 col-12 text-primary mb-1">
                                     {{ v }}
                                 </div>
                             </div>
@@ -170,7 +213,7 @@
                 <div class="card-header">
                     <i class="fa-solid fa-circle-check text-success"></i> Redis configurations
                 </div>
-                <div class="card-body">
+                <div class="card-body text-primary">
                     {{ REDIS_URL_ }}
                 </div>
             </div>
@@ -184,27 +227,27 @@
                         <div class="col-md-4 col-12 font-weight-bold text-sm-end font-weight-bold text-black mb-1">
                             CELERY_TIMEZONE
                         </div>
-                        <div class="col-md-8 col-12 text-dark">
+                        <div class="col-md-8 col-12 text-primary">
                             {{ CELERY_TIMEZONE_ }}
                         </div>
 
                         <div class="col-md-4 col-12 font-weight-bold text-sm-end font-weight-bold text-black mb-1">
                             CELERY_TASK_TRACK_STARTED
                         </div>
-                        <div class="col-md-8 col-12 text-dark">
+                        <div class="col-md-8 col-12 text-primary">
                             {{ CELERY_TASK_TRACK_STARTED_ }}
                         </div>
                         <div class="col-md-4 col-12 font-weight-bold text-sm-end font-weight-bold text-black mb-1">
                             CELERY_TASK_TIME_LIMIT
                         </div>
-                        <div class="col-md-8 col-12 text-dark">
+                        <div class="col-md-8 col-12 text-primary">
                             {{ CELERY_TASK_TIME_LIMIT_ }}
                         </div>
 
                         <div class="col-md-4 col-12 font-weight-bold text-sm-end font-weight-bold text-black mb-1">
                             DEFAULT_PERIODIC_MINUTES
                         </div>
-                        <div class="col-md-8 col-12 text-dark">
+                        <div class="col-md-8 col-12 text-primary">
                             {{ DEFAULT_PERIODIC_MINUTES }}
                         </div>
 
@@ -236,8 +279,47 @@
             data: {
                 message: "Ready",
                 flag_loading: false,
+                slack_message: "",
             },
-            methods: {},
+            methods: {
+                testSlack() {
+                                        // trigger the "init" operations on server side
+                    var data = {
+                        message: this.slack_message
+                    };
+
+                    axios.post("{% url 'panel:api_test_slack' %}", data).then((res) => {
+
+                        if (res.data && res.data.status) {
+                            if (res.data.status == 'okay') {
+                                this.slack_message = "";
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Done!',
+                                    text: 'Test message sent. Please check your Slack now.', timer: 6000
+                                })
+
+                            } else if (res.data.status == 'error') {
+                                if (res.data.form_errors) {
+                                    this.form_errors = res.data.form_errors;
+                                }
+
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Oops...',
+                                    text: res.data.error, timer: 3000
+                                })
+                            }
+                        }
+                    }).catch(error => {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: error, timer: 3000
+                        })
+                    })
+                }
+            },
             created() {
 
             }

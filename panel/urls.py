@@ -38,6 +38,8 @@ urlpatterns = [
     path('api/websites/edit/', views.api_websites_edit, name="api_websites_edit"),
     path('api/websites/delete/', views.api_websites_delete, name="api_websites_delete"),
 
+    path('api/test/slack/', views.api_test_slack, name="api_test_slack"),
+
     # Logout
     path('logout/', views.logout_, name="logout"),
 ]

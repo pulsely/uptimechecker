@@ -29,6 +29,7 @@ from rest_framework.authentication import SessionAuthentication
 import colorama, threading
 from uptimebot import models
 from uptimecheckcore.components.helpers.configurations import is_secretkey_insecure
+from uptimecheckcore.components.helpers import Slack
 from uptimebot.handler import check_domains, check_domain
 from . import forms
 from django.contrib.auth import login
@@ -76,6 +77,11 @@ def configurations(request):
                       'AWS_SES_REGION_NAME' : settings.AWS_SES_REGION_NAME,
                       'AWS_SES_REGION_ENDPOINT' : settings.AWS_SES_REGION_ENDPOINT,
                       'SERVER_EMAIL' : settings.SERVER_EMAIL,
+
+                      'DEFAULT_USER_AGENT' : settings.DEFAULT_USER_AGENT,
+
+                      'SLACK_TOKEN' : settings.SLACK_TOKEN,
+                      'SLACK_ROOM' : settings.SLACK_ROOM,
 
                   })
 
@@ -521,7 +527,7 @@ def api_websites_read(request):
 
         d = {
         }
-        for field in ['title', 'url', 'must_contain_keyword', 'flag_cdn_random_key', 'flag_check_ssl_expire_time', 'flag_notify_downtime', 'id']:
+        for field in ['title', 'url', 'must_contain_keyword', 'flag_cdn_random_key', 'flag_check_ssl_expire_time', 'flag_notify_email_downtime', 'flag_notify_slack_downtime', 'id']:
             d[field] = getattr(the_website, field)
         if settings.DEBUG:
             print(d)
@@ -603,6 +609,31 @@ def api_websites_delete(request):
             'status': 'error',
             'error' : 'Invalid Website ID'
         })
+
+@api_view(['GET', 'POST', ])
+# @authentication_classes((JWTAuthentication, SessionAuthentication))
+@authentication_classes((SessionAuthentication,))
+@permission_classes((IsStaffAuthenticated,))
+def api_test_slack(request):
+    f = forms.SlackTestForm(request.data)
+    if f.is_valid():
+        response = Slack.postMessage( settings.SLACK_ROOM, f.cleaned_data["message"])
+
+        if not response:
+            return JsonResponse({
+                'status' : 'error',
+                'error' : "Unable to get a response from Slack"
+            })
+        else:
+            return JsonResponse({
+                'status' : 'okay',
+            })
+    else:
+        return JsonResponse({
+            'status': 'error',
+            'error' : 'Form is error'
+        })
+
 
 def first_run_superuser_setup(request):
     return render( request, "panel/users/first_time_setup.html", {

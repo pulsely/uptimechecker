@@ -88,7 +88,8 @@ class EditWebsiteForm(forms.Form):
     must_contain_keyword = forms.CharField(required=False)
     flag_cdn_random_key = forms.BooleanField(required=False)
     flag_check_ssl_expire_time = forms.BooleanField(required=False)
-    flag_notify_downtime = forms.BooleanField(required=False)
+    flag_notify_email_downtime = forms.BooleanField(required=False)
+    flag_notify_slack_downtime = forms.BooleanField(required=False)
 
     operation = forms.CharField()
 
@@ -98,3 +99,6 @@ class DeleteWebsiteForm(forms.Form):
 
 class ReadWebsiteForm(forms.Form):
     website_id = forms.UUIDField()
+
+class SlackTestForm(forms.Form):
+    message = forms.CharField(max_length=100)

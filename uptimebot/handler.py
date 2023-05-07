@@ -64,7 +64,7 @@ def check_domain( target_website ):
             if target_website.must_contain_keyword and len(target_website.must_contain_keyword) > 0:
                 if r.text.find( target_website.must_contain_keyword ) < 0:
                     u.status = "missing_keyword"
-                    if target_website.flag_notify_downtime:
+                    if target_website.flag_notify_email_downtime:
                         post_notification( 'Missing keyword: ', f'{target_website.url} has status {u.status}' )
 
             if target_website.flag_check_ssl_expire_time:
@@ -91,7 +91,7 @@ def check_domain( target_website ):
             if settings.DEBUG:
                 print( f"{colorama.Fore.RED}{url} throw error code:{colorama.Style.RESET_ALL} {r.status_code}")
 
-            if target_website.flag_notify_downtime:
+            if target_website.flag_notify_email_downtime:
                 post_notification( 'Server down', f'{target_website.url} has status {u.status}' )
     except Exception as e:
         u.status = 'exception'

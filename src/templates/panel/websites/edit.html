@@ -72,7 +72,7 @@
 
                     <div class="mb-3">
                         <div class="row">
-                            <div class="col-3">
+                            <div class="col-12 mb-3">
                                 <label for="formInput2" class="form-label">Must contain keyword</label>
                                 <input type="text" class="form-control form-control-sm" id="formInput2"
                                        v-model="website.must_contain_keyword"
@@ -99,11 +99,19 @@
 
                             </div>
                             <div class="col-3">
-                                <label for="formInput3" class="form-label">Notify downtime?</label><br/>
+                                <label for="formInput3" class="form-label">Notify downtime by E-mail?</label><br/>
                                 <input type="checkbox" id="formInput3"
-                                       v-model="website.flag_notify_downtime"
-                                       :class="{'is-invalid': form_errors.flag_notify_downtime }"/>
-                                <span class="text-danger" v-if="form_errors.flag_notify_downtime">[[form_errors.flag_notify_downtime]]</span>
+                                       v-model="website.flag_notify_email_downtime"
+                                       :class="{'is-invalid': form_errors.flag_notify_email_downtime }"/>
+                                <span class="text-danger" v-if="form_errors.flag_notify_email_downtime">[[form_errors.flag_notify_email_downtime]]</span>
+
+                            </div>
+                            <div class="col-3">
+                                <label for="formInput3" class="form-label">Notify downtime by Slack?</label><br/>
+                                <input type="checkbox" id="formInput3"
+                                       v-model="website.flag_notify_slack_downtime"
+                                       :class="{'is-invalid': form_errors.flag_notify_slack_downtime }"/>
+                                <span class="text-danger" v-if="form_errors.flag_notify_slack_downtime">[[form_errors.flag_notify_slack_downtime]]</span>
 
                             </div>
                         </div>
@@ -145,7 +153,8 @@
                     must_contain_keyword: null,
                     flag_cdn_random_key: true,
                     flag_check_ssl_expire_time: true,
-                    flag_notify_downtime: true,
+                    flag_notify_email_downtime: false,
+                    flag_notify_slack_downtime: false,
                     id: null
                 },
                 form_errors: {}

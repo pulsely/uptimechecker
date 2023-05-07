@@ -13,10 +13,13 @@ DEFAULT_USER_AGENT="Mozilla/5.0 (Macintosh; Intel Mac OS X 12_4) AppleWebKit/605
 DEFAULT_PERIODIC_MINUTES=15
 DEFAULT_ADD_RANDOMNESS=false
 
-EMAIL_BACKEND = "django_ses.SESBackend"
-AWS_SES_REGION_NAME = "us-west-2"
-AWS_SES_REGION_ENDPOINT = "email.us-west-2.amazonaws.com"
-SERVER_EMAIL = ""
+EMAIL_BACKEND="django_ses.SESBackend"
+AWS_SES_REGION_NAME="us-west-2"
+AWS_SES_REGION_ENDPOINT="email.us-west-2.amazonaws.com"
+SERVER_EMAIL=""
+
+SLACK_TOKEN=""
+SLACK_ROOM="#general"
 '''
 
 def create_default_file():

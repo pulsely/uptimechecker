@@ -15,7 +15,12 @@ class TargetWebsite(models.Model):
     flag_check_ssl_expire_time = models.BooleanField("Check SSL Expire Time", default=True, help_text="Check SSL expiration?")
     ssl_expire_time = models.DateTimeField(null=True, blank=True, help_text="Current SSL expiration time")
 
-    flag_notify_downtime = models.BooleanField(default=True)
+    notifications_suppressed_until_date = models.DateTimeField(null=True, blank=True, help_text="Suppress all notifications")
+
+    flag_notify_email_downtime = models.BooleanField(default=True)
+    flag_notify_slack_downtime = models.BooleanField(default=True)
+
+    position = models.PositiveIntegerField( default=0 )
 
     creation_date = models.DateTimeField("Creation date", editable=False, auto_now_add=True, blank=True, null=True)
 
