@@ -77,16 +77,21 @@ def create_first_user():
 SETTINGS_CUSTOMIZED_DEFALUT = '''
 ############### E-mail Backend https://github.com/django-ses/django-ses ####################
 
-# Uptime Checker Defaults
+############### Uptime Checker Defaults
 # DEFAULT_USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 12_4) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.4 Safari/605.1.15"
 # DEFAULT_PERIODIC_MINUTES = 15
 # DEFAULT_ADD_RANDOMNESS = False
 
+############### E-mail settings with AWS
 # EMAIL_BACKEND = "django_ses.SESBackend"
 # AWS_SES_REGION_NAME = "us-west-2"
 # AWS_SES_REGION_ENDPOINT = "email.us-west-2.amazonaws.com"
 # SERVER_EMAIL = ""
 # SES_SENDER_EMAIL = ""
+
+#### If you have AWS profile, there is no need to setup the Access Key and Secrets
+#AWS_ACCESS_KEY_ID = 'YOUR-ACCESS-KEY-ID'
+#AWS_SECRET_ACCESS_KEY = 'YOUR-SECRET-ACCESS-KEY'
 '''
 
 def check_and_create_settings_customized():
