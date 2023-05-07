@@ -8,8 +8,8 @@ import time
 
 # Add 6 seconds before firing up
 if not os.path.exists("db.sqlite3") and os.getenv("IS_DOCKER"):
-    print(f"{colorama.Fore.GREEN}>> Going to fire up Celery in 6 seconds{colorama.Style.RESET_ALL}")
-    time.sleep(6)
+    print(f"{colorama.Fore.GREEN}>> Going to fire up Celery in 10 seconds{colorama.Style.RESET_ALL}")
+    time.sleep(10)
 
 # Set the default Django settings module for the 'celery' program.
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'uptimechecker.settings')
