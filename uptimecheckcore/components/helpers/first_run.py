@@ -1,9 +1,6 @@
-import os
-
-import colorama, time, threading
+import os, colorama, time, threading
 import getpass
 from django.core.management.utils import get_random_secret_key
-from django.contrib.auth import get_user_model
 from django.core.management import call_command
 
 DEFAULT_FILE_TEXT = '''
@@ -46,6 +43,7 @@ def create_first_user():
         print("Users are not created interactively as you are using docker. Please use the add super user link to add user.")
     else:
         from panel.forms import AdminResetForm
+        from django.contrib.auth import get_user_model
 
         User = get_user_model()
 
@@ -74,7 +72,7 @@ def create_first_user():
         print("User created. You can now sign in.")
 
 
-SETTINGS_CUSTOMIZED_DEFALUT = '''
+SETTINGS_CUSTOMIZED_DEFAULT = '''
 ############### E-mail Backend https://github.com/django-ses/django-ses ####################
 
 ############### Uptime Checker Defaults
@@ -98,7 +96,7 @@ def check_and_create_settings_customized():
     settings_customized_path = "uptimechecker/settings_customized.py"
     if not os.path.exists(settings_customized_path):
         f = open(settings_customized_path, "w")
-        f.write(SETTINGS_CUSTOMIZED_DEFALUT)
+        f.write(SETTINGS_CUSTOMIZED_DEFAULT)
         f.close()
         print(f"Created a new {colorama.Fore.GREEN}uptimechecker/settings_customized.py{colorama.Style.RESET_ALL} file.")
 
@@ -161,12 +159,7 @@ def first_run_has_no_users():
 
 # Return the temporary user token for generating the URL to STDOUT
 def first_run_temporary_user_url():
-    from django.contrib.auth import get_user_model
-    from django.conf import settings
     import uuid
-    from django.urls import reverse_lazy
-
-    User = get_user_model()
 
     random = "%s" % uuid.uuid4()
 
