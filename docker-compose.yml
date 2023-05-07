@@ -21,6 +21,8 @@ services:
     container_name: uptimechecker-django
     volumes:
       - static_volume:/code
+    environment:
+      REDIS_URL: "redis://redis:6379/0"
     ports:
       - "8000:8000"
     depends_on:
