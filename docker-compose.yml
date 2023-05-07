@@ -28,5 +28,6 @@ services:
       - .:/code
     depends_on:
       - redis
+      - django
 #volumes:
 #    django: {}

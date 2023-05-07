@@ -3,7 +3,6 @@ import os
 import colorama
 from celery import Celery
 from celery.schedules import crontab
-from uptimecheckcore.components.helpers.first_run import is_docker
 import time
 
 
