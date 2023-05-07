@@ -93,8 +93,6 @@ You should overwrite the default Django settings at ```uptimechecker/settings_cu
 | ``AWS_SES_REGION_ENDPOINT`` | | ``email.us-west-2.amazonaws.com``                                                                                                                  |
 | ``SERVER_EMAIL`` | | ````                                                                                                                  |
 
-=====================================  =====================================
-
 
 ---
 
