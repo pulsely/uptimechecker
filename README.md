@@ -62,6 +62,10 @@ The Uptime Checker has a default DockerFile which will run with Docker or Podman
 
 The setup will run the Uptime Checker with Django, Redis and Celery automatically.
 
+```
+docker-compose up
+```
+
 ---
 
 ###  Celery

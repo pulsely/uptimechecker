@@ -31,7 +31,7 @@ def create_default_file():
     f.write("\n")
     f.write('DEFAULT_USER_AGENT="Mozilla/5.0 (Macintosh; Intel Mac OS X 12_4) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.4 Safari/605.1.15"')
     f.write("\n")
-    f.write("DEFAULT_PERIODIC_MINUTES=7")
+    f.write("DEFAULT_PERIODIC_MINUTES=15")
     f.close()
 
 def create_first_user():
