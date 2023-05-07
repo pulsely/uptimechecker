@@ -127,7 +127,7 @@
                             </td>
                             <td class="small"><span v-if="object.previous_exception && object.previous_exception.time">[[unixtime_to_locale(object.previous_exception.time)]]
                                 <br/>
-                                <span class="small text-danger">[[object.previous_exception.status_display]]</span>
+                                <span class="small text-danger">[[object.previous_exception.status_display]] [[object.previous_exception.code]]</span>
                             </span>
                             </td>
 

@@ -19,7 +19,7 @@ urlpatterns = [
     path('website/edit/<uuid:website_id>/', views.websites_edit, name="websites_edit"),
 
     # APIs for listing uptimes
-    path('api/uptime-list/', views.api_uptime_list, name="api_uptime_list"),
+    path('api/uptime/list/', views.api_uptime_list, name="api_uptime_list"),
     path('api/trigger-refresh/', views.api_trigger_refresh, name="api_trigger_refresh"),
 
     # APIs for users

@@ -192,7 +192,8 @@ def api_uptime_list(request):
             previous_exception = {
                 'time': previous_exception_.end_time.timestamp(),
                 'status': previous_exception_.status,
-                'status_display': previous_exception_.get_status_display()
+                'status_display': previous_exception_.get_status_display(),
+                'code' : previous_exception_.status_code
             }
         except:
             previous_exception = None

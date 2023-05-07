@@ -12,6 +12,9 @@ import secrets
 from django.conf import settings
 from uptimecheckcore.components.helpers import Slack
 from django.core.mail import send_mail
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 # https://stackoverflow.com/questions/16903528/how-to-get-response-ssl-certificate-from-requests-in-python
 
@@ -71,7 +74,12 @@ def check_domain( target_website ):
 
                     # Send notification by email
                     if target_website.flag_notify_email_downtime:
-                        post_email_notification( target_website, u.get_status_display(), 'Missing keyword: ', f'{target_website.url} has status {u.status}' )
+                        if target_website.title:
+                            message = f'''The website \'{target_website.title}\' has status \'{u.status}\':\n{target_website.url}\n\nUptime Checker\n{time_now}'''
+                                #f'''Missing keyword at {time_now} for '{target_website.title}' with status {u.get_status_display()}:\n{target_website.url}'''
+                        else:
+                            message = f'The website {target_website.url} has status \'{u.status}\'\n\nUptime Checker\n{time_now}'
+                        post_email_notification( target_website, u.get_status_display(), 'Missing keyword: ', message )
 
                     # Send notification by Slack
                     if target_website.flag_notify_slack_downtime:
@@ -110,8 +118,15 @@ def check_domain( target_website ):
                 print( f"{colorama.Fore.RED}{url} throw error code:{colorama.Style.RESET_ALL} {r.status_code}")
 
             if target_website.flag_notify_email_downtime:
+                time_now = timezone.now().strftime("%Y-%m-%d %H:%M")
+                if target_website.title:
+                    message = f'''The website \'{target_website.title}\' has status \'{u.status}\':\n{target_website.url}\n\nStatus code:\n{u.status_code}\n\nUptime Checker\n{time_now}'''
+                    # f'''Missing keyword at {time_now} for '{target_website.title}' with status {u.get_status_display()}:\n{target_website.url}'''
+                else:
+                    message = f'The website {target_website.url} has status \'{u.status}\'\n\nStatus code:\n{u.status_code}\n\nUptime Checker\n{time_now}'
+
                 post_email_notification(target_website, u.get_status_display(), 'Server down',
-                                        f'{target_website.url} has status {u.status}')
+                                        message)
 
             # Send notification by Slack
             if target_website.flag_notify_slack_downtime:
@@ -158,11 +173,17 @@ def check_domains():
         t.start()
 
 def post_email_notification( target_website, status, title, body ):
+    emails = []
+
+    for user in User.objects.all():
+        if user.email:
+            emails.append(user.email)
+
     send_mail(
         title,
         body,
         settings.SERVER_EMAIL,
-        [settings.SERVER_EMAIL],
+        emails,
         fail_silently=False,
     )
 
