@@ -1,0 +1,186 @@
+{% extends "designs/default.html" %}
+
+
+{% block head %}
+
+{% endblock %}
+
+{% block content %}
+
+    <div class="container mt-5" id="app">
+        <div class="row">
+
+            <div class="col-12 mb-3">
+                <img src="/lookandfeel/images/logo-white-background.svg" class="logo-frontpage ps-4 pr-4" alt=""/>
+
+
+            </div>
+
+            <div class="col-12 col-md-6">
+                <div class="card">
+                    <div class="card-body">
+
+
+                        <p class="fs-4 fw-bold">Welcome to the first time setup of your Uptime Checker installation.</p>
+
+                        <p>You did not have any users account on your system yet. You are going to setup your first
+                            superuser account.</p>
+
+                        <p>Please fill in the <span class="text-primary">username</span>, <span class="text-primary">password</span>,
+                            <span class="text-primary">e-mail</span>, <span class="text-primary">first name</span> and
+                            <span class="text-primary">last name</span> of your superuser.</p>
+
+                        <p class="small">For more setup documentation, please visit the Uptime Checker by Pulsely github
+                            page:<br/><a href="https://github.com/pulsely/uptimechecker">https://github.com/pulsely/uptimechecker</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        First time setup
+                    </div>
+                    <div class="card-body">
+                        <p class="text-success">You will be redirected to the sign-in page after user setup.</p>
+                        <div class="mb-3">
+                            <label for="formInput1" class="form-label">Username</label>
+                            <input type="text" class="form-control form-control-sm" id="formInput1"
+                                   v-model="user.username" :class="{'is-invalid': form_errors.username }"/>
+
+
+                            <span class="text-danger" v-if="form_errors.username">[[form_errors.username]]</span>
+
+                        </div>
+                        <div class="mb-3">
+                            <div class="row">
+                                <div class="col-6">
+                                    <label for="formInput2" class="form-label">First Name</label>
+                                    <input type="text" class="form-control form-control-sm" id="formInput2"
+                                           v-model="user.first_name" :class="{'is-invalid': form_errors.first_name }"/>
+                                    <span class="text-danger"
+                                          v-if="form_errors.first_name">[[form_errors.first_name]]</span>
+
+                                </div>
+                                <div class="col-6">
+                                    <label for="formInput3" class="form-label">Last Name</label>
+                                    <input type="text" class="form-control form-control-sm" id="formInput3"
+                                           v-model="user.last_name" :class="{'is-invalid': form_errors.last_name }"/>
+                                    <span class="text-danger"
+                                          v-if="form_errors.last_name">[[form_errors.last_name]]</span>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="formInput4" class="form-label">Email address</label>
+                            <input type="email" class="form-control form-control-sm" id="formInput4"
+                                   placeholder="e.g. name@isp.com" v-model="user.email"
+                                   :class="{'is-invalid': form_errors.email }"/>
+                            <span class="text-danger" v-if="form_errors.email">[[form_errors.email]]</span>
+
+                        </div>
+                        <div class="mb-1">
+                            <label for="formInput5" class="form-label">Password</label>
+                            {% if operation == "edit" %}
+                                <br/>
+                                <a href="{% url 'panel:users_reset_password' the_user.id %}" class="small text-primary"
+                                   style="text-decoration: none;">Change password for [[user.username]]</a>
+                            {% else %}
+                                <input type="password" class="form-control form-control-sm" id="formInput5"
+                                       v-model="user.password" :class="{'is-invalid': form_errors.password }"/>
+                            {% endif %}
+                            <span class="text-danger" v-if="form_errors.password">[[form_errors.password]]</span>
+
+                        </div>
+
+
+                    </div>
+                    <div class="card-footer">
+                        <div class="d-grid">
+                            <button @click="saveUser" class="btn btn-success btn-block" style="color: #fff;">Save user
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+{% endblock %}
+
+
+{% block postflight %}
+    <script src="/lookandfeel/js/bundle-2002-09-23.js"></script>
+
+    <script language="JavaScript">
+
+        axios.defaults.xsrfCookieName = 'csrftoken';
+        axios.defaults.xsrfHeaderName = 'X-CSRFToken';
+
+        Vue.mixin({
+            delimiters: ['[[', ']]']
+        });
+
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                message: "Ready",
+                flag_loading: true,
+                user: {
+                    username: null,
+                    first_name: null,
+                    last_name: null,
+                    email: null,
+                    password: null
+                },
+                form_errors: {}
+            },
+            methods: {
+                saveUser() {
+                    // trigger the "init" operations on server side
+                    var data = this.user;
+                    data.operation = "{{ operation }}";
+
+                    axios.post("{% url 'panel:api_users_first_time_setup' %}", data).then((res) => {
+
+                        if (res.data && res.data.status) {
+                            if (res.data.status == 'okay') {
+
+                                this.flag_loading = false;
+                                var r = Date.now();
+                                window.location.replace(`{% url 'panel:index' %}?r=${r}`);
+
+                            } else if (res.data.status == 'error') {
+                                if (res.data.form_errors) {
+                                    this.form_errors = res.data.form_errors;
+                                }
+
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Oops...',
+                                    text: res.data.error, timer: 3000
+                                })
+                            }
+                        }
+                    }).catch(error => {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: error, timer: 3000
+                        })
+                    })
+                }
+            },
+            created() {
+
+            }
+        });
+
+
+    </script>
+
+{% endblock %}
