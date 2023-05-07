@@ -9,7 +9,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         if settings.DEBUG:
-            paths = [".env", "db.sqlite3", "uptimechecker/settings_customized.py"]
+            paths = [".env", "db.sqlite3", "uptimechecker/settings_customized.py", "celerybeat-schedule"]
 
             for path in paths:
                 if os.path.exists(path):
