@@ -105,6 +105,11 @@
                                        :class="{'is-invalid': form_errors.flag_notify_email_downtime }"/>
                                 <span class="text-danger" v-if="form_errors.flag_notify_email_downtime">[[form_errors.flag_notify_email_downtime]]</span>
 
+                                {% if not SERVER_EMAIL %}
+                                    <span class="text-danger small">E-mail not setup yet. Please check <a href="{% url 'panel:configurations' %}" style="text-decoration: underline">configuration</a></span>
+
+                                {% endif %}
+
                             </div>
                             <div class="col-3">
                                 <label for="formInput3" class="form-label">Notify downtime by Slack?</label><br/>

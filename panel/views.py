@@ -173,6 +173,7 @@ def websites_edit(request, website_id):
                       'is_secretkey_insecure': is_secretkey_insecure,
                       'operation': "edit",
                       'the_website' : the_website,
+                      'SERVER_EMAIL' : settings.SERVER_EMAIL
                   })
 
 

@@ -179,13 +179,15 @@ def post_email_notification( target_website, status, title, body ):
         if user.email:
             emails.append(user.email)
     try:
-        send_mail(
-            title,
-            body,
-            settings.SERVER_EMAIL,
-            emails,
-            fail_silently=False,
-        )
+        # Don't send e-mail if SERVER_EMAIL is not setup yet.
+        if settings.SERVER_EMAIL:
+            send_mail(
+                title,
+                body,
+                settings.SERVER_EMAIL,
+                emails,
+                fail_silently=False,
+            )
     except Exception as e:
         if settings.DEBUG:
             print(f"{colorama.Fore.RED}Error sending e-mail: %s" % e)
