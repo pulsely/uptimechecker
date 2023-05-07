@@ -12,7 +12,7 @@ services:
       context: .
     command: celery -A uptimechecker worker -B -l INFO
     volumes:
-      - ./django:/code
+      - static_volume:/code
     depends_on:
       - redis
   django:
@@ -20,9 +20,11 @@ services:
     command: python manage.py runserver 0.0.0.0:8000
     container_name: uptimechecker-django
     volumes:
-      - .:/code
+      - static_volume:/code
     ports:
       - "8000:8000"
     depends_on:
       - redis
       - celery
+volumes:
+    static_volume: {}
