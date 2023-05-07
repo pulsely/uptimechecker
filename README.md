@@ -12,7 +12,7 @@ Any down times can be notified by:
 - <strike>Push Notifications</strike> (Coming soon!)
 - <strike>SMS Notifications</strike> (Coming soon!)
 
-For more information, please refer to the [Uptime Checker](https://www.pulsely.com/products/uptime-checker/) product page.
+For more information, please refer to the [Uptime Checker](https://www.pulsely.com/products/uptime/checker/) product page.
 
 ---
 
