@@ -119,6 +119,7 @@ These Uptime Checker commands are available for testing and house cleaning.
 checksites
 remove_expired_uptimes
 test_ses_email
+reset
 ```
 
 ```python manage.py checksites``` will trigger website checks. You can run a cronjob to trigger the checks with Crontab, instead of running the Celery.
@@ -126,6 +127,9 @@ test_ses_email
 ```python manage.py remove_expired_uptimes``` will remove expired check results.
 
 ```python manage.py test_ses_email``` can be used for sending test e-mail(s) to check your notification configurations.
+
+```python manage.py reset``` will remove the .env, db.sqlite3 and uptimechecker/settings_customized.py configuration files to reset your installation.   
+**(Only available for DEBUG mode on.)**
 
 ---
 
