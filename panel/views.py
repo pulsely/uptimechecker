@@ -10,7 +10,7 @@ from django.urls import reverse
 from django.conf import settings
 from django.views.decorators.cache import never_cache
 from django.core.exceptions import ObjectDoesNotExist
-from uptimecheckcore.components.helpers.first_run import first_run_has_no_users
+from uptimecheckcore.components.helpers.first_run import first_run_has_no_users, is_docker
 from uptimecheckcore.components.credentials.privileges import operator_privilege_check, staff_privilege_check,\
     IsOperatorAuthenticated, IsStaffAuthenticated
 # from rest_framework_simplejwt.authentication import JWTAuthentication

@@ -126,10 +126,16 @@ def migrate_thread():
 
     create_first_user()
 
+def is_docker():
+    return os.getenv("IS_DOCKER")
+
 # Only check the first run has no users if it's DEBUG mode
 def first_run_has_no_users():
     from django.conf import settings
     if settings.DEBUG:
+        if is_docker():
+            return True
+
         try:
             from django.contrib.auth import get_user_model
             from django.conf import settings
