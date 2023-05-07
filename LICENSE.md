@@ -1,4 +1,4 @@
-Copyright (c) 2022-present, [Pulsely](https://www.pulsely.com/). All rights reserved.
+Copyright (c) 2023, [Pulsely](https://www.pulsely.com/). All rights reserved.
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the Server Side Public License, version 1,
