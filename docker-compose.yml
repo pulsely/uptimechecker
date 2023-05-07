@@ -1,6 +1,17 @@
 version: "3.9"
 
 services:
+  django:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    container_name: uptimechecker-django
+    volumes:
+      - .:/code
+    environment:
+      IS_DOCKER: "true"
+      REDIS_URL: "redis://redis:6379/0"
+    ports:
+      - "8000:8000"
   redis:
     restart: unless-stopped
     image: redis:alpine
@@ -17,19 +28,5 @@ services:
       - .:/code
     depends_on:
       - redis
-  django:
-    build: .
-    command: python manage.py runserver 0.0.0.0:8000
-    container_name: uptimechecker-django
-    volumes:
-      - .:/code
-    environment:
-      IS_DOCKER: "true"
-      REDIS_URL: "redis://redis:6379/0"
-    ports:
-      - "8000:8000"
-    depends_on:
-      - redis
-      - celery
 #volumes:
 #    django: {}
