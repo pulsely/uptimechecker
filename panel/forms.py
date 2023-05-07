@@ -102,3 +102,6 @@ class ReadWebsiteForm(forms.Form):
 
 class SlackTestForm(forms.Form):
     message = forms.CharField(max_length=100)
+
+class EmailTestForm(forms.Form):
+    email = forms.EmailField()

@@ -10,6 +10,8 @@ import colorama
 from . import models
 import secrets
 from django.conf import settings
+from uptimecheckcore.components.helpers import Slack
+from django.core.mail import send_mail
 
 # https://stackoverflow.com/questions/16903528/how-to-get-response-ssl-certificate-from-requests-in-python
 
@@ -61,12 +63,28 @@ def check_domain( target_website ):
             u.status_code = r.status_code
             u.end_time = timezone.now()
 
+            # Check if there is missing keyword
             if target_website.must_contain_keyword and len(target_website.must_contain_keyword) > 0:
                 if r.text.find( target_website.must_contain_keyword ) < 0:
                     u.status = "missing_keyword"
-                    if target_website.flag_notify_email_downtime:
-                        post_notification( 'Missing keyword: ', f'{target_website.url} has status {u.status}' )
+                    time_now = timezone.now().strftime("%Y-%m-%d %H:%M")
 
+                    # Send notification by email
+                    if target_website.flag_notify_email_downtime:
+                        post_email_notification( target_website, u.get_status_display(), 'Missing keyword: ', f'{target_website.url} has status {u.status}' )
+
+                    # Send notification by Slack
+                    if target_website.flag_notify_slack_downtime:
+                        try:
+                            if target_website.title:
+                                message = f'''Missing keyword at {time_now} for '{target_website.title}' with status {u.get_status_display()}:\n{target_website.url}'''
+                            else:
+                                message = f'''Missing keyword at {time_now} with status '{u.get_status_display()}':\n{target_website.url}'''
+                            response = Slack.postMessage(settings.SLACK_ROOM, message)
+                        except:
+                            print("Error with Slack")
+
+            # Check the SSL expiration time
             if target_website.flag_check_ssl_expire_time:
                 # if settings.DEBUG:
                 #     print(f"{colorama.Fore.RED}r.peercert:{colorama.Style.RESET_ALL} {r.peercert}")
@@ -92,7 +110,21 @@ def check_domain( target_website ):
                 print( f"{colorama.Fore.RED}{url} throw error code:{colorama.Style.RESET_ALL} {r.status_code}")
 
             if target_website.flag_notify_email_downtime:
-                post_notification( 'Server down', f'{target_website.url} has status {u.status}' )
+                post_email_notification(target_website, u.get_status_display(), 'Server down',
+                                        f'{target_website.url} has status {u.status}')
+
+            # Send notification by Slack
+            if target_website.flag_notify_slack_downtime:
+                time_now = timezone.now().strftime("%Y-%m-%d %H:%M")
+                try:
+                    if target_website.title:
+                        message = f'''Server down at {time_now} for '{target_website.title}' with status '{u.get_status_display()}':\n{target_website.url}'''
+                    else:
+                        message = f'''Server down at {time_now} with status '{u.get_status_display()}':\n{target_website.url}'''
+                    response = Slack.postMessage(settings.SLACK_ROOM, message)
+                except:
+                    print("Error with Slack")
+
     except Exception as e:
         u.status = 'exception'
         #u.status_code = r.status_code
@@ -106,7 +138,11 @@ def check_domain( target_website ):
 
         if settings.DEBUG:
             print(f"{colorama.Fore.RED}{url} throw exception:{colorama.Style.RESET_ALL} {e}")
-        post_notification( 'Server down', f'{target_website.url} has status {u.status}' )
+
+
+        post_email_notification(target_website, u.get_status_display(), 'Server down',
+                                f'{target_website.url} has status {u.status}')
+
 
 def check_domains():
     if settings.DEBUG:
@@ -121,8 +157,15 @@ def check_domains():
                                            kwargs={})
         t.start()
 
-def post_notification( title, body ):
-    pass
+def post_email_notification( target_website, status, title, body ):
+    send_mail(
+        title,
+        body,
+        settings.SERVER_EMAIL,
+        [settings.SERVER_EMAIL],
+        fail_silently=False,
+    )
+
 
 def remove_expired_uptimes():
     previous_cutoff = timezone.now() - datetime.timedelta(days=3)

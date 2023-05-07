@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth import logout
 
 from django.urls import reverse
-
+from django.utils import timezone
 from django.conf import settings
 from django.views.decorators.cache import never_cache
 from django.core.exceptions import ObjectDoesNotExist
@@ -33,6 +33,7 @@ from uptimecheckcore.components.helpers import Slack
 from uptimebot.handler import check_domains, check_domain
 from . import forms
 from django.contrib.auth import login
+from django.core.mail import send_mail
 
 User = get_user_model()
 
@@ -632,6 +633,36 @@ def api_test_slack(request):
         return JsonResponse({
             'status': 'error',
             'error' : 'Form is error'
+        })
+
+@api_view(['GET', 'POST', ])
+# @authentication_classes((JWTAuthentication, SessionAuthentication))
+@authentication_classes((SessionAuthentication,))
+@permission_classes((IsStaffAuthenticated,))
+def api_test_email(request):
+    f = forms.EmailTestForm(request.data)
+    if f.is_valid():
+        try:
+            send_mail(
+                "Test e-mail from Uptime Checker",
+                "Test e-mail generated on %s" % timezone.now(),
+                settings.SERVER_EMAIL,
+                [f.cleaned_data['email']],
+                fail_silently=False,
+            )
+        except:
+            return JsonResponse({
+                'status': 'error',
+                'error': "Unable to send e-mail"
+            })
+        else:
+            return JsonResponse({
+                'status': 'okay',
+            })
+    else:
+        return JsonResponse({
+            'status': 'error',
+            'error': 'Form is error'
         })
 
 

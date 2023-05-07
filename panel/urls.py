@@ -39,6 +39,8 @@ urlpatterns = [
     path('api/websites/delete/', views.api_websites_delete, name="api_websites_delete"),
 
     path('api/test/slack/', views.api_test_slack, name="api_test_slack"),
+    path('api/test/email/', views.api_test_email, name="api_test_email"),
+
 
     # Logout
     path('logout/', views.logout_, name="logout"),

@@ -98,8 +98,8 @@ You should overwrite the default Django settings at ```uptimechecker/settings_cu
 | ``EMAIL_BACKEND`` | The default E-mail backend, set to django-ses for AWS deployment            | ``django_ses.SESBackend``                                                                                              |
 | ``AWS_SES_REGION_NAME`` | Default AWS SES region Name                                                 | ``us-west-2``                                                                                                          |
 | ``AWS_SES_REGION_ENDPOINT`` | Default AWS SES region endpoint                                             | ``email.us-west-2.amazonaws.com``                                                                                      |
-| ``SERVER_EMAIL`` | E-mail for sending the notification emails                                  | ````                                                                                                                   |
-| ``SLACK_TOKEN`` | Slack Team Token                                                            | ````                                                                                      |
+| ``SERVER_EMAIL`` | E-mail for sending the notification emails                                  |                                                                                                                   |
+| ``SLACK_TOKEN`` | Slack Team Token                                                            |                                                                                      |
 | ``SLACK_ROOM`` | Room to show the error Slack message.                                       | ``#general``                                                                                                           |
 
 ---

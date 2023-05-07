@@ -60,16 +60,11 @@
                         </thead>
                         <tbody>
                         <tr class="tableHoverRow " v-for="object in objects" :key="object.id" {% if request.user.is_staff %}@click="websiteDetail(object)"{% endif %}>
-                            {#                            <td>#}
-                            {#                                <button class="btn btn-dark text-white btn-sm"#}
-                            {#                                        @click="triggerSingleHost($event, object.id)"><i#}
-                            {#                                        class="fa-solid fa-robot"></i></button>#}
-                            {#                            </td>#}
                             <td>
                                 <span v-show="object.title">
                                     <span class="text-primary">[[object.title]]</span><br/>
                                     <span @click.stop="gotoWebsite(object)"
-                                       class="no-underline-link small">[[object.target_website_url]]</a>
+                                       class="no-underline-link small">[[object.target_website_url]]</span>
                                 </span>
 
                                 <span v-show="!object.title">
@@ -77,14 +72,6 @@
                                        target="_blank" class="no-underline-link">[[object.target_website_url]]</a>
                                 </span>
                             </td>
-                            {#                            <td class="small"><span v-if="object.ssl_expire_time">[[unixtime_to_locale(object.ssl_expire_time)]]<br/>#}
-                            {#                                <small class="text-muted">[[humanize_seconds(object.ssl_expire_time)]]</small></span>#}
-                            {#                            </td>#}
-                            {#                            <td class="small"><span v-if="object.previous_exception && object.previous_exception.time">[[unixtime_to_locale(object.previous_exception.time)]]#}
-                            {#                                <br/>#}
-                            {#                                <span class="small text-danger">[[object.previous_exception.status_display]]</span>#}
-                            {#                            </span>#}
-                            {#                            </td>#}
 
                             <td v-if="object.uptimes && object.uptimes.length > 0" class="text-center">
                                 <span :class="buttonClassForStatus(object.uptimes[0].status)">[[object.uptimes[0].status_display]]</span>
@@ -127,7 +114,7 @@
                                 <span v-show="object.title">
                                     <span class="text-primary" @click.stop.prevent="gotoWebsite(object)">[[object.title]]</span><br/>
                                     <span @click.stop.prevent="gotoWebsite(object)"
-                                       class="no-underline-link small">[[object.target_website_url]]</a>
+                                       class="no-underline-link small">[[object.target_website_url]]</span>
                                 </span>
 
                                 <span v-show="!object.title">
@@ -148,6 +135,8 @@
                                 <span :class="buttonClassForStatus(uptime.status)">[[uptime.status_display]]</span>
 
                                 <span class="small text-muted" v-show="uptime.end_time">[[humanize_seconds(uptime.end_time)]]</span>
+                            </td>
+                            <td :colspan="(5 - object.uptimes.length)" v-if="object.uptimes && object.uptimes.length < 5">
                             </td>
                         </tr>
                         </tbody>
