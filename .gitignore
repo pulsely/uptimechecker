@@ -96,3 +96,4 @@ db.sqlite3
 .idea/*
 
 uptimechecker/settings_customized.py
+remove_files.sh
