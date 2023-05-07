@@ -38,33 +38,36 @@ def create_default_file():
     f.close()
 
 def create_first_user():
-    from panel.forms import AdminResetForm
+    if is_docker():
+        print("Users are not created interactively as you are using docker. Please use the add super user link to add user.")
+    else:
+        from panel.forms import AdminResetForm
 
-    User = get_user_model()
+        User = get_user_model()
 
-    print(f"{colorama.Fore.RED}You do not have any user in the system yet.{colorama.Style.RESET_ALL}")
-    print("Now, set the username and password of your superuser:")
-    username = input("Username: ")
+        print(f"{colorama.Fore.RED}You do not have any user in the system yet.{colorama.Style.RESET_ALL}")
+        print("Now, set the username and password of your superuser:")
+        username = input("Username: ")
 
-    flag_added = False
+        flag_added = False
 
-    while not flag_added:
-        password = getpass.getpass("Password: ")
-        f = AdminResetForm({ "password" : password })
-        if f.is_valid():
-            flag_added = True
-        else:
-            if f.errors:
-                error = f.errors['password'][0]
-                print(f"Sorry, something wrong with your password:\n{colorama.Fore.RED}{error}{colorama.Style.RESET_ALL}\nPlease try again.")
+        while not flag_added:
+            password = getpass.getpass("Password: ")
+            f = AdminResetForm({ "password" : password })
+            if f.is_valid():
+                flag_added = True
+            else:
+                if f.errors:
+                    error = f.errors['password'][0]
+                    print(f"Sorry, something wrong with your password:\n{colorama.Fore.RED}{error}{colorama.Style.RESET_ALL}\nPlease try again.")
 
-    print(f"Creating with your username {colorama.Fore.GREEN}{username}{colorama.Style.RESET_ALL} and {colorama.Fore.GREEN}********{colorama.Style.RESET_ALL}")
+        print(f"Creating with your username {colorama.Fore.GREEN}{username}{colorama.Style.RESET_ALL} and {colorama.Fore.GREEN}********{colorama.Style.RESET_ALL}")
 
-    the_user = User.objects.create_user( username, '', password)
-    the_user.is_staff = True
-    the_user.is_superuser = True
-    the_user.save()
-    print("User created. You can now sign in.")
+        the_user = User.objects.create_user( username, '', password)
+        the_user.is_staff = True
+        the_user.is_superuser = True
+        the_user.save()
+        print("User created. You can now sign in.")
 
 
 SETTINGS_CUSTOMIZED_DEFALUT = '''
