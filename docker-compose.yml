@@ -14,7 +14,7 @@ services:
     environment:
       REDIS_URL: "redis://redis:6379/0"
     volumes:
-      - django:/code
+      - .:/code
     depends_on:
       - redis
   django:
@@ -22,7 +22,7 @@ services:
     command: python manage.py runserver 0.0.0.0:8000
     container_name: uptimechecker-django
     volumes:
-      - django:/code
+      - .:/code
     environment:
       IS_DOCKER: "true"
       REDIS_URL: "redis://redis:6379/0"
@@ -31,5 +31,5 @@ services:
     depends_on:
       - redis
       - celery
-volumes:
-    django: {}
+#volumes:
+#    django: {}
