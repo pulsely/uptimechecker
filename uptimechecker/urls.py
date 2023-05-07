@@ -19,6 +19,8 @@ from django.contrib.auth import views as auth_views
 from django.conf import settings
 import os
 
+
+
 urlpatterns = [
     path('', include('landing.urls')),
     path('panel/', include('panel.urls')),

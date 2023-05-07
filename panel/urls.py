@@ -42,3 +42,13 @@ urlpatterns = [
     path('logout/', views.logout_, name="logout"),
 
 ]
+
+
+from uptimecheckcore.components.helpers.first_run import first_run_temporary_user_url, first_run_has_no_users
+if first_run_has_no_users():
+    try:
+        urlpatterns += [
+            path(f'firsttime/{first_run_temporary_user_url()}/', views.first_run_superuser_setup, name="first_run_superuser_setup"),
+        ]
+    except:
+        pass

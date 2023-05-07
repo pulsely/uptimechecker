@@ -16,7 +16,6 @@ EMAIL_BACKEND = "django_ses.SESBackend"
 AWS_SES_REGION_NAME = "us-west-2"
 AWS_SES_REGION_ENDPOINT = "email.us-west-2.amazonaws.com"
 SERVER_EMAIL = ""
-SES_SENDER_EMAIL = ""
 '''
 
 def create_default_file():
@@ -39,12 +38,25 @@ def create_default_file():
     f.close()
 
 def create_first_user():
+    from panel.forms import AdminResetForm
+
     User = get_user_model()
 
     print(f"{colorama.Fore.RED}You do not have any user in the system yet.{colorama.Style.RESET_ALL}")
     print("Now, set the username and password of your superuser:")
     username = input("Username: ")
-    password = getpass.getpass("Password: ")
+
+    flag_added = False
+
+    while not flag_added:
+        password = getpass.getpass("Password: ")
+        f = AdminResetForm({ "password" : password })
+        if f.is_valid():
+            flag_added = True
+        else:
+            if f.errors:
+                error = f.errors['password'][0]
+                print(f"Sorry, something wrong with your password:\n{colorama.Fore.RED}{error}{colorama.Style.RESET_ALL}\nPlease try again.")
 
     print(f"Creating with your username {colorama.Fore.GREEN}{username}{colorama.Style.RESET_ALL} and {colorama.Fore.GREEN}********{colorama.Style.RESET_ALL}")
 
@@ -93,6 +105,8 @@ def check_and_create_env():
         # Run migrate
 
 def migrate_thread():
+    print(f"The database of the Uptime Checker is not ready yet. One moment...")
+
     print(f"{colorama.Fore.GREEN}Creating SQLite database in {colorama.Fore.RED}4{colorama.Fore.GREEN} seconds{colorama.Style.RESET_ALL}")
     time.sleep(1)
     print(f"{colorama.Fore.GREEN}Creating SQLite database in {colorama.Fore.RED}3{colorama.Fore.GREEN} seconds{colorama.Style.RESET_ALL}")
@@ -111,3 +125,31 @@ def migrate_thread():
         f"If the database file is not created, just run: {colorama.Fore.RED}python manage.py migrate{colorama.Style.RESET_ALL}\n")
 
     create_first_user()
+
+def first_run_has_no_users():
+    try:
+        from django.contrib.auth import get_user_model
+        from django.conf import settings
+        User = get_user_model()
+
+        return (len( User.objects.all() ) == 0)
+    except:
+        return False
+
+def first_run_temporary_user_url():
+    from django.contrib.auth import get_user_model
+    from django.conf import settings
+    import uuid
+    from django.urls import reverse_lazy
+
+    User = get_user_model()
+
+    random = "%s" % uuid.uuid4()
+
+    if first_run_has_no_users():
+        #if settings.DEBUG:
+        print(f"You do not have users in your system yet. You can {colorama.Fore.RED}add a superuser{colorama.Style.RESET_ALL} at:")
+        print(f"{colorama.Fore.GREEN}http://localhost:8000{colorama.Fore.RED}/panel/firsttime/{random}/{colorama.Style.RESET_ALL}")
+        print(f"(Hostname and port might be different, depending on your configuration)")
+        print("\n")
+    return random

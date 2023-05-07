@@ -148,6 +148,12 @@ DEFAULT_USER_AGENT = config("DEFAULT_USER_AGENT") #os.getenv("DEFAULT_USER_AGENT
 DEFAULT_PERIODIC_MINUTES = int(config("DEFAULT_PERIODIC_MINUTES")) #os.getenv("DEFAULT_PERIODIC_TIME", 15)
 DEFAULT_ADD_RANDOMNESS = False
 
+# E-mail Settings
+EMAIL_BACKEND = config("EMAIL_BACKEND")
+AWS_SES_REGION_NAME = config("AWS_SES_REGION_NAME")
+AWS_SES_REGION_ENDPOINT = config("AWS_SES_REGION_ENDPOINT")
+SERVER_EMAIL = config("SERVER_EMAIL")
+
 #
 # # Celery settings
 
@@ -159,7 +165,11 @@ CELERY_TIMEZONE = TIME_ZONE
 CELERY_TASK_TRACK_STARTED = True
 CELERY_TASK_TIME_LIMIT = 5 * 60
 
-# You can overwrite the default Django settings file at uptimechecker/settings_customized.py file
+# You can change most of the settings at the .env file
+# Configurations are available at the "Uptime Checker" github page:
+# https://github.com/pulsely/uptimechecker
+#
+# You can also overwrite the default Django settings file at uptimechecker/settings_customized.py file
 if os.path.exists("uptimechecker/settings_customized.py"):
     from .settings_customized import *
 

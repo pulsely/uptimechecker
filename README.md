@@ -1,5 +1,5 @@
 
-# Uptime Checker Server by Pulsely
+# Uptime Checker by Pulsely
 
 ![Uptime Checker Screenshot](https://pulsely.github.io/products/uptime-checker/images/screenshot.png)
 
@@ -81,13 +81,18 @@ A sample shell script will trigger the celery for recurring checks with minutes 
 
 You should overwrite the default Django settings at ```uptimechecker/settings_customized.py``` which should be created on first run.
 
-=====================================  =====================================
-**Varaiable**                            **Description**
-=====================================  =====================================
-``SECRET_KEY``                          ``python manage.py celery``
-``DEBUG``                               ``python manage.py celery worker``
-``ALLOWED_HOSTS``                       ``python manage.py celery beat``
-``DEFAULT_USER_AGENT``                  ``python manage.py celery ...``
+| **Varaiable** | **Description** | **Defaults**                                                                                                           |
+| ------------- | ------------- |------------------------------------------------------------------------------------------------------------------------|
+| ``SECRET_KEY`` |  | ``Random key generated automatically``                                                                                 |
+| ``DEBUG``          | | ``true``                                                                                                               |
+| ``ALLOWED_HOSTS``   |  | ``*``                                                                                                                  |
+| ``DEFAULT_USER_AGENT`` | | ``Mozilla/5.0 (Macintosh; Intel Mac OS X 12_4) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.4 Safari/605.1.15`` |
+| ``DEFAULT_PERIODIC_MINUTES`` | | ``5``                                                                                                                  |
+| ``EMAIL_BACKEND`` | | ``django_ses.SESBackend``                                                                                                                  |
+| ``AWS_SES_REGION_NAME`` | | ``us-west-2``                                                                                                                  |
+| ``AWS_SES_REGION_ENDPOINT`` | | ``email.us-west-2.amazonaws.com``                                                                                                                  |
+| ``SERVER_EMAIL`` | | ````                                                                                                                  |
+
 =====================================  =====================================
 
 

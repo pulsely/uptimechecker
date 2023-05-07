@@ -9,6 +9,11 @@ from django.conf import settings
 from uptimecheckcore import models
 from django.contrib.auth.password_validation import validate_password
 
+# For resetting the password with Django Management Command "reset"
+class AdminResetForm(forms.Form):
+    password = forms.CharField(widget=widgets.PasswordInput(attrs={'class': 'form-control'}),validators=[validate_password])
+
+
 # Users
 class EditUserForm(forms.Form):
     id = forms.CharField(required=False)

@@ -540,6 +540,9 @@ def api_websites_delete(request):
             'error' : 'Invalid Website ID'
         })
 
+def first_run_superuser_setup(request):
+    return HttpResponse("Super user setup")
+
 @never_cache
 @user_passes_test(operator_privilege_check)
 def logout_(request):
