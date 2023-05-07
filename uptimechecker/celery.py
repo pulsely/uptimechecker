@@ -1,9 +1,9 @@
 import os
 import colorama, time
 # Add 6 seconds before firing up
-if not os.path.exists("db.sqlite3") and os.getenv("IS_DOCKER"):
-    print(f"{colorama.Fore.GREEN}>> Going to fire up Celery in 10 seconds{colorama.Style.RESET_ALL}")
-    time.sleep(10)
+# if not os.path.exists("db.sqlite3") and os.getenv("IS_DOCKER"):
+#     print(f"{colorama.Fore.GREEN}>> Going to fire up Celery in 10 seconds{colorama.Style.RESET_ALL}")
+#     time.sleep(10)
 
 from celery import Celery
 from celery.schedules import crontab
