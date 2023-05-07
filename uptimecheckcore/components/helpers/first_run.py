@@ -84,7 +84,7 @@ SETTINGS_CUSTOMIZED_DEFALUT = '''
 
 def check_and_create_settings_customized():
     settings_customized_path = "uptimechecker/settings_customized.py"
-    if not os.path.exists("settings_customized_path"):
+    if not os.path.exists(settings_customized_path):
         f = open(settings_customized_path, "w")
         f.write(SETTINGS_CUSTOMIZED_DEFALUT)
         f.close()
@@ -126,16 +126,22 @@ def migrate_thread():
 
     create_first_user()
 
+# Only check the first run has no users if it's DEBUG mode
 def first_run_has_no_users():
-    try:
-        from django.contrib.auth import get_user_model
-        from django.conf import settings
-        User = get_user_model()
+    from django.conf import settings
+    if settings.DEBUG:
+        try:
+            from django.contrib.auth import get_user_model
+            from django.conf import settings
+            User = get_user_model()
 
-        return (len( User.objects.all() ) == 0)
-    except:
-        return False
+            return (len( User.objects.all() ) == 0)
+        except:
+            return False
+    else:
+        False
 
+# Return the temporary user token for generating the URL to STDOUT
 def first_run_temporary_user_url():
     from django.contrib.auth import get_user_model
     from django.conf import settings
@@ -152,4 +158,5 @@ def first_run_temporary_user_url():
         print(f"{colorama.Fore.GREEN}http://localhost:8000{colorama.Fore.RED}/panel/firsttime/{random}/{colorama.Style.RESET_ALL}")
         print(f"(Hostname and port might be different, depending on your configuration)")
         print("\n")
-    return random
+    #return random
+    return "testing"

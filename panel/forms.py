@@ -8,11 +8,29 @@ from django.core.exceptions import ValidationError
 from django.conf import settings
 from uptimecheckcore import models
 from django.contrib.auth.password_validation import validate_password
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 # For resetting the password with Django Management Command "reset"
 class AdminResetForm(forms.Form):
     password = forms.CharField(widget=widgets.PasswordInput(attrs={'class': 'form-control'}),validators=[validate_password])
 
+class FirstTimeSuperuserRegistrationForm(forms.Form):
+    first_name =  forms.CharField()
+    last_name =  forms.CharField()
+    username =  forms.CharField()
+    email =  forms.EmailField()
+    password = forms.CharField(widget=widgets.PasswordInput(attrs={'class': 'form-control'}),validators=[validate_password])
+
+    def clean_username(self):
+        data = self.cleaned_data['username']
+
+        # Check dupe
+        if len(User.objects.filter(username=data))  > 0:
+            raise ValidationError("User with username already exists")
+
+        return data
 
 # Users
 class EditUserForm(forms.Form):
@@ -27,6 +45,25 @@ class EditUserForm(forms.Form):
 
 class AddUserForm(EditUserForm):
     password = forms.CharField(widget=widgets.PasswordInput(attrs={'class': 'form-control'}),validators=[validate_password])
+
+    # Don't allow duplicate username registration!
+    def clean_username(self):
+        data = self.cleaned_data['username']
+
+        # Check dupe
+        if len(User.objects.filter(username=data)) > 0:
+            raise ValidationError("User with username already exists")
+
+        return data
+
+    def clean_email(self):
+        data = self.cleaned_data['email']
+
+        # Check dupe
+        if len(User.objects.filter(email=data)) > 0:
+            raise ValidationError("User with e-mail already exists")
+
+        return data
 
 class DeleteUserForm(forms.Form):
     user_id = forms.IntegerField()

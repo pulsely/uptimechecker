@@ -63,7 +63,7 @@
                                 [[object.role_display]]
                             </td>
                             <td>
-                                <button @click="deleteUser(object)" class="btn btn-sm btn-danger"><i
+                                <button @click.stop="deleteUser(object)" class="btn btn-sm btn-danger"><i
                                         class="fa-solid fa-trash" style="color: #fff;"></i></button>
                             </td>
                         </tr>

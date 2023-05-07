@@ -10,7 +10,7 @@ from django.urls import reverse
 from django.conf import settings
 from django.views.decorators.cache import never_cache
 from django.core.exceptions import ObjectDoesNotExist
-
+from uptimecheckcore.components.helpers.first_run import first_run_has_no_users
 from uptimecheckcore.components.credentials.privileges import operator_privilege_check, staff_privilege_check,\
     IsOperatorAuthenticated, IsStaffAuthenticated
 # from rest_framework_simplejwt.authentication import JWTAuthentication
@@ -310,6 +310,51 @@ def api_users_read(request):
         })
 
 @api_view(['GET', 'POST', ])
+def api_users_first_time_setup(request):
+    if settings.DEBUG:
+        f = forms.FirstTimeSuperuserRegistrationForm(request.data)
+        if f.is_valid():
+            # only add if there is really no user?
+            if not first_run_has_no_users():
+                return JsonResponse({
+                    'status' : 'error',
+                    'error' : 'There is already a super user registered.'
+                })
+
+            the_user = User.objects.create_user(f.cleaned_data['username'], f.cleaned_data["email"],
+                                                    f.cleaned_data["password"])
+            the_user.first_name = f.cleaned_data["first_name"]
+            the_user.last_name = f.cleaned_data["last_name"]
+            the_user.role = "admin"
+            the_user.is_staff = True
+            the_user.save()
+
+            return JsonResponse({
+                'status': 'okay',
+            })
+        else:
+            form_errors = {}
+            for e in f.errors.items():
+                print(e)
+                form_errors[e[0]] = e[1][0]
+
+            if settings.DEBUG:
+                print(f'{colorama.Fore.RED}not f.is_valid(){colorama.Style.RESET_ALL}')
+                print(form_errors)
+
+            return JsonResponse({
+                'status': 'error',
+                'form_errors': form_errors,
+                'error': "Form not valid",
+            })
+
+
+    else:
+        return JsonResponse({
+            'status' : 'error',
+            'error' : 'First time setup is no longer available if it is not in DEBUG mode'
+        })
+@api_view(['GET', 'POST', ])
 # @authentication_classes((JWTAuthentication, SessionAuthentication))
 @authentication_classes((SessionAuthentication,))
 @permission_classes((IsStaffAuthenticated,))
@@ -375,6 +420,12 @@ def api_users_delete(request):
     f = forms.DeleteUserForm( request.data )
     if f.is_valid():
         the_user = User.objects.get(id=f.cleaned_data["user_id"])
+        if the_user == request.user:
+            return JsonResponse({
+                'status': 'error',
+                'error': 'You cannot delete the current user'
+            })
+
         the_user.delete()
 
         return JsonResponse({
@@ -541,7 +592,9 @@ def api_websites_delete(request):
         })
 
 def first_run_superuser_setup(request):
-    return HttpResponse("Super user setup")
+    return render( request, "panel/users/first_time_setup.html", {
+
+    })
 
 @never_cache
 @user_passes_test(operator_privilege_check)
