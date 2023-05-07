@@ -1,9 +1,9 @@
 
 # Uptime Checker Server by Pulsely
 
-![Uptime Checker Server Screenshot](https://pulsely.github.io/products/uptime-checker/images/screenshot.png)
+![Uptime Checker Screenshot](https://pulsely.github.io/products/uptime-checker/images/screenshot.png)
 
-__Uptime Checker Server__ is a Django powered app developed by [Pulsely](https://www.pulsely.com/). __Uptime Checker__ monitors your websites for any downtime, as well as SSL expiration dates.
+__Uptime Checker__ is a Django powered app developed by [Pulsely](https://www.pulsely.com/). __Uptime Checker__ monitors your websites for any downtime, as well as SSL expiration dates.
 
 Any down times can be notified by:
 - E-mails

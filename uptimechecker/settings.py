@@ -161,3 +161,7 @@ CELERY_TIMEZONE = TIME_ZONE
 CELERY_TASK_TRACK_STARTED = True
 CELERY_TASK_TIME_LIMIT = 5 * 60
 
+# You can overwrite the default Django settings file at uptimechecker/settings_customized.py file
+if os.path.exists("uptimechecker/settings_customized.py"):
+    from .settings_customized import *
+

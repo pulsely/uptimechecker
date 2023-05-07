@@ -94,3 +94,5 @@ documentations/*
 db.sqlite3
 .env
 .idea/*
+
+uptimechecker/settings_customized.py
