@@ -11,6 +11,7 @@ DEBUG=true
 ALLOWED_HOSTS="*"
 DEFAULT_USER_AGENT="Mozilla/5.0 (Macintosh; Intel Mac OS X 12_4) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.4 Safari/605.1.15"
 DEFAULT_PERIODIC_MINUTES=15
+DEFAULT_ADD_RANDOMNESS=false
 
 EMAIL_BACKEND = "django_ses.SESBackend"
 AWS_SES_REGION_NAME = "us-west-2"

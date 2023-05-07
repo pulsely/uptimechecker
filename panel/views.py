@@ -223,7 +223,6 @@ def api_uptime_list(request):
 def api_trigger_refresh(request):
     if settings.DEBUG:
         print(f"{colorama.Fore.RED}request user is:{colorama.Style.RESET_ALL} {request.user.username}")
-        print(f">> request.data: {request.data}")
 
     if "mode" in request.data and request.data["mode"]:
         if request.data["mode"] == "all":

@@ -58,12 +58,18 @@ python manage.py runserver
 
 ### Running with Docker
 
-The Uptime Checker has a default DockerFile which will run with Docker or Podman.
+The Uptime Checker has a default DockerFile which will run with Docker or Podman in development mode.
 
 The Docker setup will run the Uptime Checker with Django, Redis and Celery, and run the first run setup automatically.
 
 ```
 docker-compose up
+```
+
+To run the Docker setup in daemon mode:
+
+```
+docker-compose up -d
 ```
 
 ---
@@ -81,17 +87,18 @@ A sample shell script will trigger the celery for recurring checks with minutes 
 
 You should overwrite the default Django settings at ```uptimechecker/settings_customized.py``` which should be created on first run.
 
-| **Varaiable** | **Description** | **Defaults**                                                                                                           |
-| ------------- | ------------- |------------------------------------------------------------------------------------------------------------------------|
-| ``SECRET_KEY`` |  | ``Random key generated automatically``                                                                                 |
-| ``DEBUG``          | | ``true``                                                                                                               |
-| ``ALLOWED_HOSTS``   |  | ``*``                                                                                                                  |
-| ``DEFAULT_USER_AGENT`` | | ``Mozilla/5.0 (Macintosh; Intel Mac OS X 12_4) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.4 Safari/605.1.15`` |
-| ``DEFAULT_PERIODIC_MINUTES`` | | ``5``                                                                                                                  |
-| ``EMAIL_BACKEND`` | | ``django_ses.SESBackend``                                                                                                                  |
-| ``AWS_SES_REGION_NAME`` | | ``us-west-2``                                                                                                                  |
-| ``AWS_SES_REGION_ENDPOINT`` | | ``email.us-west-2.amazonaws.com``                                                                                                                  |
-| ``SERVER_EMAIL`` | | ````                                                                                                                  |
+| **Varaiable** | **Description**                                                                      | **Defaults**                                                                                                           |
+| ------------- |--------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------|
+| ``SECRET_KEY`` | The secret key for Django user authentication                                        | ``Random key generated automatically``                                                                                 |
+| ``DEBUG``          | Django DEBUG mode for development. Set to false for deployment                       | ``true``                                                                                                               |
+| ``ALLOWED_HOSTS``   | Host/domain names that this Django site can serve.                                   | ``*``                                                                                                                  |
+| ``DEFAULT_USER_AGENT`` | Default user agent for sending the HTTP request for uptime check                     | ``Mozilla/5.0 (Macintosh; Intel Mac OS X 12_4) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.4 Safari/605.1.15`` |
+| ``DEFAULT_PERIODIC_MINUTES`` | Number of minutes to refresh all websites checks                                     | ``15``                                                                                                                 |
+| ``DEFAULT_ADD_RANDOMNESS`` | Add some random delay of 1 to 30 seconds for each HTTP requests. Disable by default. | ``false``                                                                                                              |
+| ``EMAIL_BACKEND`` | The default E-mail backend, set to django-ses for AWS deployment                     | ``django_ses.SESBackend``                                                                                              |
+| ``AWS_SES_REGION_NAME`` | Default AWS SES region Name                                                          | ``us-west-2``                                                                                                          |
+| ``AWS_SES_REGION_ENDPOINT`` | Default AWS SES region endpoint                                                      | ``email.us-west-2.amazonaws.com``                                                                                      |
+| ``SERVER_EMAIL`` | E-mail for sending the notification emails                                           | ````                                                                                                                   |
 
 
 ---

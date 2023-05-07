@@ -56,7 +56,7 @@ class UptimeCheck(models.Model):
     status_code = models.IntegerField(null=True, blank=True)
     status = models.CharField(choices=STATUS_CHOICES, null=True, blank=True, max_length=200)
 
-    error_description = models.TextField( null=True, blank=True )
+    error_description = models.TextField( null=True, blank=True )           # Not used currently.
 
     payload = models.JSONField("Payload", null=True, blank=True)
 

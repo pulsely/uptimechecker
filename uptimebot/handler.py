@@ -68,8 +68,8 @@ def check_domain( target_website ):
                         post_notification( 'Missing keyword: ', f'{target_website.url} has status {u.status}' )
 
             if target_website.flag_check_ssl_expire_time:
-                if settings.DEBUG:
-                    print(f"{colorama.Fore.RED}r.peercert:{colorama.Style.RESET_ALL} {r.peercert}")
+                # if settings.DEBUG:
+                #     print(f"{colorama.Fore.RED}r.peercert:{colorama.Style.RESET_ALL} {r.peercert}")
                 ssl_date_fmt = r'%b %d %H:%M:%S %Y %Z'
                 expire_time_naive = datetime.datetime.strptime( r.peercert['notAfter'], ssl_date_fmt)
                 expire_time_datetime = pytz.timezone('UTC').localize(expire_time_naive)
