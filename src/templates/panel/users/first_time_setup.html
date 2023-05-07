@@ -98,7 +98,8 @@
                     </div>
                     <div class="card-footer">
                         <div class="d-grid">
-                            <button @click="saveUser" class="btn btn-success btn-block" style="color: #fff;">Save user
+                            <button @click="saveUser" class="btn btn-success btn-block" style="color: #fff;"
+                                    :disabled="flag_loading">Save user
                             </button>
                         </div>
 
@@ -129,7 +130,7 @@
             el: '#app',
             data: {
                 message: "Ready",
-                flag_loading: true,
+                flag_loading: false,
                 user: {
                     username: null,
                     first_name: null,
@@ -141,6 +142,7 @@
             },
             methods: {
                 saveUser() {
+                    this.flag_loading = true;
                     // trigger the "init" operations on server side
                     var data = this.user;
                     data.operation = "{{ operation }}";
@@ -152,7 +154,12 @@
 
                                 this.flag_loading = false;
                                 var r = Date.now();
-                                window.location.replace(`{% url 'panel:index' %}?r=${r}`);
+
+                                // Wait 1 second before redirecting
+
+                                setTimeout(() => {
+                                    window.location.replace(`{% url 'panel:index' %}?r=${r}`);
+                                }, 1000);
 
                             } else if (res.data.status == 'error') {
                                 if (res.data.form_errors) {
@@ -165,6 +172,7 @@
                                     text: res.data.error, timer: 3000
                                 })
                             }
+                            this.flag_loading = false;
                         }
                     }).catch(error => {
                         Swal.fire({
@@ -172,6 +180,7 @@
                             title: 'Oops...',
                             text: error, timer: 3000
                         })
+                        this.flag_loading = false;
                     })
                 }
             },

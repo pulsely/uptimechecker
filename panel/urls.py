@@ -15,7 +15,6 @@ urlpatterns = [
     path('users/reset-password/<int:user_id>/', views.users_reset_password, name="users_reset_password"),
     path('users/change-password/', views.change_password, name="change_password"),
 
-
     path('website/create/', views.websites_create, name="websites_create"),
     path('website/edit/<uuid:website_id>/', views.websites_edit, name="websites_edit"),
 

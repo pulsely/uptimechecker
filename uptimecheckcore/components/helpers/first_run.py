@@ -158,5 +158,4 @@ def first_run_temporary_user_url():
         print(f"{colorama.Fore.GREEN}http://localhost:8000{colorama.Fore.RED}/panel/firsttime/{random}/{colorama.Style.RESET_ALL}")
         print(f"(Hostname and port might be different, depending on your configuration)")
         print("\n")
-    #return random
-    return "testing"
+    return random

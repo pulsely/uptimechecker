@@ -31,6 +31,7 @@ from uptimebot import models
 from uptimecheckcore.components.helpers.configurations import is_secretkey_insecure
 from uptimebot.handler import check_domains, check_domain
 from . import forms
+from django.contrib.auth import login
 
 User = get_user_model()
 
@@ -328,6 +329,14 @@ def api_users_first_time_setup(request):
             the_user.role = "admin"
             the_user.is_staff = True
             the_user.save()
+
+            try:
+                the_user.backend = 'django.contrib.auth.backends.ModelBackend'
+                login(request, the_user)
+            except Exception as inst:
+                print(type(inst))  # the exception instance
+                print(inst.args)  # arguments stored in .args
+                print(inst)  # __str__ allows args to printed directly
 
             return JsonResponse({
                 'status': 'okay',
