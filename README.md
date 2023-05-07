@@ -60,7 +60,7 @@ python manage.py runserver
 
 The Uptime Checker has a default DockerFile which will run with Docker or Podman.
 
-The setup will run the Uptime Checker with Django, Redis and Celery automatically.
+The Docker setup will run the Uptime Checker with Django, Redis and Celery, and run the first run setup automatically.
 
 ```
 docker-compose up
@@ -74,6 +74,22 @@ Celery is used for scheduling the periodic uptime checks.
 
 A sample shell script will trigger the celery for recurring checks with minutes specified in DEFAULT_PERIODIC_MINUTES at the .env configuration:  
 ```./run_celery_dev.sh``` 
+
+---
+
+### Django settings that can be overwritten
+
+You should overwrite the default Django settings at ```uptimechecker/settings_customized.py``` which should be created on first run.
+
+=====================================  =====================================
+**Varaiable**                            **Description**
+=====================================  =====================================
+``SECRET_KEY``                          ``python manage.py celery``
+``DEBUG``                               ``python manage.py celery worker``
+``ALLOWED_HOSTS``                       ``python manage.py celery beat``
+``DEFAULT_USER_AGENT``                  ``python manage.py celery ...``
+=====================================  =====================================
+
 
 ---
 

@@ -54,7 +54,7 @@ def check_domain( target_website ):
 
     try:
         if settings.DEFAULT_ADD_RANDOMNESS:
-            sleep(randint(1, 50))        # add random
+            sleep(randint(1, 30))        # add random
         r = requests.get( url, headers={ 'User-Agent' : settings.DEFAULT_USER_AGENT }, timeout=15 )
         if r.status_code == 200:
             u.status = 'normal'

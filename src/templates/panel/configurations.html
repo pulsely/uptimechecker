@@ -33,15 +33,20 @@
                 <div class="card-header">
                     {% if DEBUG_ %}
                         <i class="fa-solid fa-radiation text-danger"></i>
-                        DEBUG mode enabled{% else %}
-                        <i class="fa-solid fa-circle-check text-success"></i>    DEBUG mode off
+                        DEBUG mode enabled
+
+                    {% else %}
+                        <i class="fa-solid fa-circle-check text-success"></i>    DEBUG mode off. You can set
 
                     {% endif %}
                 </div>
                 <div class="card-body">
                     {% if DEBUG_ %}
 
-                        You are using DEBUG mode in Django. Please do not enable this mode on deployment.
+                        <p>You are using DEBUG mode in Django. Please do not enable this mode on deployment.</p>
+
+                        <p>Try setting the DEBUG mode in .env file to false:<br />
+                        <span class="text-primary">DEBUG=false</span></p>
 
                     {% else %}
                         You are not using DEBUG mode in Django. Great!
