@@ -11,6 +11,8 @@ services:
     build:
       context: .
     command: celery -A uptimechecker worker -B -l INFO
+    environment:
+      REDIS_URL: "redis://redis:6379/0"
     volumes:
       - static_volume:/code
     depends_on:
@@ -21,6 +23,8 @@ services:
     container_name: uptimechecker-django
     volumes:
       - static_volume:/code
+    environment:
+      REDIS_URL: "redis://redis:6379/0"
     ports:
       - "8000:8000"
     depends_on:
