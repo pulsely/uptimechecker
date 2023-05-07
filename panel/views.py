@@ -650,10 +650,10 @@ def api_test_email(request):
                 [f.cleaned_data['email']],
                 fail_silently=False,
             )
-        except:
+        except Exception as e:
             return JsonResponse({
                 'status': 'error',
-                'error': "Unable to send e-mail"
+                'error': "Unable to send e-mail: %s" % str(e),
             })
         else:
             return JsonResponse({
