@@ -25,52 +25,52 @@ You can run Uptime Checker directly with a Python virtual environment, or with D
 The best way would be to create a new Python virtual environment. Any Python with version 3.8 should work.
 The only dependency would be an active Redis 4.0+ installation.
 
-Pull the source code of Uptime Checker:
-```
-git clone https://github.com/pulsely/uptimechecker
-```
+* Pull the source code of Uptime Checker:
+  ```sh
+  git clone https://github.com/pulsely/uptimechecker
+  ```
 
-Changed to the directory of the Uptime Checker:
-```
-cd uptimechecker
-```
+* Changed to the directory of the Uptime Checker:
+  ```sh
+  cd uptimechecker
+  ```
 
-Create a new python virtual environment and install the packages from requirements.txt:
-```
-python -m venv venv
-source ./venv/bin/activate
-pip install -r requirements.txt
-```
+* Create a new python virtual environment and install the packages from requirements.txt:
+  ```sh
+  python -m venv venv
+  source ./venv/bin/activate
+  pip install -r requirements.txt
+  ```
 (Your Python 3 runtime could be named differently, such as 'python3', so change to ```python3 -m venv venv``` if this is the case.)
 
-Then run the uptime checker:
-```
-python manage.py runserver
-```
-The manage.py will check if a .env file is create and create one for you automatically if missing. The db.sqlite3 file will also be created for you 4 seconds after the installation is fired up the first time.
+* Then run the uptime checker:
+  ```sh
+  python manage.py runserver
+  ```
+  The manage.py will check if a .env file is create and create one for you automatically if missing. The db.sqlite3 file will also be created for you 4 seconds after the installation is fired up the first time.
 
-You can run your Uptime Checker installation with the shell script ```./run_django_dev.sh``` from now on, or activate the venv virtual environment created previously with these commands:
-```
-source ./venv/bin/activate
-python manage.py runserver
-```
+* You can run your Uptime Checker installation with the shell script ```./run_django_dev.sh``` from now on, or activate the venv virtual environment created previously with these commands:
+  ```sh
+  source ./venv/bin/activate
+  python manage.py runserver
+  ```
 
 
 ### Running with Docker
 
 The Uptime Checker has a default DockerFile which will run with Docker or Podman in development mode.
 
-The Docker setup will run the Uptime Checker with Django, Redis and Celery, and run the first run setup automatically.
+* The Docker setup will run the Uptime Checker with Django, Redis and Celery, and run the first run setup automatically.
 
-```
-docker-compose up
-```
+  ```sh
+  docker-compose up
+  ```
 
-To run the Docker setup in daemon mode:
+* To run the Docker setup in daemon mode:
 
-```
-docker-compose up -d
-```
+  ```sh
+  docker-compose up -d
+  ```
 
 ---
 
@@ -151,41 +151,41 @@ You can use any databases supported by Django. Create the database settings at t
 
 ### Python packages
 
-__Celery__  
-Copyright (c) 2015-2016 Ask Solem & contributors.  All rights reserved.
-Copyright (c) 2012-2014 GoPivotal, Inc.  All rights reserved.
-Copyright (c) 2009, 2010, 2011, 2012 Ask Solem, and individual contributors.  All rights reserved.
-BSD 3-Clause "New" or "Revised" License
-https://github.com/celery/celery
+* __Celery__  
+  Copyright (c) 2015-2016 Ask Solem & contributors.  All rights reserved.
+  Copyright (c) 2012-2014 GoPivotal, Inc.  All rights reserved.
+  Copyright (c) 2009, 2010, 2011, 2012 Ask Solem, and individual contributors.  All rights reserved.
+  BSD 3-Clause "New" or "Revised" License
+  https://github.com/celery/celery
 
-__Django__  
-Copyright (c) Django Software Foundation and individual contributors.   
-All rights reserved.   
-https://www.djangoproject.com/
+* __Django__  
+  Copyright (c) Django Software Foundation and individual contributors.   
+  All rights reserved.   
+  https://www.djangoproject.com/
 
-__Django Rest Framework__  
-Copyright © 2011-present, Encode OSS Ltd. All rights reserved.  
-https://www.django-rest-framework.org/
+* __Django Rest Framework__  
+  Copyright © 2011-present, Encode OSS Ltd. All rights reserved.  
+  https://www.django-rest-framework.org/
 
-__Django SES__
-Copyright (c) 2011 Harry Marr
-MIT license
-https://github.com/django-ses/django-ses
+* __Django SES__
+  Copyright (c) 2011 Harry Marr
+  MIT license
+  https://github.com/django-ses/django-ses
 
-__Font Awesome__  
-CC BY 4.0 License
-https://github.com/FortAwesome/Font-Awesome
+* __Font Awesome__  
+  CC BY 4.0 License
+  https://github.com/FortAwesome/Font-Awesome
 
-__python-decouple__
-Copyright (c) 2013 Henrique Bastos
-MIT license
-https://github.com/HBNetwork/python-decouple
+* __python-decouple__
+  Copyright (c) 2013 Henrique Bastos
+  MIT license
+  https://github.com/HBNetwork/python-decouple
 
 ### Graphics
 
-Admin panel template is provided by CoreUI  
-Copyright 2022 creativeLabs Łukasz Holeczek. Code released under the MIT License   
-https://github.com/coreui/coreui
+* __Admin panel template is provided by CoreUI__  
+  Copyright 2022 creativeLabs Łukasz Holeczek. Code released under the MIT License   
+  https://github.com/coreui/coreui
 
 
 ---
