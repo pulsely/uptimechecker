@@ -47,15 +47,9 @@ The only dependency would be an active Redis 4.0+ installation.
   ```sh
   python manage.py runserver
   ```
-  
-  or
-
-  ```shell
-  make dev
-  ```
   The manage.py will check if a .env file is create and create one for you automatically if missing. The db.sqlite3 file will also be created for you 4 seconds after the installation is fired up the first time.
 
-* You can run your Uptime Checker installation with the shell script ```./run_django_dev.sh``` from now on, or activate the venv virtual environment created previously with these commands:
+* You can run your Uptime Checker installation with the Make command ```make dev``` from now on, or activate the venv virtual environment created previously with these commands:
   ```sh
   source ./venv/bin/activate
   python manage.py runserver
@@ -84,8 +78,8 @@ The Uptime Checker has a default DockerFile which will run with Docker or Podman
 
 Celery is used for scheduling the periodic uptime checks.
 
-A sample shell script will trigger the celery for recurring checks with minutes specified in ``DEFAULT_PERIODIC_MINUTES`` with the .env configuration:  
-```./run_celery_dev.sh``` 
+A sample Make command will trigger the celery for recurring checks with minutes specified in ``DEFAULT_PERIODIC_MINUTES`` with the .env configuration:  
+```make celery``` 
 
 ---
 

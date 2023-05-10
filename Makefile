@@ -1,7 +1,7 @@
 .DEFAULT_GOAL := dev
 
 dev:
-	python manage.py runserver
+	source ./venv/bin/activate ;  python manage.py runserver
 
 test:
 	python manage.py test
@@ -9,3 +9,5 @@ test:
 reset:
 	python manage.py reset
 
+celery:
+	source ./venv/bin/activate ; source .env ; celery -A uptimechecker worker -B -l INFO
