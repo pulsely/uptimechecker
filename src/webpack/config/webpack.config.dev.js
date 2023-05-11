@@ -15,7 +15,7 @@ module.exports = {
         './src/app.js'
     ],
     output: {
-        filename: '../../lookandfeel/js/bundle-2002-09-23.js',
+        filename: '../../lookandfeel/js/bundle-2022-09-23.js',
         path: path.resolve(__dirname, '../src/')
     },
     module: {
