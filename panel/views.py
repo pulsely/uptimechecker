@@ -3,7 +3,6 @@ from django.http import HttpResponse, JsonResponse
 from django.contrib.auth import get_user_model
 
 from django.contrib.auth.decorators import user_passes_test
-from django.contrib.auth import logout
 
 from django.urls import reverse
 from django.utils import timezone
@@ -32,7 +31,7 @@ from uptimecheckcore.components.helpers.configurations import is_secretkey_insec
 from uptimecheckcore.components.helpers import Slack
 from uptimebot.handler import check_domains, check_domain
 from . import forms
-from django.contrib.auth import login
+from django.contrib.auth import login, logout
 from django.core.mail import send_mail
 
 User = get_user_model()
@@ -235,9 +234,6 @@ def api_uptime_list(request):
 @authentication_classes((SessionAuthentication,))
 @permission_classes((IsOperatorAuthenticated,))
 def api_trigger_refresh(request):
-    if settings.DEBUG:
-        print(f"{colorama.Fore.RED}request user is:{colorama.Style.RESET_ALL} {request.user.username}")
-
     if "mode" in request.data and request.data["mode"]:
         if request.data["mode"] == "all":
             check_domains()
@@ -357,12 +353,8 @@ def api_users_first_time_setup(request):
         else:
             form_errors = {}
             for e in f.errors.items():
-                print(e)
+                #print(e)
                 form_errors[e[0]] = e[1][0]
-
-            if settings.DEBUG:
-                print(f'{colorama.Fore.RED}not f.is_valid(){colorama.Style.RESET_ALL}')
-                print(form_errors)
 
             return JsonResponse({
                 'status': 'error',
@@ -419,13 +411,8 @@ def api_users_edit(request):
     else:
         form_errors = {}
         for e in f.errors.items():
-            print(e)
+            #print(e)
             form_errors[ e[0] ] = e[1][0]
-
-        if settings.DEBUG:
-            print(f'{colorama.Fore.RED}not f.is_valid(){colorama.Style.RESET_ALL}')
-            print( form_errors )
-
 
         return JsonResponse({
             'status': 'error',
@@ -476,12 +463,8 @@ def api_users_reset_password(request):
     else:
         form_errors = {}
         for e in f.errors.items():
-            print(e)
+            #print(e)
             form_errors[e[0]] = e[1][0]
-
-        if settings.DEBUG:
-            print(f'{colorama.Fore.RED}not f.is_valid(){colorama.Style.RESET_ALL}')
-            print(form_errors)
 
         return JsonResponse({
             'status': 'error',
@@ -505,12 +488,8 @@ def api_users_change_password(request):
     else:
         form_errors = {}
         for e in f.errors.items():
-            print(e)
+            #print(e)
             form_errors[e[0]] = e[1][0]
-
-        if settings.DEBUG:
-            print(f'{colorama.Fore.RED}not f.is_valid(){colorama.Style.RESET_ALL}')
-            print(form_errors)
 
         return JsonResponse({
             'status': 'error',
@@ -581,12 +560,8 @@ def api_websites_edit(request):
     else:
         form_errors = {}
         for e in f.errors.items():
-            print(e)
+            #print(e)
             form_errors[e[0]] = e[1][0]
-
-        if settings.DEBUG:
-            print(f'{colorama.Fore.RED}not f.is_valid(){colorama.Style.RESET_ALL}')
-            print(form_errors)
 
         return JsonResponse({
             'status': 'error',

@@ -167,19 +167,28 @@ You can use any databases supported by Django. Create the database settings at t
   Copyright © 2011-present, Encode OSS Ltd. All rights reserved.  
   https://www.django-rest-framework.org/
 
-* __Django SES__
-  Copyright (c) 2011 Harry Marr
+* __Django SES__  
+  Copyright (c) 2011 Harry Marr  
   MIT license
   https://github.com/django-ses/django-ses
 
 * __Font Awesome__  
-  CC BY 4.0 License
+  CC BY 4.0 License  
   https://github.com/FortAwesome/Font-Awesome
 
-* __python-decouple__
-  Copyright (c) 2013 Henrique Bastos
-  MIT license
+* __python-decouple__  
+  Copyright (c) 2013 Henrique Bastos, MIT license  
   https://github.com/HBNetwork/python-decouple
+
+### JavaScript Frameworks
+
+* __Vue.js__  
+  MIT license  
+  https://github.com/vuejs
+
+* __Axios__  
+  MIT license  
+  https://github.com/axios/axios
 
 ### Graphics
 
