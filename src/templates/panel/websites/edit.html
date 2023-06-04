@@ -56,7 +56,8 @@
                     <div class="mb-3">
                         <label for="formInput1" class="form-label">Title</label>
                         <input type="text" class="form-control form-control-sm" id="formInput1"
-                               v-model="website.title" :class="{'is-invalid': form_errors.title }"  placeholder="e.g. Your Website Title"/>
+                               v-model="website.title" :class="{'is-invalid': form_errors.title }"
+                               placeholder="e.g. Your Website Title"/>
 
 
                         <span class="text-danger" v-if="form_errors.title">[[form_errors.title]]</span>
@@ -65,7 +66,8 @@
                     <div class="mb-3">
                         <label for="formInput6" class="form-label">Website URL</label>
                         <input type="text" class="form-control form-control-sm" id="formInput6"
-                               v-model="website.url" :class="{'is-invalid': form_errors.url }" placeholder="e.g. https://www.your-website.com/"/>
+                               v-model="website.url" :class="{'is-invalid': form_errors.url }"
+                               placeholder="e.g. https://www.your-website.com/"/>
 
                         <span class="text-danger" v-if="form_errors.url">[[form_errors.url]]</span>
                     </div>
@@ -106,7 +108,8 @@
                                 <span class="text-danger" v-if="form_errors.flag_notify_email_downtime">[[form_errors.flag_notify_email_downtime]]</span>
 
                                 {% if not SERVER_EMAIL %}
-                                    <span class="text-danger small">E-mail not setup yet. Please check <a href="{% url 'panel:configurations' %}" style="text-decoration: underline">configuration</a></span>
+                                    <span class="text-danger small">E-mail not setup yet. Please check <a
+                                            href="{% url 'panel:configurations' %}" style="text-decoration: underline">configuration</a></span>
 
                                 {% endif %}
 
@@ -236,31 +239,33 @@
                         confirmButtonText: 'Do not delete',
                         denyButtonText: `Delete this website now`,
                     }).then((result) => {
+                        if (result.isDenied) {
 
-                        axios.post("{% url 'panel:api_websites_delete' %}", {'website_id': '{{ the_website.id }}'}).then((res) => {
-                            if (res.data && res.data.status) {
-                                if (res.data.status == 'okay') {
+                            axios.post("{% url 'panel:api_websites_delete' %}", {'website_id': '{{ the_website.id }}'}).then((res) => {
+                                if (res.data && res.data.status) {
+                                    if (res.data.status == 'okay') {
 
-                                    this.flag_loading = false;
-                                    var r = Date.now();
-                                    window.location.replace(`{% url 'panel:index' %}?r=${r}`);
+                                        this.flag_loading = false;
+                                        var r = Date.now();
+                                        window.location.replace(`{% url 'panel:index' %}?r=${r}`);
 
-                                } else if (res.data.status == 'error') {
+                                    } else if (res.data.status == 'error') {
 
-                                    Swal.fire({
-                                        icon: 'error',
-                                        title: 'Oops...',
-                                        text: res.data.error, timer: 3000
-                                    })
+                                        Swal.fire({
+                                            icon: 'error',
+                                            title: 'Oops...',
+                                            text: res.data.error, timer: 3000
+                                        })
+                                    }
                                 }
-                            }
-                        }).catch(error => {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Oops...',
-                                text: error, timer: 3000
+                            }).catch(error => {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Oops...',
+                                    text: error, timer: 3000
+                                });
                             });
-                        });
+                        }
                     });
 
 
