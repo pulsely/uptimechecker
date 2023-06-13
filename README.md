@@ -49,7 +49,7 @@ The only dependency would be an active Redis 4.0+ installation.
   ```
   The manage.py will check if a .env file is create and create one for you automatically if missing. The db.sqlite3 file will also be created for you 4 seconds after the installation is fired up the first time.
 
-* You can run your Uptime Checker installation with the Make command ```make dev``` from now on, or activate the venv virtual environment created previously with these commands:
+* You can run your Uptime Checker installation in development mode with the Make command ```make dev``` from now on, or activate the venv virtual environment created previously with these commands:
   ```sh
   source ./venv/bin/activate
   python manage.py runserver
@@ -83,9 +83,9 @@ A sample Make command will trigger the celery for recurring checks with minutes 
 
 ---
 
-### Django settings that can be overwritten
+### Django settings that can be configured and overwritten
 
-You should overwrite the default Django settings at ```uptimechecker/settings_customized.py``` which should be created on first run.
+These settings are stored at the ``.env`` file and can be overwriten at the default Django settings at ```uptimechecker/settings_customized.py``` which should be created on first run.
 
 | **Varaiable** | **Description**                                                             | **Defaults**                                                                                                           |
 | ------------- |-----------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------|
@@ -155,7 +155,7 @@ You can use any databases supported by Django. Create the database settings at t
   Copyright (c) 2015-2016 Ask Solem & contributors.  All rights reserved.
   Copyright (c) 2012-2014 GoPivotal, Inc.  All rights reserved.
   Copyright (c) 2009, 2010, 2011, 2012 Ask Solem, and individual contributors.  All rights reserved.
-  BSD 3-Clause "New" or "Revised" License
+  BSD 3-Clause "New" or "Revised" License  
   https://github.com/celery/celery
 
 * __Django__  
@@ -169,7 +169,7 @@ You can use any databases supported by Django. Create the database settings at t
 
 * __Django SES__  
   Copyright (c) 2011 Harry Marr  
-  MIT license
+  MIT license  
   https://github.com/django-ses/django-ses
 
 * __Font Awesome__  
