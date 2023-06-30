@@ -102,6 +102,14 @@ These settings are stored at the ``.env`` file and can be overwriten at the defa
 | ``SLACK_TOKEN`` | Slack Team Token                                                            |                                                                                      |
 | ``SLACK_ROOM`` | Room to show the error Slack message.                                       | ``#general``                                                                                                           |
 
+
+---
+## Special notes on deployment
+
+If you deploy to production such as Nginx with Supervisord, you will need to overwrite the default ``CSRF_TRUSTED_ORIGINS`` variable at the file ``uptimechecker/settings_customized.py``.
+
+Configuration details of the ``CSRF_TRUSTED_ORIGINS`` is available at [Django website](https://docs.djangoproject.com/en/4.2/ref/settings/#csrf-trusted-origins)
+
 ---
 
 ## Django Management Commands
@@ -148,6 +156,8 @@ You can use any databases supported by Django. Create the database settings at t
 ---
 
 # Credits & Acknowledgements
+
+This project utilizes the following components:
 
 ### Python packages
 
