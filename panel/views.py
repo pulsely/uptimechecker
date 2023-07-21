@@ -485,6 +485,10 @@ def api_users_change_password(request):
         the_user = request.user
         the_user.set_password(f.cleaned_data["new_password"])
         the_user.save()
+
+        return JsonResponse({
+            'status' : 'okay',
+        })
     else:
         form_errors = {}
         for e in f.errors.items():
