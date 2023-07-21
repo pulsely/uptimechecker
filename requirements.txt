@@ -13,7 +13,7 @@ click-plugins==1.1.1
 click-repl==0.2.0
 colorama==0.4.5
 Deprecated==1.2.13
-Django==4.2.1
+Django==4.2.3
 django-ses==3.5.0
 djangorestframework==3.14.0
 idna==3.4
